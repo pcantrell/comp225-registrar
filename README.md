@@ -17,7 +17,6 @@ This assignment is an introduction to:
   * your own model classes (Student and Course), and
   * Java Collections API interfaces (List, Set, Collection, Map) containing the above types.
 * Use strict defensive programming: make it impossible to get any model object into an illegal state using public methods.
-* Exercise your changes in `RegistrarTest` (so that the test scenario grows).
 
 ## Your starting point
 
