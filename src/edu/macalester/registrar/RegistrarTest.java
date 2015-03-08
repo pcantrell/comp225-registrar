@@ -21,7 +21,7 @@ public class RegistrarTest {
 
         Course c2 = new Course();
         c2.setCatalogNumber("MATH 6");
-        c2.setTitle("All About the Number Six");
+        c2.setTitle("All About the Number Three");
 
         System.out.println("------ Enrolling Sally in two courses ------");
 
