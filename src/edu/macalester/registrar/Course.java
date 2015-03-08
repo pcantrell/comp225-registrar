@@ -4,7 +4,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-
+/**
+ * Charles Park
+ * COMP-225 Registrar Homework #1
+ */
 public class Course {
     private String catalogNumber, title;
     private int enrollmentLimit;
@@ -35,10 +38,23 @@ public class Course {
     }
 
     void enroll(Student student) {
-        if(this.getStudents().size() < this.getEnrollmentLimit())
+        if(this.getStudents().size() < this.getEnrollmentLimit()) {
             students.add(student);
+            System.out.println("Enrollment was successful for student "
+                    + student.getName()
+                    + " for course "
+                    + this.getTitle()
+                    + ".");
+        }
         else if (!this.getStudents().contains(student)){
-            throw new IllegalArgumentException("Course: Attempting to over-enroll students!");
+            System.out.println("*************************************************");
+            System.out.println("***COURSE: ATTEMPTING TO OVER-ENROLL STUDENTS!***");
+            System.out.println("*************************************************");
+            System.out.println(student.getName()
+                    + " will automatically be placed on the waiting list for the course "
+                    + this.getTitle()
+                    + ".");
+
         }
     }
 }

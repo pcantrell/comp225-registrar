@@ -4,7 +4,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-
+/**
+ * Charles Park
+ * COMP-225 Registrar Homework #1
+ */
 public class Student {
     private String name;
     private Set<Course> courses = new HashSet<Course>();
@@ -33,7 +36,13 @@ public class Student {
             courses.add(course);
             course.enroll(this);
         } else if (!course.getStudents().contains(this)) {
-            throw new IllegalArgumentException("Student: Attempting to over-enroll a course!");
+            System.out.println("**************************************************");
+            System.out.println("***Student: Attempting to over-enroll a course!***");
+            System.out.println("**************************************************");
+            System.out.println(this.getName()
+                    + " will automatically be placed on the waiting list for the course "
+                    + course.getTitle()
+                    + ".");
         }
 
 //        courses.add(course);

@@ -1,6 +1,8 @@
 package edu.macalester.registrar;
 
 /**
+ * Charles Park
+ * COMP-225 Registrar Homework #1
  * A simple scenario to exercise the various registrar model objects.
  */
 public class RegistrarTest {
@@ -18,7 +20,7 @@ public class RegistrarTest {
         Course c1 = new Course();
         c1.setCatalogNumber("COMP 225");
         c1.setTitle("Software Fun Fun");
-        c1.setEnrollmentLimit(2);
+        c1.setEnrollmentLimit(1);
 
         Course c2 = new Course();
         c2.setCatalogNumber("MATH 6");
@@ -39,7 +41,7 @@ public class RegistrarTest {
         System.out.println("------ Enrolling Fred in one course ------");
 
         //c2.enroll(fred);
-        //fred.enrollIn(c1);
+        fred.enrollIn(c1);
         //c1.enroll(fred);
         fred.enrollIn(c2);
 
