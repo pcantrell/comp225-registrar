@@ -13,6 +13,9 @@ public class RegistrarTest {
         Student fred = new Student();
         fred.setName("Fred");
 
+        Student lisa = new Student();
+        lisa.setName("Lisa");
+
         // Example courses
 
         Course c1 = new Course();
@@ -48,6 +51,20 @@ public class RegistrarTest {
 
         printSchedule(sally);
         printEnrollment(c1);
+
+        System.out.println("------ Third student Lisa added to waitlist ------");
+
+        lisa.enrollIn(c2);
+        printEnrollment(c2);
+        printWaitList(c2);
+
+        System.out.println("------ Drop sally and add Lisa ------");
+
+        sally.dropCourse(c2);
+        printEnrollment(c1);
+        printEnrollment(c2);
+
+
     }
 
     private static void printSchedule(Student student) {
@@ -64,6 +81,14 @@ public class RegistrarTest {
         System.out.println(course.getCatalogNumber() + ": " + course.getTitle());
         System.out.println("Students enrolled (" + course.getStudents().size() + ")");
         for(Student student : course.getStudents())
+            System.out.println("    " + student.getName());
+        System.out.println();
+    }
+
+    private static void printWaitList (Course course) {
+        System.out.println(course.getCatalogNumber() + ": " + course.getTitle() + " Waitlist");
+        System.out.println("Students waitlisted (" + course.getWaitList().size() + ")");
+        for(Student student : course.getWaitList())
             System.out.println("    " + student.getName());
         System.out.println();
     }

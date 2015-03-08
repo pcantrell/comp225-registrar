@@ -1,13 +1,12 @@
 package edu.macalester.registrar;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 public class Student {
     private String name;
     private Set<Course> courses = new HashSet<Course>();
+    private Queue<Course> waitListCourses = new LinkedList<Course>();
 
     public String getName() {
         return name;
@@ -27,7 +26,21 @@ public class Student {
      * Equivalent to course.enroll(student).
      */
     public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+        if (course.getStudents().size()>=course.getEnrollmentLimit() && !this.getCourses().contains(course)){
+            /* throw new IllegalArgumentException("Class is at capacity!");
+             */
+            System.out.println("Class is at capacity," + this.getName()  + " will automatically be added to the wait list");
+            waitListCourses.add(course);
+            course.addToWaitList(this);
+        } else {
+            courses.add(course);
+            course.enroll(this);
+        }
+    }
+
+    public void dropCourse(Course course) {
+        courses.remove(course);
+        course.dropStudent(this);
+
     }
 }
