@@ -27,7 +27,17 @@ public class Student {
      * Equivalent to course.enroll(student).
      */
     public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+        //System.out.println(course.getStudents().size());
+        //System.out.println(course.getEnrollmentLimit());
+        if(course.getStudents().size() < course.getEnrollmentLimit()) {
+            courses.add(course);
+            course.enroll(this);
+        } else if (!course.getStudents().contains(this)) {
+            throw new IllegalArgumentException("Student: Attempting to over-enroll a course!");
+        }
+
+//        courses.add(course);
+//        course.enroll(this);
+
     }
 }
