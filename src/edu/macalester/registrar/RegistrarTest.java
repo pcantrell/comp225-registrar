@@ -48,6 +48,16 @@ public class RegistrarTest {
 
         printSchedule(sally);
         printEnrollment(c1);
+
+        System.out.println("------ Starting Point Test ------");
+        System.out.println("Fred is not in C1");
+        System.out.println(fred.getCourses().contains(c1));
+        System.out.println(c1.getStudents().contains(fred));
+        System.out.println("Fred is in C2");
+        System.out.println(fred.getCourses().contains(c2));
+        System.out.println(c2.getStudents().contains(fred));
+
+        System.out.println("------ Adding in enrollment limits ------");
     }
 
     private static void printSchedule(Student student) {
