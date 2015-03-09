@@ -47,6 +47,8 @@ public class Course {
 
     public void dropStudent(Student student) {
         students.remove(student);
-        waitList.poll().enrollIn(this);
+        if (!waitList.isEmpty()) {
+            waitList.poll().enrollIn(this);
+        }
     }
 }

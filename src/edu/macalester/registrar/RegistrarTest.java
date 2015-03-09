@@ -16,6 +16,8 @@ public class RegistrarTest {
         Student lisa = new Student();
         lisa.setName("Lisa");
 
+        Student bart = new Student();
+        bart.setName("Bart");
         // Example courses
 
         Course c1 = new Course();
@@ -52,18 +54,26 @@ public class RegistrarTest {
         printSchedule(sally);
         printEnrollment(c1);
 
-        System.out.println("------ Third student Lisa added to waitlist ------");
+        System.out.println("------ Third student Lisa (and fourth student Bart) added to wait list ------");
 
         lisa.enrollIn(c2);
+        bart.enrollIn(c2);
         printEnrollment(c2);
         printWaitList(c2);
+        printSchedule(lisa);
 
         System.out.println("------ Drop sally and add Lisa ------");
 
         sally.dropCourse(c2);
         printEnrollment(c1);
         printEnrollment(c2);
+        printWaitList(c2);
 
+        System.out.println("------ all students enrolled in c2 drop c2, bart added from wait list------");
+
+        fred.dropCourse(c2);
+        lisa.dropCourse(c2);
+        printEnrollment(c2);
 
     }
 
@@ -86,8 +96,8 @@ public class RegistrarTest {
     }
 
     private static void printWaitList (Course course) {
-        System.out.println(course.getCatalogNumber() + ": " + course.getTitle() + " Waitlist");
-        System.out.println("Students waitlisted (" + course.getWaitList().size() + ")");
+        System.out.println(course.getCatalogNumber() + ": " + course.getTitle() + ", wait list");
+        System.out.println("Students wait listed (" + course.getWaitList().size() + ")");
         for(Student student : course.getWaitList())
             System.out.println("    " + student.getName());
         System.out.println();
