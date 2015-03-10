@@ -21,8 +21,6 @@ public class Student {
         return Collections.unmodifiableSet(courses);
     }
 
-    public Set<Course> getWaitlist() { return Collections.unmodifiableSet(courses); }
-
     /**
      * Add this student to the given course's roster.
      * Has no effect if the student is already registered.
@@ -35,8 +33,9 @@ public class Student {
             courses.add(course);
             course.enroll(this);
         } else {
-            course.getWaitlist().add(this);
-            System.out.print("Sorry, this course is full! The student has been added to the wait list.");
+            course.waitlistEnroll(this);
+            System.out.println("Sorry, '" + course.getTitle() + "' is full! " + this.getName() + " has been added to the wait list.");
+            System.out.println();
         }
     }
 }

@@ -40,4 +40,8 @@ public class Course {
     void enroll(Student student) {
         students.add(student);
     }
+
+    void waitlistEnroll(Student student){
+        waitlist.add(student);
+    }
 }
