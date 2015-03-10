@@ -8,6 +8,12 @@ import java.util.Set;
 public class Course {
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
+    private Set<Student> waitlist = new HashSet<Student>();
+    private int enrollmentLimit = 20;
+
+    public int getEnrollmentLimit() { return enrollmentLimit; }
+
+    public void setEnrollmentLimit(int enrollmentLimit) { this.enrollmentLimit = enrollmentLimit; }
 
     public String getCatalogNumber() {
         return catalogNumber;
@@ -28,6 +34,8 @@ public class Course {
     public Set<Student> getStudents() {
         return Collections.unmodifiableSet(students);
     }
+
+    public Set<Student> getWaitlist() { return Collections.unmodifiableSet(waitlist); }
 
     void enroll(Student student) {
         students.add(student);
