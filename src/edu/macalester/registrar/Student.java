@@ -27,7 +27,10 @@ public class Student {
      * Equivalent to course.enroll(student).
      */
     public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+        boolean enrolled =course.enroll(this);
+        if (enrolled){
+            courses.add(course);
+        }
+
     }
 }

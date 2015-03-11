@@ -18,6 +18,7 @@ public class RegistrarTest {
         Course c1 = new Course();
         c1.setCatalogNumber("COMP 225");
         c1.setTitle("Software Fun Fun");
+        c1.setEnrollmentLimit(1);
 
         Course c2 = new Course();
         c2.setCatalogNumber("MATH 6");
@@ -27,6 +28,7 @@ public class RegistrarTest {
 
         sally.enrollIn(c1);
         sally.enrollIn(c2);
+        c1.setEnrollmentLimit(0);
 
         printSchedule(sally);
         printSchedule(fred);
@@ -37,6 +39,7 @@ public class RegistrarTest {
         System.out.println("------ Enrolling Fred in one course ------");
 
         fred.enrollIn(c2);
+
 
         printSchedule(fred);
         printEnrollment(c1);
