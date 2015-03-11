@@ -35,7 +35,11 @@ public class Student {
         if(course.getStudents().size() < course.getEnrollmentLimit())
             courses.add(course);
         course.enroll(this);
-
-
     }
+
+    public void dropCourse(Course course) {
+        courses.remove(course);
+        course.drop(this);
+    }
+
 }

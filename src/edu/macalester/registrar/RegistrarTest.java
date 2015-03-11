@@ -56,19 +56,37 @@ public class RegistrarTest {
 
         printSchedule(sally);
         printEnrollment(c1);
+        printEnrollment(c2);
 
         System.out.println("------ Enrolling Fred in an over-enrolled course ------");
 
         //fred.enrollIn(c1);
-        charles.enrollIn(c1);
-        fred.enrollIn(c1);
         //charles.enrollIn(c2);
+        fred.enrollIn(c1);
+        fred.enrollIn(c2);
+        charles.enrollIn(c1);
+        charles.enrollIn(c2);
 
         //printSchedule(charles);
         //printEnrollment(c1);
         //printEnrollment(c2);
         printWaitList(c1);
-        //printWaitList(c2);
+        printWaitList(c2);
+
+        System.out.println("------ Dropping Fred in a course ------");
+
+        fred.dropCourse(c2);
+        sally.dropCourse(c1);
+        //fred.dropCourse(c1);
+        //fred.dropCourse(c1);
+        //charles.dropCourse(c1);
+
+        printSchedule(fred);
+        printEnrollment(c1);
+        printEnrollment(c2);
+
+        printWaitList(c1);
+        printWaitList(c2);
 
 
     }
@@ -78,8 +96,8 @@ public class RegistrarTest {
         System.out.println("Courses (" + student.getCourses().size() + ")");
         for(Course course : student.getCourses())
             System.out.println("    "
-                + course.getCatalogNumber() + ": "
-                + course.getTitle());
+                    + course.getCatalogNumber() + ": "
+                    + course.getTitle());
         System.out.println();
     }
 
@@ -93,7 +111,7 @@ public class RegistrarTest {
 
     private static void printWaitList(Course course) {
         System.out.println(course.getCatalogNumber() + ": " + course.getTitle());
-        System.out.println("Students in ordered wait list (" + course.getWaitList().size() + ")");
+        System.out.println("Students in the ordered wait list (" + course.getWaitList().size() + ")");
         for(Student student : course.getWaitList())
             System.out.println("    " + student.getName());
         System.out.println();
