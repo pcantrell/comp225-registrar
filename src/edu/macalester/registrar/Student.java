@@ -17,6 +17,7 @@ public class Student {
         this.name = name;
     }
 
+    //todo unmodifiable? unable to drop?
     public Set<Course> getCourses() {
         return Collections.unmodifiableSet(courses);
     }

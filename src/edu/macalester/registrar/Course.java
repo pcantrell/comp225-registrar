@@ -8,6 +8,7 @@ import java.util.Set;
 public class Course {
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
+    private int enrollmentLimit = 1;
 
     public String getCatalogNumber() {
         return catalogNumber;
@@ -25,6 +26,7 @@ public class Course {
         this.title = title;
     }
 
+    //todo unmodifiable? unable to drop?
     public Set<Student> getStudents() {
         return Collections.unmodifiableSet(students);
     }
@@ -32,4 +34,6 @@ public class Course {
     void enroll(Student student) {
         students.add(student);
     }
+
+    public int getEnrollmentLimit() {return enrollmentLimit;}
 }
