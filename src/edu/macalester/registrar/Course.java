@@ -50,18 +50,15 @@ public class Course {
                     + " for course "
                     + this.getTitle()
                     + ".");
-        } else if (!this.getStudents().contains(student)){
-            waitList.add(student);
-            System.out.println(student.getName()
-                    + " will automatically be placed on the waiting list for the course "
-                    + this.getTitle()
-                    + ".");
-//            throw new IllegalArgumentException("Course: Attempting to over-enroll students!");
         } else {
-            System.out.println(student.getName()
-                    + " successfully re-enrolled for the course "
-                    + this.getTitle()
-                    + ".");
+            if (!this.getStudents().contains(student)) {
+                waitList.add(student);
+                System.out.println(student.getName()
+                        + " will automatically be placed on the waiting list for the course "
+                        + this.getTitle()
+                        + ".");
+//            throw new IllegalArgumentException("Course: Attempting to over-enroll students!");
+            }
         }
 
     }

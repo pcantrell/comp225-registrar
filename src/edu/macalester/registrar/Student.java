@@ -35,23 +35,9 @@ public class Student {
         if(course.getStudents().size() < course.getEnrollmentLimit()) {
             courses.add(course);
             course.enroll(this);
-        } else if (!course.getStudents().contains(this)) {
-            course.enroll(this);
-//            System.out.println(this.getName()
-//                    + " will automatically be placed on the waiting list for the course "
-//                    + course.getTitle()
-//                    + ".");
-            //throw new IllegalArgumentException("Student: Attempting to over-enroll a course!");
         } else {
-            System.out.println(this.getName()
-                    + " successfully re-enrolled for the course "
-                    + course.getTitle()
-                    + ".");
+            course.enroll(this);
         }
-
-
-//        courses.add(course);
-//        course.enroll(this);
 
     }
 }
