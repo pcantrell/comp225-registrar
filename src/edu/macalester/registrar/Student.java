@@ -33,20 +33,12 @@ public class Student {
         //System.out.println(course.getStudents().size());
         //System.out.println(course.getEnrollmentLimit());
         if(course.getStudents().size() < course.getEnrollmentLimit()) {
+            if(courses.add(course))
+                course.enroll(this);
+        } else if(!this.getCourses().contains(course) && course.getStudents().contains(this)){
             courses.add(course);
-            course.enroll(this);
-        } else if (!course.getStudents().contains(this)) {
-            course.enroll(this);
-//            System.out.println(this.getName()
-//                    + " will automatically be placed on the waiting list for the course "
-//                    + course.getTitle()
-//                    + ".");
-            //throw new IllegalArgumentException("Student: Attempting to over-enroll a course!");
         } else {
-            System.out.println(this.getName()
-                    + " successfully re-enrolled for the course "
-                    + course.getTitle()
-                    + ".");
+            course.enroll(this);
         }
 
 

@@ -15,6 +15,9 @@ public class RegistrarTest {
         Student fred = new Student();
         fred.setName("Fred");
 
+        Student charles = new Student();
+        charles.setName("Charles");
+
         // Example courses
 
         Course c1 = new Course();
@@ -40,10 +43,11 @@ public class RegistrarTest {
 
         System.out.println("------ Enrolling Fred in one course ------");
 
-        c2.enroll(fred);
-        //fred.enrollIn(c1);
+        //c2.enroll(fred);
+        fred.enrollIn(c1);
         //c1.enroll(fred);
-        //fred.enrollIn(c2);
+        fred.enrollIn(c2);
+        charles.enrollIn(c1);
 
         printSchedule(fred);
         printEnrollment(c1);
@@ -52,17 +56,25 @@ public class RegistrarTest {
         System.out.println("------ Re-enrolling Sally has no effect ------");
 
         sally.enrollIn(c1);
-        //c1.enroll(sally);
+        c1.enroll(sally);
 
         printSchedule(sally);
         printEnrollment(c1);
+        printEnrollment(c2);
 
         System.out.println("------ Enrolling Fred in an over-enrolled course ------");
 
         //fred.enrollIn(c1);
         //c1.enroll(fred);
 
-        //printWaitList(c1);
+        printSchedule(fred);
+
+        printWaitList(c1);
+
+        System.out.println();
+        printSchedule(charles);
+
+
 
     }
 

@@ -44,24 +44,27 @@ public class Course {
 
     void enroll(Student student) {
         if(this.getStudents().size() < this.getEnrollmentLimit()) {
-            students.add(student);
-            System.out.println("Enrollment was successful for student "
-                    + student.getName()
-                    + " for course "
-                    + this.getTitle()
-                    + ".");
-        } else if (!this.getStudents().contains(student)){
-            waitList.add(student);
-            System.out.println(student.getName()
-                    + " will automatically be placed on the waiting list for the course "
-                    + this.getTitle()
-                    + ".");
-//            throw new IllegalArgumentException("Course: Attempting to over-enroll students!");
-        } else {
-            System.out.println(student.getName()
-                    + " successfully re-enrolled for the course "
-                    + this.getTitle()
-                    + ".");
+
+            if (students.add(student)) {
+
+                student.enrollIn(this);
+                System.out.println("Enrollment was successful for student "
+                        + student.getName()
+                        + " for course "
+                        + this.getTitle()
+                        + ".");
+            }
+        }
+        else {
+            if (!this.getStudents().contains(student)) {
+                waitList.add(student);
+                System.out.println(student.getName()
+                        + " will automatically be placed on the waiting list for the course "
+                        + this.getTitle()
+                        + ".");
+                //throw new IllegalArgumentException("Course: Attempting to over-enroll students!");
+
+            }
         }
 
     }
