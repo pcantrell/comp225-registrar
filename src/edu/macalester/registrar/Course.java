@@ -9,6 +9,8 @@ public class Course {
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
     private int enrollmentLimit = 1;
+    private Set<Student> waitList = new HashSet<Student>();
+
 
     public String getCatalogNumber() {
         return catalogNumber;
@@ -31,8 +33,18 @@ public class Course {
         return Collections.unmodifiableSet(students);
     }
 
+    //todo unmodifiable? unable to pull from wait list?
+    public Set<Student> getWaitList() { return Collections.unmodifiableSet(students);}
+
     void enroll(Student student) {
-        students.add(student);
+
+        if(getStudents().size() < enrollmentLimit){
+            students.add(student);
+        }
+        else {
+            waitList.add(student);
+            //todo throw exception? notify student?
+        }
     }
 
     public int getEnrollmentLimit() {return enrollmentLimit;}
