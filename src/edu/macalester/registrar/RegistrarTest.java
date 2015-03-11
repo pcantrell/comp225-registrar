@@ -40,10 +40,10 @@ public class RegistrarTest {
 
         System.out.println("------ Enrolling Fred in one course ------");
 
-        //c2.enroll(fred);
-        fred.enrollIn(c1);
+        c2.enroll(fred);
+        //fred.enrollIn(c1);
         //c1.enroll(fred);
-        fred.enrollIn(c2);
+        //fred.enrollIn(c2);
 
         printSchedule(fred);
         printEnrollment(c1);
@@ -56,6 +56,14 @@ public class RegistrarTest {
 
         printSchedule(sally);
         printEnrollment(c1);
+
+        System.out.println("------ Enrolling Fred in an over-enrolled course ------");
+
+        //fred.enrollIn(c1);
+        //c1.enroll(fred);
+
+        //printWaitList(c1);
+
     }
 
     private static void printSchedule(Student student) {
@@ -72,6 +80,14 @@ public class RegistrarTest {
         System.out.println(course.getCatalogNumber() + ": " + course.getTitle());
         System.out.println("Students enrolled (" + course.getStudents().size() + ")");
         for(Student student : course.getStudents())
+            System.out.println("    " + student.getName());
+        System.out.println();
+    }
+
+    private static void printWaitList(Course course) {
+        System.out.println(course.getCatalogNumber() + ": " + course.getTitle());
+        System.out.println("Students in wait list (" + course.getWaitList().size() + ")");
+        for(Student student : course.getWaitList())
             System.out.println("    " + student.getName());
         System.out.println();
     }

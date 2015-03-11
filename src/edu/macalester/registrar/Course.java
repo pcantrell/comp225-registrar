@@ -12,6 +12,7 @@ public class Course {
     private String catalogNumber, title;
     private int enrollmentLimit;
     private Set<Student> students = new HashSet<Student>();
+    private Set<Student> waitList = new HashSet<Student>();
 
     public String getCatalogNumber() {
         return catalogNumber;
@@ -37,6 +38,10 @@ public class Course {
         return Collections.unmodifiableSet(students);
     }
 
+    public Set<Student> getWaitList() {
+        return Collections.unmodifiableSet(waitList);
+    }
+
     void enroll(Student student) {
         if(this.getStudents().size() < this.getEnrollmentLimit()) {
             students.add(student);
@@ -45,16 +50,19 @@ public class Course {
                     + " for course "
                     + this.getTitle()
                     + ".");
-        }
-        else if (!this.getStudents().contains(student)){
-            System.out.println("*************************************************");
-            System.out.println("***COURSE: ATTEMPTING TO OVER-ENROLL STUDENTS!***");
-            System.out.println("*************************************************");
+        } else if (!this.getStudents().contains(student)){
+            waitList.add(student);
             System.out.println(student.getName()
                     + " will automatically be placed on the waiting list for the course "
                     + this.getTitle()
                     + ".");
-
+//            throw new IllegalArgumentException("Course: Attempting to over-enroll students!");
+        } else {
+            System.out.println(student.getName()
+                    + " successfully re-enrolled for the course "
+                    + this.getTitle()
+                    + ".");
         }
+
     }
 }
