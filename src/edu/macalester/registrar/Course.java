@@ -1,8 +1,6 @@
 package edu.macalester.registrar;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Charles Park
@@ -12,7 +10,7 @@ public class Course {
     private String catalogNumber, title;
     private int enrollmentLimit;
     private Set<Student> students = new HashSet<Student>();
-    private Set<Student> waitList = new HashSet<Student>();
+    private List<Student> waitList = new LinkedList<Student>();
 
     public String getCatalogNumber() {
         return catalogNumber;
@@ -38,8 +36,8 @@ public class Course {
         return Collections.unmodifiableSet(students);
     }
 
-    public Set<Student> getWaitList() {
-        return Collections.unmodifiableSet(waitList);
+    public List<Student> getWaitList() {
+        return Collections.unmodifiableList(waitList);
     }
 
     void enroll(Student student) {
@@ -51,13 +49,13 @@ public class Course {
                     + this.getTitle()
                     + ".");
         } else {
-            if (!this.getStudents().contains(student)) {
+            if (!this.getStudents().contains(student) && !this.getWaitList().contains(student)) {
                 waitList.add(student);
                 System.out.println(student.getName()
                         + " will automatically be placed on the waiting list for the course "
                         + this.getTitle()
                         + ".");
-//            throw new IllegalArgumentException("Course: Attempting to over-enroll students!");
+                //throw new IllegalArgumentException("Course: Attempting to over-enroll students!");
             }
         }
 

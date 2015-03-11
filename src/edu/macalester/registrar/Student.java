@@ -32,12 +32,10 @@ public class Student {
     public void enrollIn(Course course) {
         //System.out.println(course.getStudents().size());
         //System.out.println(course.getEnrollmentLimit());
-        if(course.getStudents().size() < course.getEnrollmentLimit()) {
+        if(course.getStudents().size() < course.getEnrollmentLimit())
             courses.add(course);
-            course.enroll(this);
-        } else {
-            course.enroll(this);
-        }
+        course.enroll(this);
+
 
     }
 }
