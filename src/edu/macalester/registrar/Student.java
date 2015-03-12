@@ -8,6 +8,7 @@ import java.util.Set;
 public class Student {
     private String name;
     private Set<Course> courses = new HashSet<Course>();
+    private Set<Course> waiting = new HashSet<Course>();
 
     public String getName() {
         return name;
@@ -20,6 +21,9 @@ public class Student {
     public Set<Course> getCourses() {
         return Collections.unmodifiableSet(courses);
     }
+    public Set<Course> getWaiting() {
+        return Collections.unmodifiableSet(waiting);
+    }
 
     /**
      * Add this student to the given course's roster.
@@ -30,7 +34,19 @@ public class Student {
         boolean enrolled =course.enroll(this);
         if (enrolled){
             courses.add(course);
+        }else{
+            waiting.add(course);
         }
+
+    }
+
+    public void dropCourse(Course course){
+        course.drop(this);
+        courses.remove(course);
+
+    }
+
+     void offWaitList(Course course){
 
     }
 }

@@ -28,7 +28,8 @@ public class RegistrarTest {
 
         sally.enrollIn(c1);
         sally.enrollIn(c2);
-        c1.setEnrollmentLimit(0);
+
+        c2.enroll(sally);
 
         printSchedule(sally);
         printSchedule(fred);
@@ -51,6 +52,11 @@ public class RegistrarTest {
 
         printSchedule(sally);
         printEnrollment(c1);
+
+        c1.setEnrollmentLimit(1);
+        fred.enrollIn(c1);
+
+        printWaiting(fred);
     }
 
     private static void printSchedule(Student student) {
@@ -68,6 +74,16 @@ public class RegistrarTest {
         System.out.println("Students enrolled (" + course.getStudents().size() + ")");
         for(Student student : course.getStudents())
             System.out.println("    " + student.getName());
+        System.out.println();
+    }
+
+    private static void printWaiting(Student student) {
+        System.out.println("Student name: " + student.getName());
+        System.out.println("On the Wait list for (" + student.getWaiting().size() + ")");
+        for(Course course : student.getWaiting())
+            System.out.println("    "
+                    + course.getCatalogNumber() + ": "
+                    + course.getTitle());
         System.out.println();
     }
 }
