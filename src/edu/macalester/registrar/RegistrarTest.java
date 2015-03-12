@@ -14,21 +14,21 @@ public class RegistrarTest {
         fred.setName("Fred");
 
         Student judy = new Student();
-        fred.setName("Judy");
+        judy.setName("Judy");
 
         Student ingrid = new Student();
-        fred.setName("Ingrid");
+        ingrid.setName("Ingrid");
 
         Student jamey = new Student();
-        fred.setName("Jamey");
+        jamey.setName("Jamey");
 
         Student evan = new Student();
-        fred.setName("Evan");
+        evan.setName("Evan");
 
         // Example courses
 
         Course c1 = new Course();
-        c1.setEnrollmentLimit(2);
+        c1.setEnrollmentLimit(2);    //Change enrollment limit here in order to test wait list functionality
         c1.setCatalogNumber("COMP 225");
         c1.setTitle("Software Fun Fun");
 
@@ -36,8 +36,8 @@ public class RegistrarTest {
         c2.setCatalogNumber("MATH 6");
         c2.setTitle("All About the Number Six");
 
-
-/*        System.out.println("------ Enrolling Sally in two courses ------");
+/*
+        System.out.println("------ Enrolling Sally in two courses ------");
 
         sally.enrollIn(c1);
         //sally.enrollIn(c2);
@@ -60,17 +60,29 @@ public class RegistrarTest {
 
         sally.enrollIn(c1);
 
+        printEnrollment(c1);
         printSchedule(sally);
-        printEnrollment(c1);*/
 
+*/
 
         System.out.println("------ Testing the Wait list ------");
+
 
         sally.enrollIn(c1);
         fred.enrollIn(c1);
         judy.enrollIn(c1);
         ingrid.enrollIn(c1);
         evan.enrollIn(c1);
+        jamey.enrollIn(c1);
+
+        System.out.println("------ Testing drop functionality ------");
+
+        sally.drop(c1);
+        sally.drop(c1);
+        printEnrollment(c1);
+
+
+
     }
 
     private static void printSchedule(Student student) {
@@ -89,11 +101,11 @@ public class RegistrarTest {
         for(Student student : course.getStudents())
             System.out.println("    " + student.getName());
         System.out.println();
-        System.out.println("Students on wait list: " + course.getWaitlist().size() + " ");
-        int accum = 0;
-        for (Student student : course.getWaitlist()){
-            accum ++;
-            System.out.println("    " + accum + ". " + student.getName());
+        System.out.println("Students on wait list: " + course.getWaitList().size() + " ");
+        int count = 0;
+        for (Student student : course.getWaitList()) {
+            count ++;
+            System.out.println("    " + count + ". " + student.getName());
         }
         System.out.println();
     }
