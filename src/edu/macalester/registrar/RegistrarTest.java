@@ -37,6 +37,7 @@ public class RegistrarTest {
 
         printSchedule(sally);
         printSchedule(fred);
+        printSchedule(charles);
 
         printEnrollment(c1);
         printEnrollment(c2);
@@ -46,7 +47,10 @@ public class RegistrarTest {
         //fred.enrollIn(c1);
         fred.enrollIn(c2);
 
+        printSchedule(sally);
         printSchedule(fred);
+        printSchedule(charles);
+
         printEnrollment(c1);
         printEnrollment(c2);
 
@@ -55,7 +59,10 @@ public class RegistrarTest {
         charles.enrollIn(c1);
         charles.enrollIn(c2);
 
+        printSchedule(sally);
+        printSchedule(fred);
         printSchedule(charles);
+        
         printEnrollment(c1);
         printEnrollment(c2);
 
