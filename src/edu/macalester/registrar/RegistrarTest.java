@@ -33,15 +33,15 @@ public class RegistrarTest {
 
         printEnrollment(c1);
         printEnrollment(c2);
+        printWaitlist(c1);
+        printWaitlist(c2);
 
         System.out.println("------ Enrolling Fred in one course, but he's waitlisted instead ------");
 
         fred.enrollIn(c2);
 
         printSchedule(fred);
-        printEnrollment(c1);
         printEnrollment(c2);
-        printWaitlist(c1);
         printWaitlist(c2);
 
         System.out.println("------ Re-enrolling Sally has no effect ------");
@@ -52,7 +52,7 @@ public class RegistrarTest {
         printEnrollment(c1);
         printWaitlist(c1);
 
-        System.out.println("------ Adding in enrollment limits ------");
+        System.out.println("------ Display the results of the Enrollment Limits ------");
         printWaitlist(c1);
         printWaitlist(c2);
 
