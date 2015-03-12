@@ -31,9 +31,10 @@ public class Student {
         if(course.getStudents().contains(this)){
         }
         else{
-//            if(Course.getStudents().size() < enrollmentLimit)
-            courses.add(course);
-            course.enroll(this);
+            if(course.getStudents().size() < course.getEnrollmentLimit()) {
+                courses.add(course);
+                course.enroll(this);
+            }
         }
     }
 
