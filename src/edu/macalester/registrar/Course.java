@@ -52,6 +52,10 @@ public class Course {
         if(getStudents().size()>0){
             students.remove(student);
             //students.add(firstStudentFromWaitList);
+            if(getWaitList().size()>0){
+                //take student from waitlist - add to course
+                getWaitList().remove(student);
+            }
         }
         else{
             //todo there are no students in the class

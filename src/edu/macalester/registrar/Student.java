@@ -35,6 +35,9 @@ public class Student {
                 courses.add(course);
                 course.enroll(this);
             }
+            else{
+                //course.waitList.add();
+            }
         }
     }
 

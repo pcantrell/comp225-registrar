@@ -51,6 +51,16 @@ public class RegistrarTest {
         printSchedule(sally);
         printEnrollment(c1);
 
+
+        System.out.println("------ Drop Sally from class, Fred should be added ------");
+
+        sally.dropOut(c2);
+
+        printSchedule(sally);
+        printSchedule(fred);
+
+        printEnrollment(c1);
+        printEnrollment(c2);
     }
 
     private static void printSchedule(Student student) {
