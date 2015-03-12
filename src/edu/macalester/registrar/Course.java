@@ -52,6 +52,7 @@ public class Course {
     void drop(Student student) {
         if (students.contains(student))
             students.remove(student);
-            students.add(getWaitlist().get(0));
+            students.add(waitList.get(0));
+            waitList.remove(0);
     }
 }
