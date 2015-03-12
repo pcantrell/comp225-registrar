@@ -27,7 +27,20 @@ public class Student {
      * Equivalent to course.enroll(student).
      */
     public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+        if (course.getStudents().size() < course.getEnrollmentLimit())  {
+            courses.add(course);
+            course.enroll(this);
+        } else if (!(course.getStudents().contains(this)) && !(course.getWaitList().contains(this))) {
+            course.addToWaitList(this);
+            System.out.println("Course is full. Student " + this.getName() + " added to wait list");
+        }
+    }
+
+    public void dropCourse(Course course) {
+        if (courses.contains(course)) {
+            courses.remove(course);
+            course.drop(this);
+        }
     }
 }
+
