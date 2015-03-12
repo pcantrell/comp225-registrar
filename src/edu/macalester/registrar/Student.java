@@ -30,4 +30,16 @@ public class Student {
         courses.add(course);
         course.enroll(this);
     }
+
+    public void dropCourse(Course course) {
+        if (this.courses.contains(course)){
+            this.courses.remove(course);
+            course.waitListToStudents();
+            System.out.println("Course Dropped!");
+        }
+        else {
+            System.out.print("Student not even in course!");
+        }
+
+    }
 }
