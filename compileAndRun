@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Compile Java classes
+echo "Compiling class files..."
+javac -sourcepath src/ -d out/ src/edu/macalester/registrar/*.java
+
+# Run program
+echo "Running project"
+java -cp out/ edu.macalester.registrar.RegistrarTest
