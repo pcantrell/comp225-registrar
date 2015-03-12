@@ -49,15 +49,9 @@ public class RegistrarTest {
         printSchedule(sally);
         printEnrollment(c1);
 
-        System.out.println("------ Starting Point Test ------");
-        System.out.println("Fred is not in C1");
-        System.out.println(fred.getCourses().contains(c1));
-        System.out.println(c1.getStudents().contains(fred));
-        System.out.println("Fred is in C2");
-        System.out.println(fred.getCourses().contains(c2));
-        System.out.println(c2.getStudents().contains(fred));
-
         System.out.println("------ Adding in enrollment limits ------");
+        printWaitlist(c1);
+        printWaitlist(c2);
     }
 
     private static void printSchedule(Student student) {
@@ -74,6 +68,14 @@ public class RegistrarTest {
         System.out.println(course.getCatalogNumber() + ": " + course.getTitle());
         System.out.println("Students enrolled (" + course.getStudents().size() + ")");
         for(Student student : course.getStudents())
+            System.out.println("    " + student.getName());
+        System.out.println();
+    }
+
+    private static void printWaitlist(Course course) {
+        System.out.println(course.getCatalogNumber() + ": " + course.getTitle());
+        System.out.println("Students waitlisted (" + course.getWaitlist().size() + ")");
+        for(Student student : course.getWaitlist())
             System.out.println("    " + student.getName());
         System.out.println();
     }
