@@ -28,7 +28,19 @@ public class Student {
      * Equivalent to course.enroll(student).
      */
     public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+        if(course.getStudents().contains(this)){
+        }
+        else{
+//            if(Course.getStudents().size() < enrollmentLimit)
+            courses.add(course);
+            course.enroll(this);
+        }
+    }
+
+    public void dropOut(Course course){
+        if(course.getStudents().contains(this)){
+            courses.remove(course);
+            course.drop(this);
+        }
     }
 }

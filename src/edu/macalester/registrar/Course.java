@@ -34,16 +34,28 @@ public class Course {
     }
 
     //todo unmodifiable? unable to pull from wait list?
-    public Set<Student> getWaitList() { return Collections.unmodifiableSet(students);}
+    public Set<Student> getWaitList() { return Collections.unmodifiableSet(waitList);}
 
     void enroll(Student student) {
-
-        if(getStudents().size() < enrollmentLimit){
-            students.add(student);
+        if(!getStudents().contains(student)){
+            if(getStudents().size() < enrollmentLimit){
+                students.add(student);
+            }
+            else {
+                waitList.add(student);
+                //todo throw exception? notify student?
+            }
         }
-        else {
-            waitList.add(student);
-            //todo throw exception? notify student?
+    }
+
+    void drop(Student student) {
+        if(getStudents().size()>0){
+            students.remove(student);
+            //students.add(firstStudentFromWaitList);
+        }
+        else{
+            //todo there are no students in the class
+            //todo throw exception?
         }
     }
 

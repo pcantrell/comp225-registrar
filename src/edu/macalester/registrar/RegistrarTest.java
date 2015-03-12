@@ -34,6 +34,7 @@ public class RegistrarTest {
         printEnrollment(c1);
         printEnrollment(c2);
 
+
         System.out.println("------ Enrolling Fred in one course ------");
 
         fred.enrollIn(c2);
@@ -42,12 +43,14 @@ public class RegistrarTest {
         printEnrollment(c1);
         printEnrollment(c2);
 
+
         System.out.println("------ Re-enrolling Sally has no effect ------");
 
         sally.enrollIn(c1);
 
         printSchedule(sally);
         printEnrollment(c1);
+
     }
 
     private static void printSchedule(Student student) {
@@ -65,14 +68,17 @@ public class RegistrarTest {
         System.out.println("Students enrolled (" + course.getStudents().size() + ")");
         for(Student student : course.getStudents())
             System.out.println("    " + student.getName());
-        System.out.println();
-    }
-
-    private static void printWaitList(Course course) {
-        System.out.println(course.getCatalogNumber() + ": " + course.getTitle());
         System.out.println("Students on wait list (" + course.getWaitList().size() + ")");
-        for(Student student : course.getStudents())
+        for(Student student : course.getWaitList())
             System.out.println("    " + student.getName());
         System.out.println();
     }
+
+//    private static void printWaitList(Course course) {
+//        System.out.println(course.getCatalogNumber() + ": " + course.getTitle());
+//        System.out.println("Students on wait list (" + course.getWaitList().size() + ")");
+//        for(Student student : course.getWaitList())
+//            System.out.println("    " + student.getName());
+//        System.out.println();
+//    }
 }
