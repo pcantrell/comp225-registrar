@@ -52,7 +52,7 @@ public class Course {
             if(!this.getStudents().contains(student) && !this.getWaitList().contains(student)) {
                 waitList.add(student);
                 System.out.println(student.getName()
-                        + " will automatically be placed on the waiting list for the course "
+                        + " will automatically be placed on the wait list for the course "
                         + this.getTitle()
                         + ".");
                 //throw new IllegalArgumentException("Attempting to over-enroll students!");
@@ -72,7 +72,7 @@ public class Course {
                 students.add(firstInLine);
                 waitList.remove(firstInLine);
                 System.out.println(firstInLine.getName()
-                        + " will automatically enrolled for the course "
+                        + " will automatically be removed from the wait list and be enrolled for the course "
                         + this.getTitle()
                         + ".");
             }

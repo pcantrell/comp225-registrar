@@ -50,6 +50,15 @@ public class RegistrarTest {
         printEnrollment(c1);
         printEnrollment(c2);
 
+        System.out.println("------ Enrolling Charles in two courses ------");
+
+        charles.enrollIn(c1);
+        charles.enrollIn(c2);
+
+        printSchedule(charles);
+        printEnrollment(c1);
+        printEnrollment(c2);
+
         System.out.println("------ Re-enrolling Sally has no effect ------");
 
         sally.enrollIn(c1);
@@ -60,26 +69,8 @@ public class RegistrarTest {
 
         System.out.println("------ Enrolling Fred in an over-enrolled course ------");
 
-        //fred.enrollIn(c1);
-        //charles.enrollIn(c2);
         fred.enrollIn(c1);
         fred.enrollIn(c2);
-        charles.enrollIn(c1);
-        charles.enrollIn(c2);
-
-        //printSchedule(charles);
-        //printEnrollment(c1);
-        //printEnrollment(c2);
-        printWaitList(c1);
-        printWaitList(c2);
-
-        System.out.println("------ Dropping Fred in a course ------");
-
-        fred.dropCourse(c2);
-        sally.dropCourse(c1);
-        //fred.dropCourse(c1);
-        //fred.dropCourse(c1);
-        //charles.dropCourse(c1);
 
         printSchedule(fred);
         printEnrollment(c1);
@@ -88,6 +79,28 @@ public class RegistrarTest {
         printWaitList(c1);
         printWaitList(c2);
 
+        System.out.println("------ Dropping Fred in a course ------");
+
+        //fred.dropCourse(c1);
+        fred.dropCourse(c2);
+
+        printSchedule(fred);
+        printEnrollment(c1);
+        printEnrollment(c2);
+
+        printWaitList(c1);
+        printWaitList(c2);
+
+        System.out.println("------ Re-dropping Fred has no effect ------");
+
+        fred.dropCourse(c2);
+
+        printSchedule(fred);
+        printEnrollment(c1);
+        printEnrollment(c2);
+
+        printWaitList(c1);
+        printWaitList(c2);
 
     }
 

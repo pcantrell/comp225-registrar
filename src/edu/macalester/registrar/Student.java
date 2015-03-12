@@ -30,8 +30,6 @@ public class Student {
      * Equivalent to course.enroll(student).
      */
     public void enrollIn(Course course) {
-        //System.out.println(course.getStudents().size());
-        //System.out.println(course.getEnrollmentLimit());
         if(course.getStudents().size() < course.getEnrollmentLimit())
             courses.add(course);
         course.enroll(this);
