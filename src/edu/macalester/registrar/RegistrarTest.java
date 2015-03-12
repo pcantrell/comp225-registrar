@@ -52,6 +52,12 @@ public class RegistrarTest {
         System.out.println("------ Adding in enrollment limits ------");
         printWaitlist(c1);
         printWaitlist(c2);
+
+        System.out.println("------ Check Dropping Methods; drop Sally and Add Fred------");
+        printEnrollment(c2);
+        printWaitlist(c2);
+        sally.drop(c2);
+        printEnrollment(c2);
     }
 
     private static void printSchedule(Student student) {
