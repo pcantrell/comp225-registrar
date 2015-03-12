@@ -62,7 +62,7 @@ public class RegistrarTest {
         printSchedule(sally);
         printSchedule(fred);
         printSchedule(charles);
-        
+
         printEnrollment(c1);
         printEnrollment(c2);
 
