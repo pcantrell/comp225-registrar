@@ -42,10 +42,10 @@ public class Course {
     }
 
     void enroll(Student student) {
-        if (students.size() < getEnrollmentLimit())
-            students.add(student);
+        if (students.size() < getEnrollmentLimit())  //if the course is not full
+            students.add(student);                  //add student
         else
-        if (!students.contains(student))
-            waitList.add(student);
+        if (!students.contains(student))  //if student is not enrolled and enrollment is full
+            waitList.add(student);       // add student to waitList
     }
 }
