@@ -27,7 +27,17 @@ public class Student {
      * Equivalent to course.enroll(student).
      */
     public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+        if (course.isFull()) {
+            // put this guy in the wait-list
+            course.enroll(this, false);
+        } else {
+            // put this guy in the course
+            courses.add(course);
+            course.enroll(this, true);
+        }
+    }
+
+    public void drop(Course course) {
+        course.drop(this);
     }
 }
