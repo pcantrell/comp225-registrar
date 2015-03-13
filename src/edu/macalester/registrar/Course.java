@@ -31,8 +31,8 @@ public class Course {
         return Collections.unmodifiableSet(students);
     }
 
-    //todo unmodifiable? unable to pull from wait list?
-    public Set<Student> getWaitList() { return Collections.unmodifiableSet(waitList);}
+    //unmodifiable? unable to pull from wait list?
+    public Queue<Student> getWaitList() { return waitList;}
 
     void addToWaitList(Student student){
         waitList.add(student);
