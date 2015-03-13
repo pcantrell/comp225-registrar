@@ -1,5 +1,9 @@
 package edu.macalester.registrar;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
+
+import java.util.LinkedList;
+
 /**
  * A simple scenario to exercise the various registrar model objects.
  */
@@ -70,6 +74,12 @@ public class RegistrarTest {
             System.out.println("    "
                 + course.getCatalogNumber() + ": "
                 + course.getTitle());
+        //todo trying to make the student know that they are on the waitlist
+//        for(Course course: getWaitList()){
+//            System.out.println("    "
+//                + course.getCatalogNumber() + ": "
+//                + course.getTitle());
+//        }
         System.out.println();
     }
 
