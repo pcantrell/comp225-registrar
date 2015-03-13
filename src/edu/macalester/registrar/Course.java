@@ -48,4 +48,11 @@ public class Course {
         if (!students.contains(student))  //if student is not enrolled and enrollment is full
             waitList.add(student);       // add student to waitList
     }
+
+    void drop(Student student) {
+        if (students.contains(student))  //if enrolled student is in course
+            students.remove(student);   //student drops course
+        students.add(waitList.get(0));  //add first student on waitlist
+        waitList.remove(0);
+    }
 }
