@@ -38,17 +38,20 @@ public class Course {
         waitList.add(student);
     }
 
-    void enroll(Student student) {
+    boolean enroll(Student student) {
         if(!getStudents().contains(student)){
             if(getStudents().size() < enrollmentLimit){
                 students.add(student);
+                return true;
             }
             else {
                 waitList.add(student);
                 //todo throw exception? notify student?
                 System.err.println("Error: Course is full. Student has been added to the wait list.");
+                return false;
             }
         }
+        return false;
     }
 
     void drop(Student student) {

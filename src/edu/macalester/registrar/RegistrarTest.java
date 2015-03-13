@@ -74,12 +74,12 @@ public class RegistrarTest {
             System.out.println("    "
                 + course.getCatalogNumber() + ": "
                 + course.getTitle());
-        //todo trying to make the student know that they are on the waitlist
-//        for(Course course: getWaitList()){
-//            System.out.println("    "
-//                + course.getCatalogNumber() + ": "
-//                + course.getTitle());
-//        }
+        //todo trying to make the student know that they are on the waitlist AHHHHHHH
+        for(Course course: student.getWaitListedCourses()){
+            System.out.println("    "
+                + course.getCatalogNumber() + ": "
+                + course.getTitle());
+        }
         System.out.println();
     }
 

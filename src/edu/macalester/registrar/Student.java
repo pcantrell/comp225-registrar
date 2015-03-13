@@ -9,6 +9,7 @@ import java.util.Set;
 public class Student {
     private String name;
     private Set<Course> courses = new HashSet<Course>();
+    private Set<Course> waitListedCourses = new HashSet<Course>();
 
     public String getName() {
         return name;
@@ -22,6 +23,7 @@ public class Student {
     public Set<Course> getCourses() {
         return Collections.unmodifiableSet(courses);
     }
+    public Set<Course> getWaitListedCourses() { return Collections.unmodifiableSet(waitListedCourses);}
 
     /**
      * Add this student to the given course's roster.
@@ -34,11 +36,19 @@ public class Student {
         else{
             if(course.getStudents().size() < course.getEnrollmentLimit()) {
                 courses.add(course);
-                course.enroll(this);
+                boolean result = course.enroll(this);
+                if(result == false){
+                    //student is not enrolled - enrollment failed - added to wait list
+                    waitListedCourses.add(course);
+                }
+                if(result == true){
+                    waitListedCourses.remove(course);
+                }
             }
             else{
                 //trying to add that student that tried to enroll to the wait list
                 course.addToWaitList(this);
+
             }
         }
     }
