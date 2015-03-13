@@ -11,7 +11,6 @@ public class RegistrarTest {
         sally.setName("Sally");
 
         Student fred = new Student();
-        fred.setName("Fred");
 
         // Example courses
 
@@ -48,8 +47,38 @@ public class RegistrarTest {
 
         printSchedule(sally);
         printEnrollment(c1);
-    }
 
+        System.out.println("----- Dropping Sally from one course -----");
+
+        sally.dropCourse(c1);
+
+        printSchedule(sally);
+        printEnrollment(c1);
+
+        System.out.println("----- Re-Dropping Sally from one course -----");
+
+        sally.dropCourse(c1);
+
+        printSchedule(sally);
+        printEnrollment(c1);
+
+        System.out.println("----- Testing waitlist -----");
+        c1.setCap(1);
+
+        sally.enrollIn(c1);
+        fred.enrollIn(c1);
+        printEnrollment(c1);
+
+        fred.setName("Fred");
+
+        System.out.println("----- Testing waitlist and enrollment logic");
+
+        sally.dropCourse(c1);
+        printEnrollment(c1);
+        printSchedule(sally);
+        printSchedule(fred);
+
+    }
     private static void printSchedule(Student student) {
         System.out.println("Student name: " + student.getName());
         System.out.println("Courses (" + student.getCourses().size() + ")");
@@ -63,6 +92,7 @@ public class RegistrarTest {
     private static void printEnrollment(Course course) {
         System.out.println(course.getCatalogNumber() + ": " + course.getTitle());
         System.out.println("Students enrolled (" + course.getStudents().size() + ")");
+        ///System.out.println("pppop"); FOR TESTING
         for(Student student : course.getStudents())
             System.out.println("    " + student.getName());
         System.out.println();
