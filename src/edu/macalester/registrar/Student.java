@@ -34,7 +34,9 @@ public class Student {
     }
 
     public void drop(Course course){
-        course.drop(this);
-        courses.remove(course);
+        if(courses.contains(course)){
+            course.drop(this);
+            courses.remove(course);
+        }
     }
 }
