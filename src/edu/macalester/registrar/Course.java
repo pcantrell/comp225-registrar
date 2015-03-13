@@ -2,7 +2,6 @@ package edu.macalester.registrar;
 
 import java.util.*;
 
-
 public class Course {
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
@@ -39,13 +38,24 @@ public class Course {
         return waitList;
     }
 
+    /**
+    *   This method lifts the enrollment limit to the max integer value, once the enrollment limit is set
+    *   After lifting the limit, admit all wait-listed students
+    */
     void liftEnrollmentLimit() {
         if (enrollmentLimit != 0 && enrollmentLimit != Integer.MAX_VALUE) {
             // lift enrollment limit
             setEnrollmentLimit(Integer.MAX_VALUE);
+            // now put all current wait-listed student in the class
+            enrollWaitList();
         }
     }
 
+    /**
+    *   This method takes in two arguments, the student and a boolean value depending on whether course is full
+    *   @param student  the student caller is asking to enroll in the course
+    *   @param enrollmentPossible   boolean value determining if course is already full
+    */
     void enroll(Student student, boolean enrollmentPossible) {
         if (enrollmentPossible) {
             if (students.contains(student)) {
@@ -62,13 +72,23 @@ public class Course {
         }
     }
 
+    /**
+    *   This method takes in the student as argument, then check if the waitlist already contains her, then add her to
+    *   the list and inform the caller of the wait-list status
+    *   @param student  the student caller is asking to enroll in the course parsed from enroll()
+    */
     void addToWaitList(Student student) {
         if (!waitList.contains(student)) {
             waitList.add(student);
-            System.out.println(waitList.element().getName() + " is wait-listed!");
+            System.out.println(student.getName() + " is wait-listed for " + this.getCatalogNumber() + ": " + this.getTitle());
         }
     }
 
+    /**
+     *   This method takes in the student as argument, then drop her from the class. the waitlisted students are then
+     *   admitted
+     *   @param student  the student caller is asking to drop the class
+     */
     void drop(Student student) {
         if (!students.isEmpty() && (students.contains(student))) {
             students.remove(student);
@@ -76,13 +96,13 @@ public class Course {
         }
     }
 
-    /*
+    /**
     *   If a course is not full, then keep enrolling wait-listed students
     */
     void enrollWaitList() {
-        while (!waitList.isEmpty() && (students.size() < getEnrollmentLimit())) {
+        while (!waitList.isEmpty() && (!isFull())) {
             Student firstInLine = waitList.poll();
-            students.add(firstInLine);
+            firstInLine.enrollIn(this);
         }
     }
 }
