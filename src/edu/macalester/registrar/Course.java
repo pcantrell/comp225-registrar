@@ -10,7 +10,7 @@ public class Course {
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
     private ArrayList<Student> waitList = new ArrayList<Student>();
-    private int enrollmentLimit;
+    private int enrollmentLimit = 20;
 
     public int getEnrollmentLimit() { return enrollmentLimit; }
 
