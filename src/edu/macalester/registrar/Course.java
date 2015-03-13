@@ -1,5 +1,6 @@
 package edu.macalester.registrar;
 
+
 import java.util.*;
 
 
@@ -7,7 +8,7 @@ public class Course {
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
     private Integer enrollmentLimit;
-    private PriorityQueue<Student> waitList = new PriorityQueue<Student>();
+    private Queue<Student> waitList = new LinkedList<Student>();
 
 
 
@@ -47,17 +48,17 @@ public class Course {
 
     public Integer getEnrollmentLimit() { return enrollmentLimit; }
 
-    public PriorityQueue<Student> getWaitList() { return waitList; }
+    public Queue<Student> getWaitList() { return new LinkedList<Student>(waitList); }
 
     void drop(Student student){
         students.remove(student);
     }
 
     void update(Course course){
-        while(waitList.size() != 0 && course.getStudents().size() < course.getEnrollmentLimit() ) { //while the waitlist is not empty and class is not fill keep try to enroll student into
-            Student student = course.getWaitList().poll(); //poll/remove the first student form waitlist. reduce waitlist size
-            student.enrollIn(course);      //add him/her to class, increase course size
-            student.removeCourseFromWaitList(course); //remove the course from student's list of wailisted course
+        while(waitList.size() != 0 && course.getStudents().size() < course.getEnrollmentLimit() ) {
+            Student student = course.getWaitList().poll();
+            student.enrollIn(course);
+            student.removeCourseFromWaitList(course);
         }
 
     }

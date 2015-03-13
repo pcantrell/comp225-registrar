@@ -26,6 +26,7 @@ public class RegistrarTest {
         c2.setTitle("All About the Number Six");
         c2.setEnrollmentLimit(1);
 
+
         Course c3 = new Course();
         c3.setCatalogNumber("MATH 469");
         c3.setTitle("Discrete Applied Math");
@@ -65,13 +66,13 @@ public class RegistrarTest {
 //        printEnrollment(c2);
 //        printSchedule(fred);
 
-//
-//        System.out.println("------Drop Sally form a course she is not enrolled");
-//
-//        sally.drop(c3);
-//
-//        printSchedule(sally);
-//        printEnrollment(c3);
+
+        System.out.println("------Drop Sally form a course she is not enrolled");
+
+        sally.drop(c3);
+
+        printSchedule(sally);
+        printEnrollment(c3);
 
     }
 
