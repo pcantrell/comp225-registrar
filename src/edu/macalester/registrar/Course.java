@@ -7,7 +7,7 @@ public class Course {
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
     private int enrollmentLimit = Integer.MAX_VALUE;
-    private Queue<Student> waitlist = new PriorityQueue<Student>();
+    private LinkedList<Student> waitlist = new LinkedList<Student>();
 
     public String getCatalogNumber() {
         return catalogNumber;
@@ -55,11 +55,18 @@ public class Course {
     }
 
     /**
-     * Lift the enrollment limit of this course if one has been set.
+     * Lift the enrollment limit of this course if one has been set,
+     * and automatically enroll all the students in the waitlist.
      */
     public void liftEnrollmentLimit() {
         if (enrollmentLimit > 0 && enrollmentLimit < Integer.MAX_VALUE) {
             enrollmentLimit = Integer.MAX_VALUE;
+        }
+        if (waitlist.size() != 0) {
+            while (waitlist.size() > 0) {
+                Student waitlistedStudent = waitlist.poll();
+                waitlistedStudent.enrollIn(this);
+            }
         }
     }
 

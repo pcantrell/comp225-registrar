@@ -13,6 +13,9 @@ public class RegistrarTest {
         Student fred = new Student();
         fred.setName("Fred");
 
+        Student bob = new Student();
+        bob.setName("Bob");
+
         // Example courses
 
         Course c1 = new Course();
@@ -31,6 +34,7 @@ public class RegistrarTest {
 
         printSchedule(sally);
         printSchedule(fred);
+        printSchedule(bob);
 
         printEnrollment(c1);
         printEnrollment(c2);
@@ -40,7 +44,13 @@ public class RegistrarTest {
         fred.enrollIn(c2);
 
         printSchedule(fred);
-        printEnrollment(c1);
+        printEnrollment(c2);
+
+        System.out.println("------ Enrolling Bob in a full course, will go to wait-list ------");
+
+        bob.enrollIn(c2);
+
+        printSchedule(bob);
         printEnrollment(c2);
 
         System.out.println("------ Re-enrolling Sally has no effect ------");
@@ -58,13 +68,18 @@ public class RegistrarTest {
         printSchedule(fred);
         printEnrollment(c2);
 
-        System.out.println("------ Lift enrollment limit, Sally can rejoin the course now ------");
+        System.out.println("------ Lift enrollment limit, Bob automatically joins the course ------");
 
         c2.liftEnrollmentLimit();
+
+        printSchedule(bob);
+        printEnrollment(c2);
+
+        System.out.println("------ Enrollment limit lifted, Sally can rejoin the course as well ------");
+
         sally.enrollIn(c2);
 
         printSchedule(sally);
-        printSchedule(fred);
         printEnrollment(c2);
 
         System.out.println("------ Dropping Fred out of a course he is not enrolled in has no effect ------");
