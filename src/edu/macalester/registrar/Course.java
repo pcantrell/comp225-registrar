@@ -37,12 +37,11 @@ public class Course {
         this.enrollmentLimit = limit;
     }
 
-    public String enroll(Student student) {
+    String enroll(Student student) {
         if (this.getStudents().size() < this.getEnrollmentLimit()) {
             students.add(student);
             return "Student successfully added!";
         } else {
-            //add to the wait list...
             this.waitlist(student);
             return "Course is full; student successfully added to the waitlist";
         }
@@ -61,6 +60,8 @@ public class Course {
     public void waitlist(Student student) {
         waitlist.add(student);
     }
+
+    public Queue getWaitlist() {return this.waitlist;}
 
     public String enrollFromWaitlist() {
         if (this.waitlist.size() > 0) {
