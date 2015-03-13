@@ -48,8 +48,10 @@ public class Course {
 
     void drop(Student student){
         students.remove(student);
-        waitList.get(0).enrollIn(this);
-        waitList.remove(0);
+        if(!waitList.isEmpty()){
+            waitList.get(0).enrollIn(this);
+            waitList.remove(0);
+        }
     }
 
 }

@@ -28,10 +28,16 @@ public class RegistrarTest {
         c2.setTitle("All About the Number Six");
         c2.setEnrollmentLimit(1);
 
+        Course c3 = new Course();
+        c3.setCatalogNumber("CHIN 194");
+        c3.setTitle("Masterpieces in Chinese Literature");
+        c3.setEnrollmentLimit(5);
+
         System.out.println("------ Enrolling Sally in two courses ------");
 
         sally.enrollIn(c1);
         sally.enrollIn(c2);
+        sally.enrollIn(c3);
 
         printSchedule(sally);
         printSchedule(fred);
@@ -66,14 +72,16 @@ public class RegistrarTest {
         printWaitList(c1);
         printWaitList(c2);
 
-        System.out.println("------ Sally drops math course, Fred should be able to get in now ------");
+        System.out.println("------ Sally drops math and chin course, Fred should be able to get in now ------");
 
         sally.drop(c2);
+        sally.drop(c3);
         printSchedule(sally);
         printSchedule(fred);
         printSchedule(marie);
         printEnrollment(c1);
         printEnrollment(c2);
+        printEnrollment(c3);
 
         System.out.println("------ Sally changes her mind and adds the course again, should be waitlisted because class full ------");
 
