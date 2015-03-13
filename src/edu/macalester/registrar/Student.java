@@ -27,7 +27,15 @@ public class Student {
      * Equivalent to course.enroll(student).
      */
     public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+            course.enroll(this);
+            if(course.getStudents().contains(this)){
+                //if you were successfully enrolled into course, add course to your schedule
+                courses.add(course);
+            }
+    }
+
+    public void drop(Course course){
+        course.drop(this);
+        courses.remove(course);
     }
 }
