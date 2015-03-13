@@ -24,6 +24,7 @@ public class Student {
         return Collections.unmodifiableSet(courses);
     }
     public Set<Course> getWaitListedCourses() { return Collections.unmodifiableSet(waitListedCourses);}
+    public Set<Course> waitListedCourses() {return waitListedCourses;}
 
     /**
      * Add this student to the given course's roster.
