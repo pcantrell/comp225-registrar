@@ -5,7 +5,8 @@ package edu.macalester.registrar;
  */
 public class RegistrarTest {
     public static void main(String[] args) {
-        // Example students
+
+        // Creating 6 students for tests
 
         Student sally = new Student();
         sally.setName("Sally");
@@ -25,67 +26,71 @@ public class RegistrarTest {
         Student evan = new Student();
         evan.setName("Evan");
 
-        // Example courses
+        // Creating 3 courses for tests
 
         Course c1 = new Course();
         c1.setEnrollmentLimit(2);    //Change enrollment limit here in order to test wait list functionality
         c1.setCatalogNumber("COMP 225");
-        c1.setTitle("Software Fun Fun");
+        c1.setTitle("Software Fun");
 
         Course c2 = new Course();
+        c2.setEnrollmentLimit(0);    //Testing if the enrollment limit is set to 0
         c2.setCatalogNumber("MATH 6");
-        c2.setTitle("All About the Number Six");
+        c2.setTitle("Number Six");
 
-/*
-        System.out.println("------ Enrolling Sally in two courses ------");
-
-        sally.enrollIn(c1);
-        //sally.enrollIn(c2);
-
-        //printSchedule(sally);
-        //printSchedule(fred);
-
-        printEnrollment(c1);
-        //printEnrollment(c2);
-
-        System.out.println("------ Enrolling Fred in one course ------");
-
-        fred.enrollIn(c2);
-
-        printSchedule(fred);
-        printEnrollment(c1);
-        printEnrollment(c2);
-
-        System.out.println("------ Re-enrolling Sally has no effect ------");
-
-        sally.enrollIn(c1);
-
-        printEnrollment(c1);
-        printSchedule(sally);
-
-*/
-
-        System.out.println("------ Testing the Wait list ------");
+        Course c3 = new Course();
+       //Testing if enrollment limit is not set
+        c3.setCatalogNumber("COMP 123");
+        c3.setTitle("Neuro Comp");
 
 
+        //sally.drop(c1); //testing drop if no one is enrolled/ yet.
+
+        //Enrolling students
+        System.out.println();
+        System.out.println("Enrolling students:");
+        System.out.println();
         sally.enrollIn(c1);
         fred.enrollIn(c1);
         judy.enrollIn(c1);
         ingrid.enrollIn(c1);
-        evan.enrollIn(c1);
-        jamey.enrollIn(c1);
+        ingrid.enrollIn(c2);
+        evan.enrollIn(c2);
+        jamey.enrollIn(c2);
+        System.out.println();
+
+
+        //Testing if enrollment limit is set to its default.
+        sally.enrollIn(c3);
+        fred.enrollIn(c3);
+        judy.enrollIn(c3);
+        ingrid.enrollIn(c3);
+        evan.enrollIn(c3);
+        jamey.enrollIn(c3);
+        System.out.println();
+        System.out.println();
+
+
+        System.out.println("------ Testing the Wait list ------");
+        System.out.println();
+        printEnrollment(c1);
+        printEnrollment(c3);
 
         System.out.println("------ Testing drop functionality ------");
-
-        sally.drop(c1);
-        sally.drop(c1);
+        System.out.println();
+        sally.drop(c1); //testing regular drop
         printEnrollment(c1);
-
-
-
+        fred.drop(c1); //testing second drop
+        printEnrollment(c1);
+        printSchedule(sally);
+        printSchedule(judy);
     }
 
+
     private static void printSchedule(Student student) {
+        System.out.println();
+        System.out.println("Schedule for " + student.getName() + ":");
+        System.out.println("---------------");
         System.out.println("Student name: " + student.getName());
         System.out.println("Courses (" + student.getCourses().size() + ")");
         for(Course course : student.getCourses())
@@ -96,6 +101,9 @@ public class RegistrarTest {
     }
 
     private static void printEnrollment(Course course) {
+        System.out.println();
+        System.out.println("Enrollment for " + course.getTitle() + ":");
+        System.out.println("---------------");
         System.out.println(course.getCatalogNumber() + ": " + course.getTitle());
         System.out.println("Students enrolled (" + course.getStudents().size() + ")");
         for(Student student : course.getStudents())

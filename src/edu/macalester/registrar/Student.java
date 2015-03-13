@@ -32,30 +32,37 @@ public class Student {
         if (course.getStudents().size() < course.getEnrollmentLimit()) {
             courses.add(course);
             course.enroll(this);
+            System.out.println(this.getName() + " has been added to the course '" + course.getTitle() + ".'");
+
+
         } else {
             course.waitListEnroll(this);
-            System.out.println("Sorry, '" + course.getTitle() + "' is full! " + this.getName() + " has been added to the wait list.");
-            System.out.println();
+            System.out.println("Sorry, we tried adding " + this.getName() + " to the course '" + course.getTitle() + "', but it's full! " + this.getName() + " has been added to the wait list.");
         }
     }
 
     public void drop(Course course) {
         Set enrolled = course.getStudents();
-        Student firstOnWaitList = course.getWaitList().get(0);
         if (enrolled.contains(this)) {
             course.drop(this);
-            System.out.println();
-            System.out.println(this.getName() + " has dropped '" + course.getTitle() + ".' " + firstOnWaitList.getName() + " was first on the wait list, so " + firstOnWaitList.getName() + " has now been enrolled. ");
-            System.out.println();
-            course.enroll(firstOnWaitList);
-            course.getWaitList().remove(firstOnWaitList);
-        }
-        else {
-            System.out.println();
-            System.out.println("Don't worry! " + this.getName() + " is already out of that course.");
-            System.out.println();
-        }
+            courses.remove(course);
+            if (course.getWaitList().size() != 0) {
+                Student firstOnWaitList = course.getWaitList().get(0);
 
-
+                //System.out.println("course is being dropped. This is this.courses: " + this.courses);
+                System.out.println();
+                System.out.println(this.getName() + " has dropped '" + course.getTitle() + ".' " + firstOnWaitList.getName() + " was first on the wait list, so " + firstOnWaitList.getName() + " has now been enrolled. ");
+                System.out.println();
+                course.enroll(firstOnWaitList);
+                course.getWaitList().remove(firstOnWaitList);
+                firstOnWaitList.courses.add(course);
+            }
+        }
+        else {      //if (!enrolled.contains(this))
+            System.out.println();
+            System.out.println("I think you made a mistake. " + this.getName() + " isn't in '" + course.getTitle() + ".'");
+            System.out.println("There are " + (course.getEnrollmentLimit() - course.getStudents().size()) + " spots left in " + course.getTitle() + ".");
+            System.out.println();
+        }
     }
 }
