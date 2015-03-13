@@ -48,6 +48,11 @@ public class RegistrarTest {
 
         printSchedule(sally);
         printEnrollment(c1);
+
+        System.out.println("------ Removing Sally from class enrolls Fred ------");
+
+        sally.dropCourse(c2);
+        printEnrollment(c2);
     }
 
     private static void printSchedule(Student student) {
@@ -66,5 +71,9 @@ public class RegistrarTest {
         for(Student student : course.getStudents())
             System.out.println("    " + student.getName());
         System.out.println();
+        System.out.println("WAITLIST: ");
+        for(Student student : course.getWaitlist()){
+            System.out.println("    " + student.getName());
+        }
     }
 }

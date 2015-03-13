@@ -30,4 +30,9 @@ public class Student {
         courses.add(course);
         course.enroll(this);
     }
+
+    public void dropCourse(Course course){
+        courses.remove(course);
+        course.drop(this);
+    }
 }
