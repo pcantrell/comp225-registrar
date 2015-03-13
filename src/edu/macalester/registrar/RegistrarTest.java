@@ -1,7 +1,8 @@
 package edu.macalester.registrar;
 
 /**
- * A simple scenario to exercise the various registrar model objects.
+ * Modified enrollment tests
+ * Created by Taylor Rose on 3/13/2015.
  */
 public class RegistrarTest {
     public static void main(String[] args) {
@@ -13,6 +14,9 @@ public class RegistrarTest {
         Student fred = new Student();
         fred.setName("Fred");
 
+        Student dave = new Student();
+        dave.setName("Dave");
+
         // Example courses
 
         Course c1 = new Course();
@@ -22,6 +26,11 @@ public class RegistrarTest {
         Course c2 = new Course();
         c2.setCatalogNumber("MATH 6");
         c2.setTitle("All About the Number Six");
+
+        Course c3 = new Course();
+        c3.setCatalogNumber("THDA 4");
+        c3.setTitle("Computers and Performance");
+        c3.setEnrollLimit(2);
 
         System.out.println("------ Enrolling Sally in two courses ------");
 
@@ -48,6 +57,25 @@ public class RegistrarTest {
 
         printSchedule(sally);
         printEnrollment(c1);
+
+        System.out.println("------ Enrolling all students in third course ------");
+
+        sally.enrollIn(c3);
+        fred.enrollIn(c3);
+        dave.enrollIn(c3);
+
+        printSchedule(sally);
+        printSchedule(fred);
+        printSchedule(dave);
+        printEnrollment(c3);
+
+        System.out.println("------- Unenroll Sally, remove dave from waitlist -------");
+
+        sally.drop(c3);
+
+        printSchedule(sally);
+        printSchedule(dave);
+        printEnrollment(c3);
     }
 
     private static void printSchedule(Student student) {
@@ -55,8 +83,12 @@ public class RegistrarTest {
         System.out.println("Courses (" + student.getCourses().size() + ")");
         for(Course course : student.getCourses())
             System.out.println("    "
-                + course.getCatalogNumber() + ": "
-                + course.getTitle());
+                    + course.getCatalogNumber() + ": "
+                    + course.getTitle());
+        System.out.println();
+        System.out.println("Wait Listed Courses (" + student.getWaitListedCourses().size() + ")" );
+        for (Course course : student.getWaitListedCourses())
+            System.out.println("     " + course.getCatalogNumber() + ": " + course.getTitle());
         System.out.println();
     }
 
@@ -66,5 +98,15 @@ public class RegistrarTest {
         for(Student student : course.getStudents())
             System.out.println("    " + student.getName());
         System.out.println();
+        printWaitList(course);
+    }
+
+    private static void printWaitList(Course course) {
+        System.out.println(course.getCatalogNumber() + ": " + course.getTitle());
+        System.out.println("Students waitlisted (" + course.getWaitList().size() + ")");
+        for (Student student : course.getWaitList())
+            System.out.println("     " + student.getName());
+        System.out.println();
     }
 }
+
