@@ -1,15 +1,13 @@
 package edu.macalester.registrar;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 public class Course {
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
     private int enrollmentLimit = 1;
-    private Set<Student> waitList = new HashSet<Student>();
+    private Queue<Student> waitList = new LinkedList<Student>();
 
 
     public String getCatalogNumber() {
@@ -36,6 +34,10 @@ public class Course {
     //todo unmodifiable? unable to pull from wait list?
     public Set<Student> getWaitList() { return Collections.unmodifiableSet(waitList);}
 
+    void addToWaitList(Student student){
+        waitList.add(student);
+    }
+
     void enroll(Student student) {
         if(!getStudents().contains(student)){
             if(getStudents().size() < enrollmentLimit){
@@ -51,10 +53,10 @@ public class Course {
     void drop(Student student) {
         if(getStudents().size()>0){
             students.remove(student);
-            //students.add(firstStudentFromWaitList);
+            //add first student from waitlist into class automatically
             if(getWaitList().size()>0){
-                //take student from waitlist - add to course
-                getWaitList().remove(student);
+                Student s = waitList.poll();
+                enroll(s);
             }
         }
         else{

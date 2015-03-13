@@ -36,7 +36,8 @@ public class Student {
                 course.enroll(this);
             }
             else{
-                //course.waitList.add();
+                //trying to add that student that tried to enroll to the wait list
+                course.addToWaitList(this);
             }
         }
     }
