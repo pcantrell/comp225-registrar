@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class Course {
     private String catalogNumber, title;
-    private int enrollmentLimit;
+    private int enrollmentLimit = -1;
     private Set<Student> students = new HashSet<Student>();
     private List<Student> waitList = new LinkedList<Student>();
 
@@ -30,7 +30,22 @@ public class Course {
 
     public int getEnrollmentLimit() { return enrollmentLimit; }
 
-    public void setEnrollmentLimit(int enrollmentLimit) { this.enrollmentLimit = enrollmentLimit; }
+    public void setEnrollmentLimit(int enrollmentLimit) {
+        this.enrollmentLimit = enrollmentLimit;
+        if(enrollmentLimit < 0) {
+            if(this.getWaitList().size() > 0) {
+                while(this.getWaitList().size() > 0){
+                    Student firstInLine = this.getWaitList().get(0);
+                    students.add(firstInLine);
+                    waitList.remove(firstInLine);
+                    System.out.println(firstInLine.getName()
+                            + " will automatically be removed from the wait list and be enrolled for the course "
+                            + this.getTitle()
+                            + ".");
+                }
+            }
+        }
+    }
 
     public Set<Student> getStudents() {
         return Collections.unmodifiableSet(students);
@@ -41,18 +56,27 @@ public class Course {
     }
 
     void enroll(Student student) {
-        if(this.getStudents().size() < this.getEnrollmentLimit()) {
+        if(this.getEnrollmentLimit() > 0) {
+            if(this.getStudents().size() < this.getEnrollmentLimit()) {
+                students.add(student);
+                System.out.println("Enrollment was successful for student "
+                        + student.getName()
+                        + " for course "
+                        + this.getTitle()
+                        + ".");
+            } else {
+                if(!this.getStudents().contains(student) && !this.getWaitList().contains(student)) {
+                    waitList.add(student);
+                    throw new IllegalArgumentException("Attempting to over-enroll students!");
+                }
+            }
+        } else {
             students.add(student);
             System.out.println("Enrollment was successful for student "
                     + student.getName()
                     + " for course "
                     + this.getTitle()
                     + ".");
-        } else {
-            if(!this.getStudents().contains(student) && !this.getWaitList().contains(student)) {
-                waitList.add(student);
-                throw new IllegalArgumentException("Attempting to over-enroll students!");
-            }
         }
     }
 

@@ -30,16 +30,21 @@ public class Student {
      * Equivalent to course.enroll(student).
      */
     public void enrollIn(Course course) {
-        if(course.getStudents().size() < course.getEnrollmentLimit())
+        if(course.getEnrollmentLimit() > 0) {
+            if(course.getStudents().size() < course.getEnrollmentLimit())
+                courses.add(course);
+            try {
+                course.enroll(this);
+            } catch(IllegalArgumentException e) {
+                //System.out.println(e);
+                System.out.println(this.getName()
+                        + " will automatically be placed on the wait list for the course "
+                        + course.getTitle()
+                        + ".");
+            }
+        } else {
             courses.add(course);
-        try {
             course.enroll(this);
-        } catch(IllegalArgumentException e) {
-            //System.out.println(e);
-            System.out.println(this.getName()
-                    + " will automatically be placed on the wait list for the course "
-                    + course.getTitle()
-                    + ".");
         }
     }
 

@@ -109,6 +109,16 @@ public class RegistrarTest {
         printWaitList(c1);
         printWaitList(c2);
 
+        System.out.println("------ Lifting the enrollment limit ------");
+
+        c1.setEnrollmentLimit(-1);
+
+        printEnrollment(c1);
+        printEnrollment(c2);
+
+        printWaitList(c1);
+        printWaitList(c2);
+
     }
 
     private static void printSchedule(Student student) {
