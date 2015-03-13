@@ -56,6 +56,7 @@ public class Course {
             //add first student from waitlist into class automatically
             if(getWaitList().size()>0){
                 Student s = waitList.poll();
+                s.enrollIn(this);
                 enroll(s);
             }
         }
