@@ -46,6 +46,7 @@ public class Course {
             else {
                 waitList.add(student);
                 //todo throw exception? notify student?
+                System.err.println("Error: Course is full. Student has been added to the wait list.");
             }
         }
     }
