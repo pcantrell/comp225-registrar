@@ -35,7 +35,7 @@ public class RegistrarTest {
         printEnrollment(c2);
 
 
-        System.out.println("------ Enrolling Fred in one course ------");
+        System.out.println("------ Enrolling Fred in one course, adds to wait list if full ------");
 
         fred.enrollIn(c2);
 
@@ -44,7 +44,7 @@ public class RegistrarTest {
         printEnrollment(c2);
 
 
-        System.out.println("------ Re-enrolling Sally has no effect ------");
+        System.out.println("------ Re-enrolling Sally has no effect, does not accidentally add to wait list ------");
 
         sally.enrollIn(c1);
 
@@ -52,7 +52,7 @@ public class RegistrarTest {
         printEnrollment(c1);
 
 
-        System.out.println("------ Drop Sally from class, Fred should be added ------");
+        System.out.println("------ Drop Sally from class, Fred should be added from wait list ------");
 
         sally.dropOut(c2);
 
