@@ -67,4 +67,12 @@ public class RegistrarTest {
             System.out.println("    " + student.getName());
         System.out.println();
     }
+
+    private static void printWaitlist(Course course) {
+        System.out.println(course.getCatalogNumber() + ": " + course.getTitle());
+        System.out.println("Students on wait list(" + course.getWaitlist().size() + ")");
+        for(Student student : course.getWaitlist())
+            System.out.println("    " + student.getName());
+        System.out.println();
+    }
 }

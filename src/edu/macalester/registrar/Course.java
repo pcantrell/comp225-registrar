@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 
 public class Course {
@@ -34,6 +35,10 @@ public class Course {
 
     public Set<Student> getStudents() {
         return Collections.unmodifiableSet(students);
+    }
+
+    public List<Student> getWaitlist() {
+        return waitList;
     }
 
     void enroll(Student student) {
