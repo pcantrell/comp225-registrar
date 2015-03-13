@@ -22,12 +22,28 @@ public class Student {
     }
 
     /**
-     * Add this student to the given course's roster.
+     * If the given course is not full, add this student to the its roster,
+     * else add the student to the course's waitlist.
      * Has no effect if the student is already registered.
-     * Equivalent to course.enroll(student).
+     *
      */
     public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+        if (course.getStudents().size() == course.getEnrollmentLimit()) {
+            course.enroll(this, false);
+        } else {
+            courses.add(course);
+            course.enroll(this, true);
+        }
+    }
+
+    /**
+     * Drop this student out of the given course's roster.
+     * Has no effect if the student is not enrolled in the course.
+     * Equivalent to course.dropStudent(student).
+     * @param course
+     */
+    public void drop(Course course) {
+        courses.remove(course);
+        course.dropStudent(this);
     }
 }

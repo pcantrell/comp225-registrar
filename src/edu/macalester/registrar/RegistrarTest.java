@@ -13,6 +13,9 @@ public class RegistrarTest {
         Student fred = new Student();
         fred.setName("Fred");
 
+        Student bob = new Student();
+        bob.setName("Bob");
+
         // Example courses
 
         Course c1 = new Course();
@@ -22,6 +25,7 @@ public class RegistrarTest {
         Course c2 = new Course();
         c2.setCatalogNumber("MATH 6");
         c2.setTitle("All About the Number Six");
+        c2.setEnrollmentLimit(1);
 
         System.out.println("------ Enrolling Sally in two courses ------");
 
@@ -30,16 +34,23 @@ public class RegistrarTest {
 
         printSchedule(sally);
         printSchedule(fred);
+        printSchedule(bob);
 
         printEnrollment(c1);
         printEnrollment(c2);
 
-        System.out.println("------ Enrolling Fred in one course ------");
+        System.out.println("------ Enrolling Fred in a full course, will go to wait-list ------");
 
         fred.enrollIn(c2);
 
         printSchedule(fred);
-        printEnrollment(c1);
+        printEnrollment(c2);
+
+        System.out.println("------ Enrolling Bob in a full course, will go to wait-list ------");
+
+        bob.enrollIn(c2);
+
+        printSchedule(bob);
         printEnrollment(c2);
 
         System.out.println("------ Re-enrolling Sally has no effect ------");
@@ -48,6 +59,35 @@ public class RegistrarTest {
 
         printSchedule(sally);
         printEnrollment(c1);
+
+        System.out.println("------ Sally drops out of the full class, Fred replaces her ------");
+
+        sally.drop(c2);
+
+        printSchedule(sally);
+        printSchedule(fred);
+        printEnrollment(c2);
+
+        System.out.println("------ Lift enrollment limit, Bob automatically joins the course ------");
+
+        c2.liftEnrollmentLimit();
+
+        printSchedule(bob);
+        printEnrollment(c2);
+
+        System.out.println("------ Enrollment limit lifted, Sally can rejoin the course as well ------");
+
+        sally.enrollIn(c2);
+
+        printSchedule(sally);
+        printEnrollment(c2);
+
+        System.out.println("------ Dropping Fred out of a course he is not enrolled in has no effect ------");
+
+        fred.drop(c1);
+        printSchedule(fred);
+        printEnrollment(c1);
+
     }
 
     private static void printSchedule(Student student) {
