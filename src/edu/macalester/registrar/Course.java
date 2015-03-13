@@ -52,7 +52,7 @@ public class Course {
     void drop(Student student) {
         if (students.contains(student))  //if enrolled student is in course
             students.remove(student);   //student drops course
-        students.add(waitList.get(0));  //add first student on waitlist
+        students.add(waitList.get(0));  //add first student on wait-list
         waitList.remove(0);
     }
 }
