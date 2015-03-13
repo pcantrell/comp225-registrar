@@ -1,13 +1,14 @@
 package edu.macalester.registrar;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 public class Course {
     private String catalogNumber, title;
+    private int enrollLimit = Integer.MAX_VALUE;
     private Set<Student> students = new HashSet<Student>();
+    private List<Student> waitList = new LinkedList<Student>();
+
 
     public String getCatalogNumber() {
         return catalogNumber;
@@ -25,11 +26,73 @@ public class Course {
         this.title = title;
     }
 
+    public int getEnrollLimit() {
+        return enrollLimit;
+    }
+
+    public void setEnrollLimit(int limit) {
+        if (limit >= students.size()) { //covers case where setting lim = 0 but no one enrolled
+            this.enrollLimit = limit;
+            spacesOpened();
+        } else if (limit == 0) {
+            /* Special case: class is temporarily closed, but we want to hang on to list of students
+             * (perhaps prof had an emergency and they don't know if they can get someone else in?)
+             * All students who were in the class go are put into the beginning of the waitlist in no particular order,
+             * and then those who were on the waitlist are stuck onto the end in order.
+             * Then, if the course size was made larger, the waitlist still follows the who-signed-up-first-gets-in-first
+             * policy. Of course, that's screwed if the size of the class is smaller than it was before, as students
+             * who were in the class before are picked at random to be in the new class.
+             * We know students is non-empty because otherwise it would fall under the first if condition. */
+            LinkedList<Student> temp = new LinkedList<Student>();
+            for (Student student : students) {
+                temp.add(student);
+            }
+            while (waitList.size() != 0) {
+                temp.add(waitList.remove(0));
+            }
+            waitList = temp;
+            students = new HashSet<Student>(); //reset the student list, removing all of them
+
+        } else {
+            System.out.println("Operation failed. There are currently more students in the class than allowed by that limit. Remove some and try again.");
+        }
+
+    }
+
+    public void liftEnrollLimit() {
+        this.enrollLimit = Integer.MAX_VALUE;
+        spacesOpened();
+    }
+
     public Set<Student> getStudents() {
         return Collections.unmodifiableSet(students);
     }
 
-    void enroll(Student student) {
-        students.add(student);
+    public List<Student> getWaitList() { return Collections.unmodifiableList(waitList); }
+
+    void enroll(Student student) { students.add(student); }
+
+    //only gets called from Student; is package private
+    void unenroll(Student student) { students.remove(student);}
+
+    void addToWaitList(Student student){
+        if(!waitList.contains(student)){
+            waitList.add(student);
+        } else {
+            System.out.println("Operation failed: The student is already on that course's waitlist.");
+        }
+    }
+
+    //called whenever spaces are opened in a course so that students on wait list are put into the course
+    void spacesOpened() {
+        if(waitList.size() > 0) {
+            while (true) {
+                Student student = waitList.remove(0);
+                student.enrollIn(this);
+                if (waitList.size() <= 1) {
+                    break;
+                }
+            }
+        }
     }
 }
