@@ -27,7 +27,23 @@ public class Student {
      * Equivalent to course.enroll(student).
      */
     public void enrollIn(Course course) {
-        courses.add(course);
+        if (course.getStudents().size() < course.getEnrollmentLimit()) {
+            courses.add(course);
+        }
         course.enroll(this);
+    }
+
+    /**
+     * Drop this student from the given course's roster.
+     * Has no effect if the student is not registered or wait-listed.
+     * Equivalent to course.drop(student).
+     */
+    public void dropFrom(Course course) {
+        if (course.getWaitList().size() > 0) {
+            Student waitingStudent = course.getWaitList().get(0);
+            waitingStudent.courses.add(course);
+        }
+        courses.remove(course);
+        course.drop(this);
     }
 }
