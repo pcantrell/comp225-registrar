@@ -51,11 +51,7 @@ public class Course {
         } else {
             if(!this.getStudents().contains(student) && !this.getWaitList().contains(student)) {
                 waitList.add(student);
-                System.out.println(student.getName()
-                        + " will automatically be placed on the wait list for the course "
-                        + this.getTitle()
-                        + ".");
-                //throw new IllegalArgumentException("Attempting to over-enroll students!");
+                throw new IllegalArgumentException("Attempting to over-enroll students!");
             }
         }
     }
