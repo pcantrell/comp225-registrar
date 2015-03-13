@@ -29,7 +29,6 @@ public class Student {
     public void enrollIn(Course course) {
             course.enroll(this);
             if(course.getStudents().contains(this)){
-                //if you were successfully enrolled into course, add course to your schedule
                 courses.add(course);
             }
     }
