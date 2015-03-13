@@ -28,14 +28,17 @@ public class RegistrarTest {
         Course c1 = new Course();
         c1.setCatalogNumber("COMP 225");
         c1.setTitle("Software Fun Fun");
+        c1.setEnrollmentLimit(3);
 
         Course c2 = new Course();
         c2.setCatalogNumber("MATH 6");
         c2.setTitle("All About the Number Six");
+        c2.setEnrollmentLimit(3);
 
         Course c3 = new Course();
         c3.setCatalogNumber("ART/COMP 400");
         c3.setTitle("Computer Animation");
+        c3.setEnrollmentLimit(3);
 
         System.out.println("------ Enrolling Sally in two courses ------");
 
@@ -115,6 +118,7 @@ public class RegistrarTest {
         sally.enrollIn(c3);
         fred.enrollIn(c3);
 
+        //Test to see if a student can drop a class they're not enrolled in
         chris.dropCourse(c1);
 
     }

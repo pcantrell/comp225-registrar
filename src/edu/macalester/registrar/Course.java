@@ -9,7 +9,7 @@ import java.util.Set;
 public class Course {
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
-    private Integer enrollmentLimit = 2; //if not initialized, assumes there is no limit to students in the course
+    private Integer enrollmentLimit = 0;
     private ArrayList<Student> waitList = new ArrayList<>(); //An arraylist so you can add as many students into the wait list, and easily grab student at position 0
 
     public String getCatalogNumber() {
