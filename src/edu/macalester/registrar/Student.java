@@ -27,7 +27,28 @@ public class Student {
      * Equivalent to course.enroll(student).
      */
     public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+
+        if(Student.this.getCourses().contains(course)){
+            System.out.println("You are already registered for this course");
+        }
+        else{
+            if(course.getStudents().size() < course.getEnrollmentLimit()) {
+                courses.add(course);
+                course.enroll(this);
+            }
+            else {
+                course.addToWaitList(this);
+                System.out.println(this.getName() + " " + "You have been added to the waiting list for " + course.getTitle());
+            }
+        }
+    }
+
+    public void dropCourse(Course course) {
+        //Student.this.getCourses().remove(course);
+        courses.remove(course);
+        course.drop(this);
+        if(course.getWaitList()!= null){
+            course.getFirstPerson().enrollIn(course);
+        }
     }
 }
