@@ -29,24 +29,31 @@ public class Student {
      * Add this student to the given course's roster.
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
+     * returns a boolean representing whether or not the student was enrolled
      */
-    public void enrollIn(Course course) {
+    public boolean enrollIn(Course course) {
         boolean enrolled =course.enroll(this);
         if (enrolled){
             courses.add(course);
         }else{
             waiting.add(course);
         }
-
+        return enrolled;
     }
-
+    /**
+     * Calls the drop method on a given course and removes the course from the student's schedule
+     */
     public void dropCourse(Course course){
         course.drop(this);
         courses.remove(course);
 
     }
-
+    /**
+     * removes a course from the student's wait list and adds it to their schedule
+     */
      void offWaitList(Course course){
+         waiting.remove(course);
+         courses.add(course);
 
     }
 }

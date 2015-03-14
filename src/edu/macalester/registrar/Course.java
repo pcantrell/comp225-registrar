@@ -7,23 +7,33 @@ public class Course {
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
     private int enrollmentLimit = -1;
-    private Queue<Student> waitList = new LinkedList();
+    private Queue<Student> waitList = new LinkedList<>();
 
 
     public String getCatalogNumber() {
         return catalogNumber;
     }
 
+
+
     public void setEnrollmentLimit(int limit){
         if(limit<0){
            enrollmentLimit = -1;
         } else if(limit<students.size()){
-            System.out.println("The number of students in " +this.getTitle() + " already exceeds " + limit + ".");
-            System.out.println("The enrollment limit of " +this.getTitle() + " is still " + this.enrollmentLimit+ "." );
-            System.out.println();
+            throw new IllegalArgumentException("You can't reset the enrollment limit to be smaller than the current class size");
         }  else{
             this.enrollmentLimit=limit;
         }
+    }
+
+    public void liftEnrollmentLimit(){
+
+        while(!waitList.isEmpty()){
+            Student nextStudent= waitList.remove();
+            students.add(nextStudent);
+            nextStudent.offWaitList(this);
+        }
+
     }
 
     public void setCatalogNumber(String catalogNumber) {
@@ -39,7 +49,8 @@ public class Course {
     }
 
     public Queue<Student> getWaitList(){
-        return waitList;
+
+        return new LinkedList<>(waitList);
     }
 
     public Set<Student> getStudents() {
@@ -58,9 +69,11 @@ public class Course {
 
     void drop(Student student){
         students.remove(student);
-        Student nextStudent= waitList.remove();
-        students.add(nextStudent);
-        nextStudent.offWaitList(this);
+        if(!waitList.isEmpty()) {
+            Student nextStudent = waitList.remove();
+            students.add(nextStudent);
+            nextStudent.offWaitList(this);
+        }
 
     }
 }
