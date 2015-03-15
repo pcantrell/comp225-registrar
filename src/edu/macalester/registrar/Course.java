@@ -1,13 +1,13 @@
 package edu.macalester.registrar;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 public class Course {
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
+    private int enrollmentLimit;
+    private ArrayList<Student> waitList = new ArrayList<Student>();
 
     public String getCatalogNumber() {
         return catalogNumber;
@@ -30,6 +30,33 @@ public class Course {
     }
 
     void enroll(Student student) {
-        students.add(student);
+        if(getStudents().size()<enrollmentLimit) {
+            students.add(student);
+        }
+        else {
+            waitList.add(student);
+            throw(new RuntimeException());
+        }
+    }
+
+    public void setenrollmentLimit(int enrollmentLimit) {
+        this.enrollmentLimit = enrollmentLimit;
+    }
+
+    public int getEnrollmentLimit() {
+        return enrollmentLimit;
+    }
+
+    public List<Student> getWaitList() {
+        return Collections.unmodifiableList(waitList);
+    }
+
+    void unEnroll(Student student) {
+        int size = getStudents().size();
+        students.remove(student);
+        if(size==enrollmentLimit) {
+            waitList.get(0).enrollIn(this);
+            waitList.remove(0);
+        }
     }
 }

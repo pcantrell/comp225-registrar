@@ -27,7 +27,18 @@ public class Student {
      * Equivalent to course.enroll(student).
      */
     public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+        if(!(course.getStudents().contains(this))) {
+            try {
+                course.enroll(this);
+                courses.add(course);
+            } catch (RuntimeException exception) {
+                System.out.println("The class is full.  Student added to waitlist.");
+            }
+        }
+    }
+
+    public void drop(Course course) {
+        courses.remove(course);
+        course.unEnroll(this);
     }
 }
