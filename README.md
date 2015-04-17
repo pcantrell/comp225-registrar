@@ -27,7 +27,7 @@ You can use something other than IntelliJ for running JUnit tests if you prefer,
 You will see a lot of test failures at first, and it will be overwhelming. Don’t despair! Here’s how I recommend proceeding:
 
 * Fix all the compiler errors first. That will mean renaming some of your methods, making some of them public, and perhaps changing some of their return values.
-* Once the compiler errors are fixed and the tests runs, focus on one failing test at a time. JUnit runs your tests in an arbitrary order, but I recommend fixing the tests in the order they appear in `RegistrarTest.java`.
+* Once the compiler errors are fixed and the tests run, focus on one failing test at a time. JUnit runs your tests in an arbitrary order, but I recommend fixing the tests in the order they appear in `RegistrarTest.java`.
 * You may find it useful to comment out all the test code between `Enrollment limits` and `Post-test invariant check` (lines 73–220 of the test file), then uncomment one test at a time.
 * When you are done, double check that you haven’t modified `RegistrarTest.java` at all.
 
