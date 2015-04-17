@@ -1,4 +1,46 @@
-# A Modeling Exercise
+# Part 2: Unit Testing
+
+This builds on Part 1. I have written a set of unit tests. Use these to identify and fix problems in your implementation of part 1.
+
+Your mission: **make the tests pass.**
+
+Please note that the tests I am giving you are already correct. Your job is to make them pass as is, without modifications.
+
+## Getting the tests
+
+You will first need to pull my new tests into your fork of the project by syncing your fork. To do this, first configure my original resposity as your fork’s upstream repository:
+
+    git remote add upstream https://github.com/pcantrell/comp225-registrar.git
+
+Once you have done that, [follow these instructions](https://help.github.com/articles/syncing-a-fork/).
+
+If you hit snags with this, ask for help. Don’t let yourself get sucked into a git snit.
+
+## Running the tests
+
+In IntelliJ, open the `test` directory (next to `src`). Right click on `RegistrarTest` and choose “Debug RegistrarTest.”
+
+You can use something other than IntelliJ for running JUnit tests if you prefer, but I leave it to you to figure it out.
+
+## Recommended approach
+
+You will see a lot of test failures at first, and it will be overwhelming. Don’t despair! Here’s how I recommend proceeding:
+
+* Fix all the compiler errors first. That will mean renaming some of your methods, making some of them public, and perhaps changing some of their return values.
+* Once the compiler errors are fixed and the tests runs, focus on one failing test at a time. JUnit runs your tests in an arbitrary order, but I recommend fixing the tests in the order they appear in `RegistrarTest.java`.
+* You may find it useful to comment out all the test code between `Enrollment limits` and `Post-test invariant check` (lines 73–220 of the test file), then uncomment one test at a time.
+* When you are done, double check that you haven’t modified `RegistrarTest.java` at all.
+
+After all the tests pass:
+
+* **Minimize member visibility,** i.e. make sure that no members of `Student` and `Course` are public that do not need to be public.
+* **Clean up your code.** One of the pleasures of having good unit tests is that you can refactor with confidence. Once you have all the tests passing, try reorganizing your code to make it cleaner, clearer, and more elegant.
+
+The previous assignment appears below for reference.
+
+-------------
+
+# Part 1: A Modeling Exercise
 
 This repository contains the Student and Course classes we developed in class. You will add some new behavior to them.
 
