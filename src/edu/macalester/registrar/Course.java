@@ -5,7 +5,8 @@ import java.util.*;
 
 public class Course {
     private String catalogNumber, title;
-    private int enrollLimit = Integer.MAX_VALUE;
+    public static int NO_ENROLLMENT_LIMIT = Integer.MAX_VALUE;
+    private int enrollLimit = NO_ENROLLMENT_LIMIT;
     private Set<Student> students = new HashSet<Student>();
     private List<Student> waitList = new LinkedList<Student>();
 
@@ -26,11 +27,11 @@ public class Course {
         this.title = title;
     }
 
-    public int getEnrollLimit() {
+    public int getEnrollmentLimit() {
         return enrollLimit;
     }
 
-    public void setEnrollLimit(int limit) {
+    public void setEnrollmentLimit(int limit) {
         if (limit >= students.size()) { //covers case where setting lim = 0 but no one enrolled
             this.enrollLimit = limit;
             spacesOpened();
@@ -54,13 +55,13 @@ public class Course {
             students = new HashSet<Student>(); //reset the student list, removing all of them
 
         } else {
-            System.out.println("Operation failed. There are currently more students in the class than allowed by that limit. Remove some and try again.");
+            throw new IllegalArgumentException("Operation failed. There are currently more students in the class than allowed by that limit. Remove some and try again.");
         }
 
     }
 
     public void liftEnrollLimit() {
-        this.enrollLimit = Integer.MAX_VALUE;
+        this.enrollLimit = NO_ENROLLMENT_LIMIT;
         spacesOpened();
     }
 
@@ -75,11 +76,14 @@ public class Course {
     //only gets called from Student; is package private
     void unenroll(Student student) { students.remove(student);}
 
+    //only gets called from Student; is package private
+    void unenrollWaitList(Student student) { waitList.remove(student);}
+
     void addToWaitList(Student student){
         if(!waitList.contains(student)){
             waitList.add(student);
         } else {
-            System.out.println("Operation failed: The student is already on that course's waitlist.");
+            throw new IllegalArgumentException("Operation failed: The student is already on that course's waitlist.");
         }
     }
 
@@ -89,7 +93,7 @@ public class Course {
             while (true) {
                 Student student = waitList.remove(0);
                 student.enrollIn(this);
-                if (waitList.size() <= 1) {
+                if (students.size() == enrollLimit || waitList.size() == 0) {
                     break;
                 }
             }

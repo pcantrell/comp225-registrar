@@ -1,7 +1,5 @@
 package edu.macalester.registrar;
 
-import java.io.IOError;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,30 +32,34 @@ public class Student {
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
      */
-    public void enrollIn(Course course) {
-        if (course.getStudents().size() < course.getEnrollLimit()) {
+    public boolean enrollIn(Course course) {
+        if (course.getStudents().size() < course.getEnrollmentLimit()) {
             courses.add(course);
             course.enroll(this);
-        } else if (!courses.contains(course) && !(course.getWaitList()).contains(this)) { //if student not already on course waitlist
+            return true;
+        } else if (course.getWaitList().contains(this)) { //if student already on waitlist, pass back false since not enrolled in course
+            return false;
+        } else if (!courses.contains(course) && !(course.getWaitList()).contains(this)) { //if student not already on course waitlist, add them, return false since they were not actually added to the course
             coursesOnWaitList.add(course);
             course.addToWaitList(this);
-            System.out.println(this.getName() + " added to wait list: course has reached maximum enrollment.");
-        } else {
-            System.out.println("Could not add " + this.getName() + " to '" + course.getTitle() +"'. The student is already registered for that course or is on its waitlist.");
+            return false;
+        } else { //student is already in course, reenrolling passes back true since they are in the course
+            return true;
         }
 
     }
 
     // Removes student from a course they're already in, fills slot from waitlist if waitlist is non-empty.
-    public void unenrollFrom(Course course) {
+    public void drop(Course course) {
         if (course.getStudents().contains(this)) {
             courses.remove(course);
             course.unenroll(this);
             course.spacesOpened();
         } else if (course.getWaitList().contains(this)) {
-            courses.remove(course);
+            coursesOnWaitList.remove(course);
+            course.unenrollWaitList(this);
         } else {
-            System.out.println("Could not remove " + this.getName() + " from '" + course.getTitle() +"'. The student is not enrolled in that course or is on its waitlist.");
+            throw new IllegalArgumentException("Could not remove " + this.getName() + " from '" + course.getTitle() +"'. The student is not enrolled in that course or is on its waitlist.");
         }
     }
 

@@ -36,7 +36,7 @@ public class RegistrarTest {
 
 
         System.out.println("------ Setting enroll limit to 1 for MATH 6------");
-        c2.setEnrollLimit(1);
+        c2.setEnrollmentLimit(1);
 
         System.out.println("------ Enrolling Sally in two courses ------");
 
@@ -73,8 +73,8 @@ public class RegistrarTest {
         printEnrollment(c2);
 
         System.out.println("------ Trying to change enroll limit of Math 6 to 3------");
-        c2.setEnrollLimit(3);
-        System.out.println("Enroll limit for course: " + c2.getEnrollLimit());
+        c2.setEnrollmentLimit(3);
+        System.out.println("Enroll limit for course: " + c2.getEnrollmentLimit());
 
         printEnrollment(c2);
 
@@ -87,7 +87,7 @@ public class RegistrarTest {
 
         System.out.println("------ Math 6 is too easy for Susan, take her out ------");
 
-        susan.unenrollFrom(c2);
+        susan.drop(c2);
 
         printEnrollment(c2);
 
@@ -98,7 +98,7 @@ public class RegistrarTest {
         Course c3 = new Course();
         c3.setCatalogNumber("OMNI 100");
         c3.setTitle("Multicultural Writing & Internationalism with Queues");
-        c3.setEnrollLimit(2);
+        c3.setEnrollmentLimit(2);
 
         susan.enrollIn(c3);
         peri.enrollIn(c3);
@@ -107,12 +107,12 @@ public class RegistrarTest {
 
         System.out.println("------ The administration is not keen on this idea.------");
         System.out.println("------ They're putting the course on hold, setting the enroll limit to 0.------");
-        c3.setEnrollLimit(0);
+        c3.setEnrollmentLimit(0);
 
         printEnrollment(c3);
 
         System.out.println("------ But no! They are convinced to let it go through, and the enroll limit is set to 3. ------");
-        c3.setEnrollLimit(3);
+        c3.setEnrollmentLimit(3);
 
         printEnrollment(c3);
 
@@ -124,7 +124,7 @@ public class RegistrarTest {
         printEnrollment(c3);
 
         System.out.println("------ Try to put the enrollment limit back on: (should fail) ------");
-        c3.setEnrollLimit(2);
+        c3.setEnrollmentLimit(2);
         printEnrollment(c3);
 
 
