@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Course {
     private String catalogNumber, title;
-    public static int NO_ENROLLMENT_LIMIT = Integer.MAX_VALUE;
+    public static int NO_ENROLLMENT_LIMIT = Integer.MAX_VALUE; //needs to be public for the test
     private int enrollLimit = NO_ENROLLMENT_LIMIT;
     private Set<Student> students = new HashSet<Student>();
     private List<Student> waitList = new LinkedList<Student>();
@@ -71,12 +71,11 @@ public class Course {
 
     public List<Student> getWaitList() { return Collections.unmodifiableList(waitList); }
 
+    //only gets called from Student; is package private
     void enroll(Student student) { students.add(student); }
 
-    //only gets called from Student; is package private
     void unenroll(Student student) { students.remove(student);}
 
-    //only gets called from Student; is package private
     void unenrollWaitList(Student student) { waitList.remove(student);}
 
     void addToWaitList(Student student){

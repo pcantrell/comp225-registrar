@@ -22,6 +22,7 @@ public class Student {
         return Collections.unmodifiableSet(courses);
     }
 
+    //leaving in because I think this is important functionality, even if it's not in the test.
     public Set<Course> getWaitListedCourses() {
         return Collections.unmodifiableSet(coursesOnWaitList);
     }
