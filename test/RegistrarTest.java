@@ -157,6 +157,8 @@ public class RegistrarTest {
     public void cannotLowerEnrollmentLimitBelowClassSize() {
         factory.enrollMultipleStudents(comp225, 8);
         comp225.setEnrollmentLimit(7);
+        System.out.println(comp225.getStudents());
+        System.out.println(comp225.getEnrollmentLimit());
     }
 
     @Test

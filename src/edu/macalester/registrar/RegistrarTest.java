@@ -58,7 +58,7 @@ public class RegistrarTest {
 
         System.out.println("------ Wait List functions as designed with auto-enroll ------");
 
-        sally.dropThis(c2);
+        sally.drop(c2);
         printEnrollment(c2);
     }
 
