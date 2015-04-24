@@ -1,17 +1,14 @@
 package edu.macalester.registrar;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.List;
+import java.util.*;
 
 
 public class Course {
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
+    private long enrollLimit = Long.MAX_VALUE;
     private ArrayList<Student> waitList = new ArrayList<Student>();
-    private int enrollmentLimit = 1;
+    public static long NO_ENROLLMENT_LIMIT = Long.MAX_VALUE;
 
     public String getCatalogNumber() {
         return catalogNumber;
@@ -25,34 +22,58 @@ public class Course {
         return title;
     }
 
-    public int getEnrollmentLimit() {
-        return enrollmentLimit;
-    }
-
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setEnrollmentLimit(long number) {
+        if (number < students.size()){
+            throw new IllegalArgumentException("Error: course size above parameter.");
+        }
+        if (number > enrollLimit || enrollLimit == NO_ENROLLMENT_LIMIT){
+            this.enrollLimit = number;
+            while (enrollLimit > students.size() && !waitList.isEmpty()) {
+                this.replace();
+            }
+        }
+    }
+
+    public void resetEnrollmentLimit(){this.enrollLimit = NO_ENROLLMENT_LIMIT;}
+
+    public long getEnrollmentLimit() {
+        if (enrollLimit == Long.MAX_VALUE){
+            return NO_ENROLLMENT_LIMIT;
+        }
+        return enrollLimit;
     }
 
     public Set<Student> getStudents() {
         return Collections.unmodifiableSet(students);
     }
 
-    public List<Student> getWaitlist() {
-        return waitList;
-    }
-
     void enroll(Student student) {
-        if (students.size() < getEnrollmentLimit())  //if the course is not full
-            students.add(student);                  //add student
-        else
-        if (!students.contains(student))  //if student is not enrolled and enrollment is full
-            waitList.add(student);       // add student to waitList
+        students.add(student);
     }
 
-    void drop(Student student) {
-        if (students.contains(student))  //if enrolled student is in course
-            students.remove(student);   //student drops course
-        students.add(waitList.get(0));  //add first student on wait-list
-        waitList.remove(0);
+    void drop (Student student){
+        students.remove(student);
+        waitList.remove(student);
     }
+
+    void addWaitList(Student student){
+        if (!waitList.contains(student)) {
+            waitList.add(student);
+        }
+    }
+
+    void removeWaitList(Student student){
+        waitList.remove(student);
+    }
+
+    public List<Student> getWaitList() {return Collections.unmodifiableList(waitList);}
+
+    void replace(){
+        waitList.get(0).enrollIn(this);
+    }
+
 }
