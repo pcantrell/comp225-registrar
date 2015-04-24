@@ -6,28 +6,40 @@ import java.util.Set;
 
 
 public class Student {
+
+    //  VARIABLE SETUP
     private String name;
     private Set<Course> courses = new HashSet<Course>();
 
+
+    //  BASIC GETTERS & SETTERS
+    //  get,set name
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
 
+    //  get courses
     public Set<Course> getCourses() {
         return Collections.unmodifiableSet(courses);
     }
 
-    /**
-     * Add this student to the given course's roster.
-     * Has no effect if the student is already registered.
-     * Equivalent to course.enroll(student).
-     */
-    public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+    
+    //  ADVANCED METHODS
+    //  enroll in a course
+    public boolean enrollIn(Course course) {
+        boolean enrolled = course.enroll(this);
+        if (enrolled) {
+            courses.add(course);
+        }
+        return enrolled;
+    }
+
+    //  drop a course
+    public void drop(Course course) {
+        courses.remove(course);
+        course.drop(this);
     }
 }

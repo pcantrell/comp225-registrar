@@ -13,15 +13,20 @@ public class RegistrarTest {
         Student fred = new Student();
         fred.setName("Fred");
 
+        Student will = new Student();
+        will.setName("Will");
+
         // Example courses
 
         Course c1 = new Course();
         c1.setCatalogNumber("COMP 225");
         c1.setTitle("Software Fun Fun");
+        c1.setEnrollmentLimit(3);
 
         Course c2 = new Course();
         c2.setCatalogNumber("MATH 6");
         c2.setTitle("All About the Number Six");
+        c2.setEnrollmentLimit(2);
 
         System.out.println("------ Enrolling Sally in two courses ------");
 
@@ -30,6 +35,7 @@ public class RegistrarTest {
 
         printSchedule(sally);
         printSchedule(fred);
+        printSchedule(will);
 
         printEnrollment(c1);
         printEnrollment(c2);
@@ -48,6 +54,27 @@ public class RegistrarTest {
 
         printSchedule(sally);
         printEnrollment(c1);
+
+        System.out.println("------ Enrolling Will in two courses - should not succeed for c2 ------");
+
+        will.enrollIn(c1);
+        will.enrollIn(c2);
+
+        printSchedule(will);
+        printEnrollment(c1);
+        printEnrollment(c2);
+        printWaitlist(c2);
+
+        System.out.println("------ Dropping Fred from one course - Will should take his place in c2 ------");
+
+        fred.drop(c2);
+
+        printSchedule(fred);
+        printSchedule(will);
+        printEnrollment(c2);
+        printWaitlist(c2);
+
+
     }
 
     private static void printSchedule(Student student) {
@@ -66,5 +93,11 @@ public class RegistrarTest {
         for(Student student : course.getStudents())
             System.out.println("    " + student.getName());
         System.out.println();
+    }
+
+    private static void printWaitlist(Course course) {
+        System.out.println(course.getCatalogNumber() + ": " + course.getTitle());
+        System.out.println("Students enrolled (" + course.getStudents().size() + ") out of " + course.getEnrollmentLimit() + " slots");
+        System.out.println("Waitlist: " + course.getWaitList());
     }
 }
