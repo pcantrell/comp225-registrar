@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import edu.macalester.registrar.Course;
@@ -9,8 +8,8 @@ import edu.macalester.registrar.Student;
  * Created by paul on 2015/4/17.
  */
 public class TestObjectFactory {
-    private List<Student> students = new LinkedList<Student>();
-    private List<Course> courses = new LinkedList<Course>();
+    private List<Student> students = new ArrayList<Student>();
+    private List<Course> courses = new ArrayList<Course>();
 
     public Student makeStudent(String name) {
         Student s = new Student();

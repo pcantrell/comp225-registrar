@@ -1,80 +1,87 @@
 package edu.macalester.registrar;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.LinkedList;
+import java.util.*;
 
 
 public class Course {
-    private String catalogNumber, title;
-    private Set<Student> students = new HashSet<Student>();
-    private LinkedList<Student> waitList = new LinkedList<Student>();
-    private boolean courseFull;
-    private int enrollLim;
 
+    // Course Attributes
+    private String catalogNumber, courseTitle;
+    private Set<Student> studentCourseList = new HashSet<Student>();
+    private List<Student> courseWaitList = new ArrayList<Student>();
+    public static final int NO_ENROLLMENT_LIMIT = Integer.MAX_VALUE;
+    private int enrollLim = NO_ENROLLMENT_LIMIT;
+
+
+    // Getters
     public String getCatalogNumber() {
-        return catalogNumber;
+        return this.catalogNumber;
     }
 
+    public String getCourseTitle() { return this.courseTitle; }
+
+    public Set<Student> getStudents() { return Collections.unmodifiableSet(this.studentCourseList); }
+
+    public List<Student> getWaitList() {return Collections.unmodifiableList(this.courseWaitList); }
+
+    public Student getPriorityStudent() {return this.courseWaitList.get(0); } // return priority student off the course waitlist
+
+    public int getEnrollmentLimit() {return this.enrollLim; }
+
+
+    // Setters
     public void setCatalogNumber(String catalogNumber) {
         this.catalogNumber = catalogNumber;
     }
 
-    public String getTitle() { return title; }
+    public void setTitle(String courseTitle) {this.courseTitle = courseTitle; }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setEnrollmentLimit(int newLim) {
+
+        if (newLim > this.getEnrollmentLimit()){
+            System.err.println("Cannot set enrollment limit below current class size!");
+        }
+        else{
+            this.enrollLim = newLim;
+        }
+
     }
 
-    public Set<Student> getStudents() {
-        return Collections.unmodifiableSet(students);
-    }
 
-    void addToWait(Student student) {
-        this.waitList.add(student);
-    }
+    // Course Actions
 
-    public LinkedList<Student> getWaitList() {return waitList; }
+    void addToWaitList(Student student) { this.courseWaitList.add(student); }
+
+    public void removeFromWaitList(Student student) {
+        this.courseWaitList.remove(student);
+
+        }
 
 
+    // Enroll Student in Course
     void enroll(Student student) {
 
-        System.out.println("does enroll run");
-
-        if (this.getStudents().size() < this.getEnrollLimit()) {
-            this.courseFull = false;
-            students.add(student);
-
-            if (this.getStudents().size() == this.getEnrollLimit()) {
-                this.courseFull = true;
-                System.err.println("Maximum Course Limited Reached: " + this.getEnrollLimit());
-
-            }
-
-            else if (this.getStudents().size() > this.getEnrollLimit()) {
-                this.courseFull = true;
-                this.addToWait(student);
-                System.err.println("Maximum Course Limited Reached: " + this.getEnrollLimit());
-
-            }
+        if (this.getStudents().size() < this.getEnrollmentLimit()) {
+            studentCourseList.add(student);
 
         }
 
         else {
-
-            System.out.println("Are you there?");
-            this.addToWait(student);
-            System.err.println("Maximum Course Limited Reached: " + this.getEnrollLimit());
+            this.courseWaitList.add(student);
+            System.err.println("Maximum Course Limited Reached: " + this.getEnrollmentLimit());
 
         }
 
     }
 
-    public void setEnrollLimit(int newLim) {this.enrollLim = newLim; }
+    public void dropStudent(Student student){
+        this.studentCourseList.remove(student);
+        this.courseWaitList.remove(student);
 
-    public int getEnrollLimit() {return enrollLim; }
+    }
 
-    public boolean getCourseStatus() {return courseFull; }
+
+    @Override
+    public String toString(){ return this.courseTitle; }
 
 }
