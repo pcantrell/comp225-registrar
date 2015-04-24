@@ -3,23 +3,27 @@ package edu.macalester.registrar;
 import java.util.*;
 
 public class Course {
+    public static int NO_ENROLLMENT_LIMIT =  2147483647;
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
     private int enrollCap;
-    private LinkedHashSet<Student> waitlist = new LinkedHashSet<Student>();
+    private List<Student> waitlist = new ArrayList<Student>();
 
 
         public Course() {
-            enrollCap = 20;
+            enrollCap = NO_ENROLLMENT_LIMIT;
         }
 
-        public LinkedHashSet<Student> getWaitlist() {
-            return waitlist;
+
+        public List<Student> getWaitList() {
+            return Collections.unmodifiableList(waitlist);
         }
 
-        public void setWaitlist(LinkedHashSet<Student> waitlist) {
+        public void setWaitList(List<Student> waitlist) {
             this.waitlist = waitlist;
         }
+
+
 
         public String getCatalogNumber() {
             return catalogNumber;
@@ -37,14 +41,23 @@ public class Course {
             this.title = title;
         }
 
-        public int getCap() {
-            return enrollCap;
-        }
+        public int getEnrollmentLimit() {return enrollCap;}
 
-        public void setCap(int enrollCap) {
-            this.enrollCap = enrollCap;
+        public void setEnrollmentLimit(int newEnrollCap) {
+            if(newEnrollCap>=getStudents().size()){
+                this.enrollCap = newEnrollCap;
+                enrollCapChangeListener();
         }
+            else throw new IllegalArgumentException();
+        }
+        public void enrollCapChangeListener(){
+            while((enrollCap>students.size())&&(waitlist.iterator().hasNext())){
+                Student temp = waitlist.iterator().next();
+                waitlist.remove(temp);
+                temp.enrollIn(this);
 
+            }
+        }
         public Set<Student> getStudents() {
             return Collections.unmodifiableSet(students);
             //Why not return students
@@ -61,7 +74,7 @@ public class Course {
             }
 
             //check if cap is exceeded. If not exceeded, adds to course. If exceeded, adds to waitlist instead.
-            if (enrollCap > students.size()) {
+            if ((enrollCap > students.size())){
                 students.add(student);
                 return true;
             } else {
@@ -83,6 +96,7 @@ public class Course {
                 students.remove(student);
 
                 System.out.println("You have been unregistered from the course");
+                //???????????????????
                 if (waitlist.iterator().hasNext()) {
                     Student temp = waitlist.iterator().next();
                     waitlist.remove(temp);
