@@ -49,10 +49,6 @@ public class Course {
                 student.enrollIn(this);
             }
         } else {
-            if (enrollmentLimit < this.enrollmentLimit) {
-                throw new IllegalArgumentException("The enrollment limit cannot be decreased.");
-            }
-            
             if (enrollmentLimit < students.size()) {
                 throw new IllegalArgumentException("The enrollment limit cannot be set lower than the current number of students.");
             }
@@ -71,14 +67,20 @@ public class Course {
     }
 
     boolean enroll(Student student) {
-        if (enrollmentLimit != NO_ENROLLMENT_LIMIT) {
-            if (enrollmentLimit <= students.size()) {
-                waitList.add(student);
-                return false;
+        if (!students.contains(student)) {
+            if (enrollmentLimit != NO_ENROLLMENT_LIMIT) {
+                if (enrollmentLimit <= students.size()) {
+                    if (!waitList.contains(student)) {
+                        waitList.add(student);
+                    }
+                    
+                    return false;
+                }
             }
-        }
 
-        students.add(student);
+            students.add(student);
+        }
+        
         return true;
     }
     
@@ -88,6 +90,8 @@ public class Course {
                 Student fromWaitList = waitList.remove(0);
                 fromWaitList.enrollIn(this);
             }
+        } else {
+            waitList.remove(student);
         }
     }
     
