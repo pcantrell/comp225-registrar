@@ -202,7 +202,7 @@ public class RegistrarTest {
         fred.drop(comp225);
         assertEquals(list(sally, zongo), comp225.getWaitList());
     }
-/*
+
     @Test
     public void dropEnrollsWaitListedStudents() {
         sally.enrollIn(comp225);
@@ -213,7 +213,7 @@ public class RegistrarTest {
         assertTrue(comp225.getStudents().contains(zongo));
         assertEquals(list(fred), comp225.getWaitList());
     }
-*/
+
     // ------ Post-test invariant check ------
     //
     // This is a bit persnickety for day-to-day testing, but these kinds of checks are appropriate

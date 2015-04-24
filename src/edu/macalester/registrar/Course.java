@@ -75,7 +75,8 @@ public class Course {
         if (students.contains(student)) {
             students.remove(student);
             if (waitList.size()>0) {
-                students.add(waitList.get(0));
+                Student newStudent = waitList.get(0);
+                newStudent.enrollIn((this));
                 waitList.remove(0);
             }
         }
