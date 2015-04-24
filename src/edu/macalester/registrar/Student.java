@@ -29,26 +29,20 @@ public class Student {
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
      */
-    public void enrollIn(Course course) {
-        if(course.getEnrollmentLimit() > 0) {
-            if(course.getStudents().size() < course.getEnrollmentLimit())
-                courses.add(course);
-            try {
-                course.enroll(this);
-            } catch(IllegalArgumentException e) {
-                //System.out.println(e);
-                System.out.println(this.getName()
-                        + " will automatically be placed on the wait list for the course "
-                        + course.getTitle()
-                        + ".");
-            }
-        } else {
+    public boolean enrollIn(Course course) {
+        if(course.getStudents().size() < course.getEnrollmentLimit())
             courses.add(course);
-            course.enroll(this);
+        if(!course.enroll(this)) {
+            System.out.println(this.getName()
+                    + " will automatically be placed on the wait list for the course "
+                    + course.getTitle()
+                    + ".");
+            return false;
         }
+        return true;
     }
 
-    public void dropCourse(Course course) {
+    public void drop(Course course) {
         courses.remove(course);
         course.drop(this);
     }

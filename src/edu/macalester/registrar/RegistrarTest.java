@@ -66,6 +66,9 @@ public class RegistrarTest {
         printEnrollment(c1);
         printEnrollment(c2);
 
+        printWaitList(c1);
+        printWaitList(c2);
+
         System.out.println("------ Re-enrolling Sally has no effect ------");
 
         sally.enrollIn(c1);
@@ -89,7 +92,7 @@ public class RegistrarTest {
         System.out.println("------ Dropping Fred in a course ------");
 
         //fred.dropCourse(c1);
-        fred.dropCourse(c2);
+        fred.drop(c2);
 
         printSchedule(fred);
         printEnrollment(c1);
@@ -98,9 +101,11 @@ public class RegistrarTest {
         printWaitList(c1);
         printWaitList(c2);
 
+        printSchedule(charles);
+
         System.out.println("------ Re-dropping Fred has no effect ------");
 
-        fred.dropCourse(c2);
+        fred.drop(c2);
 
         printSchedule(fred);
         printEnrollment(c1);
@@ -111,13 +116,17 @@ public class RegistrarTest {
 
         System.out.println("------ Lifting the enrollment limit ------");
 
-        c1.setEnrollmentLimit(-1);
+        c1.setEnrollmentLimit(c1.NO_ENROLLMENT_LIMIT);
 
         printEnrollment(c1);
         printEnrollment(c2);
 
         printWaitList(c1);
         printWaitList(c2);
+
+        printSchedule(sally);
+        printSchedule(fred);
+        printSchedule(charles);
 
     }
 
