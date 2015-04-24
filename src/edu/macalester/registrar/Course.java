@@ -1,13 +1,21 @@
 package edu.macalester.registrar;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 public class Course {
     private String catalogNumber, title;
-    private Set<Student> students = new HashSet<Student>();
+    private Set<Student> students;
+    private int enrollmentLimit;
+    private ArrayList<Student> waitList;
+
+    public static final int NO_ENROLLMENT_LIMIT = Integer.MAX_VALUE;
+
+    public Course() {
+        students = new HashSet<Student>();
+        waitList = new ArrayList<Student>();
+        enrollmentLimit = NO_ENROLLMENT_LIMIT;
+    }
 
     public String getCatalogNumber() {
         return catalogNumber;
@@ -29,7 +37,47 @@ public class Course {
         return Collections.unmodifiableSet(students);
     }
 
-    void enroll(Student student) {
-        students.add(student);
+    boolean enroll(Student student) {
+        if (getStudents().size() < enrollmentLimit) {
+            students.add(student);
+            return true;
+        } else {
+            if (!waitList.contains(student)) {
+                waitList.add(student);
+            }
+            return false;
+        }
+    }
+
+    public void setEnrollmentLimit(int enrollmentLimit) {
+        if (enrollmentLimit >= getStudents().size()) {
+            this.enrollmentLimit = enrollmentLimit;
+            while (students.size() < enrollmentLimit && waitList.size() > 0) {
+                waitList.get(0).enrollIn(this);
+                waitList.remove(0);
+            }
+        }
+        else {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public int getEnrollmentLimit() {
+        return enrollmentLimit;
+    }
+
+    public List<Student> getWaitList() {
+        return Collections.unmodifiableList(waitList);
+    }
+
+    void unEnroll(Student student) {
+        students.remove(student);
+        waitList.remove(student);
+        if(students.size()<enrollmentLimit) {
+            if (!waitList.isEmpty()) {
+                waitList.get(0).enrollIn(this);
+                waitList.remove(0);
+            }
+        }
     }
 }

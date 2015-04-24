@@ -18,10 +18,12 @@ public class RegistrarTest {
         Course c1 = new Course();
         c1.setCatalogNumber("COMP 225");
         c1.setTitle("Software Fun Fun");
+        c1.setEnrollmentLimit(2);
 
         Course c2 = new Course();
         c2.setCatalogNumber("MATH 6");
         c2.setTitle("All About the Number Six");
+        c2.setEnrollmentLimit(1);
 
         System.out.println("------ Enrolling Sally in two courses ------");
 
@@ -36,7 +38,7 @@ public class RegistrarTest {
 
         System.out.println("------ Enrolling Fred in one course ------");
 
-        fred.enrollIn(c2);
+        fred.enrollIn(c1);
 
         printSchedule(fred);
         printEnrollment(c1);
@@ -48,6 +50,27 @@ public class RegistrarTest {
 
         printSchedule(sally);
         printEnrollment(c1);
+
+        System.out.println("------ Courses have an enrollment limit ------");
+
+        System.out.println(c1.getEnrollmentLimit());
+        System.out.println(c2.getEnrollmentLimit());
+
+        System.out.println("------ Courses have a wait list ------");
+
+        fred.enrollIn(c2);
+
+        System.out.println(c2.getWaitList().get(0).getName());
+
+        System.out.println("------ Courses can be dropped ------");
+
+        sally.drop(c2);
+
+        printSchedule(sally);
+        printEnrollment(c2);
+
+        System.out.println(c2.getWaitList());
+        printSchedule(fred);
     }
 
     private static void printSchedule(Student student) {
