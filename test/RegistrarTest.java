@@ -1,15 +1,10 @@
+import edu.macalester.registrar.Course;
+import edu.macalester.registrar.Student;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import edu.macalester.registrar.Course;
-import edu.macalester.registrar.Student;
+import java.util.*;
 
 import static org.junit.Assert.*;
 

@@ -4,7 +4,7 @@ package edu.macalester.registrar;
  * Modified enrollment tests
  * Created by Taylor Rose on 3/13/2015.
  */
-public class RegistrarTest {
+public class RegistrarTest2 {
     public static void main(String[] args) {
         // Example students
 

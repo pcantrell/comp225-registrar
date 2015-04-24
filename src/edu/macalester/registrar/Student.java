@@ -30,7 +30,7 @@ public class Student {
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
      */
-    public void enrollIn(Course course) {
+    public boolean enrollIn(Course course) {
         Boolean b = course.enroll(this);
         if (b) {
             //removeFromWaitList(course);
@@ -41,10 +41,16 @@ public class Student {
         } else {
             waitListedCourses.add(course);
         }
+        return b;
     }
 
     public void drop(Course course) {
         course.drop(this);
         courses.remove(course);
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
