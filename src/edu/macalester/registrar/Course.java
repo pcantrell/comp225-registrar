@@ -1,18 +1,15 @@
 package edu.macalester.registrar;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Queue;
-import java.util.LinkedList;
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.lang.Integer;
 
 
 public class Course {
+    public static int NO_ENROLLMENT_LIMIT = Integer.MAX_VALUE;
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
-    private Queue<Student> waitList = new LinkedList<Student>();
-    private int courseLimit;
+    private List<Student> waitList = new LinkedList<Student>();
+    private int enrollmentLimit = NO_ENROLLMENT_LIMIT;
 
     public String getCatalogNumber() {
         return catalogNumber;
@@ -30,26 +27,46 @@ public class Course {
         this.title = title;
     }
 
-    public void setCourseLimit(int i) {
-        this.courseLimit = i;
+    public void setEnrollmentLimit(int i) {
+        if (i == NO_ENROLLMENT_LIMIT) {
+            this.enrollmentLimit = i;
+            while (!waitList.isEmpty()) {
+                resolveWaitlist();
+            }
+        } else if (i >= students.size()) {
+            this.enrollmentLimit = i;
+            for (int n = 0; n <= enrollmentLimit; n++) {
+                resolveWaitlist();
+            }
+        }
+        else {
+            throw new IllegalArgumentException("Cannot lower class bellow current students");
+        }
+    }
+
+    public int getEnrollmentLimit() {
+        return enrollmentLimit;
     }
 
     public void addToWaitList(Student s) {
-        waitList.add(s);
+        if (!waitList.contains(s)) {
+            waitList.add(s);
+        }
     }
+    
 
     public void resolveWaitlist() {
         if (!this.isFull()) {
             try {
-                waitList.remove().enrollIn(this);
-            } catch (NoSuchElementException e) {
+                waitList.remove(0).enrollIn(this);
+            } catch (IndexOutOfBoundsException e) {
                 System.out.println("No students in wait list to add.");
             }
         }
     }
 
     public boolean isFull() {
-        return students.size() == courseLimit;
+        return students.size() == enrollmentLimit;
     }
 
     public Set<Student> getStudents() {
@@ -63,4 +80,13 @@ public class Course {
     public void enroll(Student student) {
         students.add(student);
     }
+
+    public List<Student> getWaitList() {
+        return Collections.unmodifiableList(waitList);
+    }
+
+    public void removeFromWaitList(Student s) {
+        waitList.remove(s);
+    }
+
 }
