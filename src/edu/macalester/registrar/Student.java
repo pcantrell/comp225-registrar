@@ -22,7 +22,7 @@ public class Student {
     }
 
     public Set<Course> getCourses() {
-        return courses;
+        return Collections.unmodifiableSet(courses);
     }
 
     /**
@@ -30,25 +30,37 @@ public class Student {
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
      */
-    public void enrollIn(Course course) {
+    public boolean enrollIn(Course course) {
+        boolean inClass;
         if(course.getStudents().size() == course.getEnrollmentLimit()){
-            System.out.println("Enrollment limit met in " + course.getTitle() + ". Student cannot be enrolled in the class.");
-            course.addToWaitlist(this);
+            if(course.getStudents().contains(this)){
+                inClass = true;
+            }
+            else {
+                System.out.println("Enrollment limit met in " + course.getTitle() + ". Student cannot be enrolled in the class.");
+                course.addToWaitlist(this);
+                inClass = false;
+            }
         }
         else{
             courses.add(course);
             course.enroll(this);
             System.out.println(name + " successfully enrolled in " + course.getTitle());
+            inClass = true;
         }
+        return inClass;
     }
     
-    public void dropOut(Course course){
+    public void drop(Course course){
         courses.remove(course);
-        course.drop(this);
-        if(course.getWaitlist().size() != 0){
-            Student first = course.getWaitlist().get(0);
+        course.dropOut(this);
+        if(course.getWaitList().size() != 0){
+            Student first = course.getWaitList().get(0);
             first.enrollIn(course);
-            course.getWaitlist().remove(first);
+            course.removeFromWaitList(first);
+        }
+        if(course.getWaitList().contains(this)){
+            course.removeFromWaitList(this);
         }
     }
 }

@@ -12,9 +12,10 @@ import java.util.LinkedList;
 
 
 public class Course {
+    public static final int NO_ENROLLMENT_LIMIT = Integer.MAX_VALUE;
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
-    private int enrollmentLimit;
+    private int enrollmentLimit = NO_ENROLLMENT_LIMIT;
     private List<Student> waitlist = new LinkedList<Student>();
 
     public String getCatalogNumber() {
@@ -38,19 +39,28 @@ public class Course {
     }
     
     public void setEnrollmentLimit(int enrollmentLimit){
-        this.enrollmentLimit = enrollmentLimit;
+        if(this.getStudents().size() > enrollmentLimit){
+            throw new IllegalArgumentException("Cannot set enrollment limit below class size");
+        }
+        else{
+            this.enrollmentLimit = enrollmentLimit;
+        }
     }
     
     public int getEnrollmentLimit(){
         return enrollmentLimit;
     }
     
-    public List<Student> getWaitlist(){
-        return waitlist;
+    public List<Student> getWaitList(){
+        return Collections.unmodifiableList(waitlist);
     }
     
     public void addToWaitlist(Student student){
         waitlist.add(student);
+    }
+
+    public void removeFromWaitList(Student student){
+        waitlist.remove(student);
     }
 
     void enroll(Student student) {
@@ -62,7 +72,7 @@ public class Course {
         }
     }
     
-    void drop(Student student){
+    void dropOut(Student student){
         students.remove(student);
     }
     

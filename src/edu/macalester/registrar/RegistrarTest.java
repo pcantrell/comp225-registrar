@@ -85,7 +85,7 @@ public class RegistrarTest {
         
         System.out.println("------Sally drops out of All About the Number Six------");
         
-        sally.dropOut(c2);
+        sally.drop(c2);
         printSchedule(sally);
         
         System.out.println("------Asra automatically enrolled off of the waitlist------");
@@ -96,7 +96,7 @@ public class RegistrarTest {
         
         System.out.println("------Fred drops out and Maya joins------");
         
-        fred.dropOut(c2);
+        fred.drop(c2);
         printEnrollment(c2);
         printSchedule(maya);
         printSchedule(fred);
@@ -104,7 +104,7 @@ public class RegistrarTest {
         
         System.out.println("------Dropping out of a class you don't take has no effect------");
         
-        asra.dropOut(c1);
+        asra.drop(c1);
         printSchedule(asra);
         
         
@@ -130,8 +130,8 @@ public class RegistrarTest {
     
     private static void printWaitlist(Course course){
         System.out.println(course.getCatalogNumber() + ": " + course.getTitle());
-        System.out.println("Students on waitlist (" + course.getWaitlist().size() + ")");
-        for(Student student : course.getWaitlist())
+        System.out.println("Students on waitlist (" + course.getWaitList().size() + ")");
+        for(Student student : course.getWaitList())
             System.out.println("    " + student.getName());
         System.out.println();
     }
