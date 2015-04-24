@@ -41,7 +41,7 @@ public class Course {
         return Collections.unmodifiableSet(students);
     }
 
-    public List<Student> getWaitlist() {
+    public List<Student> getWaitList() {
         return Collections.unmodifiableList(waitList);
     }
 

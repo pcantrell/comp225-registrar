@@ -84,8 +84,8 @@ public class RegistrarTest {
 
     private static void printWaitlist(Course course) {
         System.out.println(course.getCatalogNumber() + ": " + course.getTitle());
-        System.out.println("Students waitlisted (" + course.getWaitlist().size() + ")");
-        for(Student student : course.getWaitlist())
+        System.out.println("Students waitlisted (" + course.getWaitList().size() + ")");
+        for(Student student : course.getWaitList())
             System.out.println("    " + student.getName());
         System.out.println();
     }
