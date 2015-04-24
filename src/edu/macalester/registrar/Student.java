@@ -12,7 +12,6 @@ public class Student {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -22,12 +21,34 @@ public class Student {
     }
 
     /**
-     * Add this student to the given course's roster.
+     * If the given course is not full, add this student to its roster,
+     * else add the student to the course's waitlist.
      * Has no effect if the student is already registered.
-     * Equivalent to course.enroll(student).
+     *
      */
-    public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+    public boolean enrollIn(Course course) {
+        if (course.getStudents().size() == course.getEnrollmentLimit()) {
+            if (!course.getStudents().contains(this)) {
+                course.enroll(this, false);
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            courses.add(course);
+            course.enroll(this, true);
+            return true;
+        }
+    }
+
+    /**
+     * Drop this student out of the given course's roster/waitlist.
+     * Has no effect if the student is not enrolled in the course.
+     * Equivalent to course.dropStudent(student).
+     * @param course
+     */
+    public void drop(Course course) {
+        courses.remove(course);
+        course.dropStudent(this);
     }
 }
