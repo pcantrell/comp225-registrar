@@ -21,13 +21,26 @@ public class Student {
         return Collections.unmodifiableSet(courses);
     }
 
+    private boolean enrollSuccessful = true;
+
     /**
      * Add this student to the given course's roster.
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
      */
-    public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+    public boolean enrollIn(Course course) {
+        if (course.isFull()) {
+            // put this guy in the wait-list
+            return course.enroll(this, false);
+        } else {
+            // put this guy in the course
+            courses.add(course);
+            return course.enroll(this, true);
+        }
+    }
+
+    public void drop(Course course) {
+        courses.remove(course);
+        course.drop(this);
     }
 }
