@@ -118,7 +118,7 @@ public class Course {
     }
 
     /**
-    *   If a course is not full, then keep enrolling wait-listed students
+    *   Once the enrollment limit is lifted, all students in the waitlist will be admitted to the class
     */
     void enrollWaitList() {
         while (!waitList.isEmpty() && (!isFull())) {
