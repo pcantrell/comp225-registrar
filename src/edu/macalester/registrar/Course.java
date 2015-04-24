@@ -36,7 +36,15 @@ public class Course {
 
     public void setEnrollmentLimit(Integer limit) {
         if (limit >= students.size()) {
-            this.enrollmentLimit = limit;
+            enrollmentLimit = limit;
+
+            if ( (enrollmentLimit > students.size()) & (waitlist.size() > 0) ) {
+                int openSpots = enrollmentLimit - students.size();
+                while ( (openSpots > 0) & (waitlist.size() > 0) ) {
+                     enrollFromWaitlist();
+                    openSpots--;
+                }
+            }
         } else {
             throw new IllegalArgumentException("Enrollment limit cannot be set below number of currently enrolled students");
         }
@@ -70,10 +78,6 @@ public class Course {
         } else {
             return "Student successfully dropped the course";
         }
-    }
-
-    private void waitlist(Student student) {
-        waitlist.add(student);
     }
 
     public List<Student> getWaitList() {return Collections.unmodifiableList(waitlist);}
