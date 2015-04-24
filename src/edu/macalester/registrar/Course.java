@@ -69,10 +69,15 @@ public class Course {
     }
 
     void drop(Student student) {
+        if (waitList.contains(student)){
+            waitList.remove(student);
+        }
         if (students.contains(student)) {
             students.remove(student);
-            students.add(waitList.get(0));
-            waitList.remove(0);
+            if (waitList.size()>0) {
+                students.add(waitList.get(0));
+                waitList.remove(0);
+            }
         }
     }
 }

@@ -166,6 +166,7 @@ public class RegistrarTest {
         assertTrue(comp225.getStudents().contains(zongo));
         assertEquals(list(), comp225.getWaitList());
     }
+*/
 
     @Test(expected = UnsupportedOperationException.class)
     public void courseWaitListGetterReturnsImmutable() {
@@ -201,7 +202,7 @@ public class RegistrarTest {
         fred.drop(comp225);
         assertEquals(list(sally, zongo), comp225.getWaitList());
     }
-
+/*
     @Test
     public void dropEnrollsWaitListedStudents() {
         sally.enrollIn(comp225);
