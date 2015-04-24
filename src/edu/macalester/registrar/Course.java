@@ -8,9 +8,10 @@ import java.util.LinkedList;
 
 
 public class Course {
+    public static int NO_ENROLLMENT_LIMIT = Integer.MAX_VALUE;
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
-    private int enrollmentLimit = Integer.MAX_VALUE;
+    private int enrollmentLimit = NO_ENROLLMENT_LIMIT;
     private List<Student> waitList = new LinkedList<Student>();
 
     public String getCatalogNumber() {
@@ -38,7 +39,16 @@ public class Course {
     }
 
     public void setEnrollmentLimit(int enrollmentLimit) {
+        if (enrollmentLimit < students.size()) {
+            throw new IllegalArgumentException("Cannot set enrollment limit below class size.");
+        }
         this.enrollmentLimit = enrollmentLimit;
+        while (this.getStudents().size() < enrollmentLimit && waitList.size() > 0) {
+            Student waitingStudent = waitList.get(0);
+            waitingStudent.enrollIn(this);
+            students.add(waitingStudent);
+            waitList.remove(0);
+        }
     }
 
     public int getEnrollmentLimit() {
@@ -46,10 +56,9 @@ public class Course {
     }
 
     void enroll(Student student) {
-        if (this.getStudents().size() >= this.getEnrollmentLimit()) {
-            if (!this.waitList.contains(student)) {
-                System.out.println("Attempt to over-enroll. " + student.getName() + " added to wait list.");
-                this.waitList.add(student);
+        if (students.size() >= enrollmentLimit) {
+            if (!waitList.contains(student)) {
+                waitList.add(student);
             }
         } else {
             students.add(student);
@@ -57,11 +66,11 @@ public class Course {
     }
 
     void drop(Student student) {
-        this.students.remove(student);
-        this.waitList.remove(student);
-        if ((this.waitList.size() > 0) && (this.getStudents().size() < this.getEnrollmentLimit())) {
-            students.add(this.waitList.get(0));
-            this.waitList.remove(0);
+        students.remove(student);
+        waitList.remove(student);
+        if ((waitList.size() > 0) && (students.size() < enrollmentLimit)) {
+            students.add(waitList.get(0));
+            waitList.remove(0);
         }
     }
 }

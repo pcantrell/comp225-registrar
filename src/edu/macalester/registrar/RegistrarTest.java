@@ -85,7 +85,7 @@ public class RegistrarTest {
 
         System.out.println("------ Sally drops COMP 225. Will is enrolled automatically and removed from the wait list ------");
 
-        sally.dropFrom(c1);
+        sally.drop(c1);
 
         printEnrollment(c1);
         printWaitList(c1);
@@ -94,7 +94,7 @@ public class RegistrarTest {
 
         System.out.println("------ Carly drops from the wait list for COMP 225 ------");
 
-        carly.dropFrom(c1);
+        carly.drop(c1);
 
         printSchedule(carly);
         printEnrollment(c1);
@@ -110,7 +110,7 @@ public class RegistrarTest {
 
         System.out.println("------ Fred drops COMP 225. Carly is enrolled automatically and the wait list is emptied. ------");
 
-        fred.dropFrom(c1);
+        fred.drop(c1);
 
         printEnrollment(c1);
         printWaitList(c1);
@@ -119,7 +119,7 @@ public class RegistrarTest {
 
         System.out.println("------ Fred re-dropping COMP 225 has no effect ------");
 
-        fred.dropFrom(c1);
+        fred.drop(c1);
 
         printEnrollment(c1);
         printWaitList(c1);
@@ -128,7 +128,7 @@ public class RegistrarTest {
 
         System.out.println("------ Will drops from COMP 225 ------");
 
-        will.dropFrom(c1);
+        will.drop(c1);
 
         printEnrollment(c1);
         printWaitList(c1);

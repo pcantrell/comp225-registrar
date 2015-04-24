@@ -8,6 +8,7 @@ import java.util.Set;
 public class Student {
     private String name;
     private Set<Course> courses = new HashSet<Course>();
+    private boolean enrolled = false;
 
     public String getName() {
         return name;
@@ -26,11 +27,16 @@ public class Student {
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
      */
-    public void enrollIn(Course course) {
-        if (course.getStudents().size() < course.getEnrollmentLimit()) {
-            courses.add(course);
+    public boolean enrollIn(Course course) {
+        if (!(courses.contains(course))) {
+            this.enrolled = false;
+            if (course.getStudents().size() < course.getEnrollmentLimit()) {
+                courses.add(course);
+                this.enrolled = true;
+            }
+            course.enroll(this);
         }
-        course.enroll(this);
+        return this.enrolled;
     }
 
     /**
@@ -38,12 +44,13 @@ public class Student {
      * Has no effect if the student is not registered or wait-listed.
      * Equivalent to course.drop(student).
      */
-    public void dropFrom(Course course) {
+    public void drop(Course course) {
         if (course.getWaitList().size() > 0) {
             Student waitingStudent = course.getWaitList().get(0);
             waitingStudent.courses.add(course);
         }
         courses.remove(course);
         course.drop(this);
+
     }
 }
