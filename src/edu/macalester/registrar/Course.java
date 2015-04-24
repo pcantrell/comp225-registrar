@@ -1,11 +1,5 @@
 package edu.macalester.registrar;
-import groovy.ui.SystemOutputInterceptor;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.List;
+import java.util.*;
 
 public class Course {
 
@@ -28,7 +22,7 @@ public class Course {
             throw new IllegalArgumentException("You cannot set enrollment limit to a number lower than your current class size.");
         } else {
             this.enrollmentLimit = enrollmentLimit;
-            while (!this.getWaitList().isEmpty() && enrollmentLimit <= this.getStudents().size()) {
+            while (!this.getWaitList().isEmpty() && enrollmentLimit > this.getStudents().size()) {
                 getWaitList().get(0).enrollIn(this);
             }
         }
@@ -58,14 +52,16 @@ public class Course {
         return Collections.unmodifiableList(waitList);
     }
 
-    void enroll(Student student) {
+    boolean enroll(Student student) {
         if (this.getStudents().size() < this.getEnrollmentLimit()) { //if there is room in the course
-            students.add(student); //course adds student to students
-            if (waitList.contains(student)){ //if the student was on the wait list, they are removed
-                waitList.remove(student);
-            }
+            students.add(student);
+            waitList.remove(student);
+            return true;
         } else {
-            waitList.add(student);
+            if (!this.getWaitList().contains(student)) {
+                waitList.add(student);
+            }
+            return false;
         }
     }
 
@@ -78,10 +74,7 @@ public class Course {
                 Student firstOnWaitList = waitList.get(0);
                 waitList.remove(firstOnWaitList);
                 firstOnWaitList.enrollIn(this);
-                System.out.println(student.getName() + " has dropped '" + this.getTitle() + ".' " + firstOnWaitList.getName() + " was first on the wait list, so " + firstOnWaitList.getName() + " has now been enrolled. ");
-                for (Student stud : this.getWaitList()) {
-                    System.out.println(stud.getName());
-                }
+                //System.out.println(student.getName() + " has dropped '" + this.getTitle() + ".' " + firstOnWaitList.getName() + " was first on the wait list, so " + firstOnWaitList.getName() + " has now been enrolled. ");
             }
         }
     }

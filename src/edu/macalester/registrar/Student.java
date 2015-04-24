@@ -31,41 +31,25 @@ public class Student {
             System.out.println(this.getName() + " is already in the course '" + course.getTitle() + ".'");
             return true;
         }
-        if (course.getWaitList().contains(this)) { //if student is already on wait list
-            if (course.getStudents().size() < course.getEnrollmentLimit()) { //if there is room left
-                System.out.println("==================");
-                course.enroll(this);
-                courses.add(course);
-                //System.out.println(this.getName() + " has been added to the course '" + course.getTitle() + ".'");
-                return true;
-            } else {
-                System.out.println(this.getName() + " has already requested enrollment in the course '" + course.getTitle() + ".' They are already on the wait list");
-                return false;
-                }
-            }
-            //change the below code to return course.enroll (and have the enroll method return a boolean so as not to repeat the check
-            if (course.getStudents().size() < course.getEnrollmentLimit()) { //if there is room in the class, student gets added
-                courses.add(course);
-                course.enroll(this);
-                return true;
-            } else {
-                course.enroll(this);
-                return false;
-            }
+        boolean enrollBool = course.enroll(this);
+        if (enrollBool) {
+            courses.add(course);
         }
+        return enrollBool;
+    }
 
 
     public void drop(Course course) {
         Set enrolled = course.getStudents();
         if (enrolled.contains(this)) { //if the student is in the course
-            course.drop(this); //calling the course drop method
-            courses.remove(course); //removing the course from the student's courses list
+            course.drop(this);
+            courses.remove(course);
         } else { //if student is not in the course
             course.drop(this);
-            System.out.println();
-            System.out.println("I think you made a mistake. " + this.getName() + " isn't in '" + course.getTitle() + ".'");
-            System.out.println("There are " + (course.getEnrollmentLimit() - course.getStudents().size()) + " spots left in " + course.getTitle() + ".");
-            System.out.println();
+//            System.out.println();
+//            System.out.println("I think you made a mistake. " + this.getName() + " isn't in '" + course.getTitle() + ".'");
+//            System.out.println("There are " + (course.getEnrollmentLimit() - course.getStudents().size()) + " spots left in " + course.getTitle() + ".");
+//            System.out.println();
         }
     }
 }
