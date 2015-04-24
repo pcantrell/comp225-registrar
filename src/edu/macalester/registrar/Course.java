@@ -5,10 +5,11 @@ import java.util.*;
 
 
 public class Course {
+    public static final int NO_ENROLLMENT_LIMIT = Integer.MAX_VALUE;
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
-    private Integer enrollmentLimit;
-    private Queue<Student> waitList = new LinkedList<Student>();
+    private int enrollmentLimit = NO_ENROLLMENT_LIMIT;
+    private List<Student> waitList = new LinkedList<Student>();
 
 
 
@@ -20,8 +21,14 @@ public class Course {
         this.catalogNumber = catalogNumber;
     }
 
-    public void setEnrollmentLimit(Integer enrollmentLimit){
-        this.enrollmentLimit = enrollmentLimit;
+    public void setEnrollmentLimit(int enrollmentLimit){
+        if (enrollmentLimit<students.size()){
+            throw new IllegalArgumentException("cannot set class enrollmentlimit lower than class size");
+        }
+        else {
+            this.enrollmentLimit = enrollmentLimit;
+            update(this);
+        }
     }
 
     public String getTitle() {
@@ -36,29 +43,36 @@ public class Course {
         return Collections.unmodifiableSet(students);
     }
 
-    void enroll(Student student) {
+    void enrollIn(Student student) {
         students.add(student);
         System.out.println(student.getName() + " successful enroll into " + this.getCatalogNumber());
     }
 
     void addToWaitList(Student student){
-        waitList.add(student);
+        waitList.add(waitList.size(),student);
         System.out.println(student.getName() + " successful got into the waitlist for " + this.getCatalogNumber());
     }
 
-    public Integer getEnrollmentLimit() { return enrollmentLimit; }
+    void removesFromWaitList(Student student){
+        waitList.remove(student);
+    }
 
-    public Queue<Student> getWaitList() { return new LinkedList<Student>(waitList); }
+    public int getEnrollmentLimit() { return enrollmentLimit; }
+
+    public List<Student> getWaitList() { return Collections.unmodifiableList(waitList);}
 
     void drop(Student student){
         students.remove(student);
     }
 
     void update(Course course){
-        while(waitList.size() != 0 && course.getStudents().size() < course.getEnrollmentLimit() ) {
-            Student student = course.getWaitList().poll();
-            student.enrollIn(course);
-            student.removeCourseFromWaitList(course);
+        for (int i=0; i<waitList.size(); i++) {
+            while (waitList.size() != 0 && course.getStudents().size() < course.getEnrollmentLimit()) {
+                Student student = course.getWaitList().get(i);
+                student.removeCourseFromWaitList(course);
+                course.removesFromWaitList(student);
+                student.enrollIn(course);
+            }
         }
 
     }

@@ -29,22 +29,37 @@ public class Student {
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
      */
-    public void enrollIn(Course course) {
-        if(course.getStudents().size() < course.getEnrollmentLimit()) {//if the class is not full
-            course.enroll(this);
-            courses.add(course);
+    public boolean enrollIn(Course course) {
+        if(course.getStudents().contains(this)){
+            return true;
         }
-        else if(!course.getStudents().contains(this)){ //if the class is full and student is not already in the class
+        else if(course.getStudents().size() < course.getEnrollmentLimit()) {
+            course.enrollIn(this);
+            courses.add(course);
+            return true;
+        }
+        else if(course.getWaitList().contains(this)){
+            return false;
+        }
+        else if(!course.getStudents().contains(this)){
             course.addToWaitList(this);
             coursesWaitListed.add(course);
+            return false;
+        }
+        else{
+            return false;
         }
     }
 
     public void drop(Course course) {
-        if(course.getStudents().contains(this)){ // if student is in the course let him/her drop it
-            course.drop(this); //remove student from the course
-            courses.remove(course); // remove course from student's schedule
+        if(course.getStudents().contains(this)){
+            course.drop(this);
+            courses.remove(course);
             System.out.println(this.getName() + " successfully dropped " + course.getCatalogNumber());
+        }
+        else if(course.getWaitList().contains(this)){
+            course.removesFromWaitList(this);
+            coursesWaitListed.remove(course);
         }
         else{
             System.out.println(this.getName() + " is not in "+ course.getCatalogNumber() );
