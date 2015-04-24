@@ -8,7 +8,7 @@ public class Course {
     private Set<Student> students = new HashSet<Student>();
     public final static int NO_ENROLLMENT_LIMIT = Integer.MAX_VALUE;
     private int enrollmentLimit = NO_ENROLLMENT_LIMIT;
-    private Queue<Student> waitlist = new LinkedList<Student>();
+    private List<Student> waitlist = new LinkedList<Student>();
 
     public String getCatalogNumber() {
         return catalogNumber;
@@ -43,13 +43,22 @@ public class Course {
     }
 
     boolean enroll(Student student) {
-        if (this.getStudents().size() < this.getEnrollmentLimit()) {
-            students.add(student);
+        if (students.contains(student)) {
             return true;
-        } else {
-            this.waitlist(student);
+        }
+
+        if (waitlist.contains(student)) {
             return false;
         }
+
+        if (getStudents().size() < getEnrollmentLimit()) {
+            students.add(student);
+            student.enrollIn(this);
+            return true;
+        }
+
+        waitlist.add(student);
+        return false;
     }
 
     public String drop(Student student) {
@@ -67,10 +76,10 @@ public class Course {
         waitlist.add(student);
     }
 
-    public Queue<Student> getWaitList() {return waitlist;}
+    public List<Student> getWaitList() {return Collections.unmodifiableList(waitlist);}
 
     private boolean enrollFromWaitlist() {
-        Student s = waitlist.remove();
+        Student s = waitlist.remove(0);
         return this.enroll(s);
     }
 }
