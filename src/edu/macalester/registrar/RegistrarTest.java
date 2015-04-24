@@ -64,15 +64,15 @@ public class RegistrarTest {
 
         System.out.println("------ Drop sally and add Lisa ------");
 
-        sally.dropCourse(c2);
+        sally.drop(c2);
         printEnrollment(c1);
         printEnrollment(c2);
         printWaitList(c2);
 
         System.out.println("------ all students enrolled in c2 drop c2, bart added from wait list------");
 
-        fred.dropCourse(c2);
-        lisa.dropCourse(c2);
+        fred.drop(c2);
+        lisa.drop(c2);
         printEnrollment(c2);
 
     }

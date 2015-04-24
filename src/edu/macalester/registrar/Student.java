@@ -6,7 +6,6 @@ import java.util.*;
 public class Student {
     private String name;
     private Set<Course> courses = new HashSet<Course>();
-    private Queue<Course> waitListCourses = new LinkedList<Course>();
 
     public String getName() {
         return name;
@@ -17,7 +16,11 @@ public class Student {
     }
 
     public Set<Course> getCourses() {
-        return Collections.unmodifiableSet(courses);
+        if (courses.isEmpty()) {
+            return Collections.emptySet();
+        }else {
+            return Collections.unmodifiableSet(courses);
+        }
     }
 
     /**
@@ -25,22 +28,36 @@ public class Student {
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
      */
-    public void enrollIn(Course course) {
+    public boolean enrollIn(Course course) {
+        if (course.getStudents().contains(this)){
+            return true;
+        }
+        if (course.getWaitList().contains(this)){
+            return false;
+        }
         if (course.getStudents().size()>=course.getEnrollmentLimit() && !this.getCourses().contains(course)){
             /* throw new IllegalArgumentException("Class is at capacity!");
              */
             System.out.println("Class is at capacity," + this.getName()  + " will automatically be added to the wait list");
-            waitListCourses.add(course);
+
             course.addToWaitList(this);
-        } else {
+            return false;
+        }else {
             courses.add(course);
             course.enroll(this);
+            return true;
         }
     }
 
-    public void dropCourse(Course course) {
-        courses.remove(course);
-        course.dropStudent(this);
+    public void drop(Course course) {
+        if (course.getWaitList().contains(this)){
+            course.removeFromWaitList(this);
+        }
+        if (course.getStudents().contains(this)){
+            courses.remove(course);
+            course.dropStudent(this);
+        }
+
 
     }
 }
