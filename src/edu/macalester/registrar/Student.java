@@ -28,11 +28,10 @@ public class Student {
      */
     public boolean enrollIn(Course course) {
         if(!(course.getStudents().contains(this))) {
-            try {
-                course.enroll(this);
+            if (course.enroll(this)) {
                 courses.add(course);
-            } catch (RuntimeException exception) {
-                System.out.println("The class is full.  Student added to waitlist.");
+            }
+            else {
                 return false;
             }
         }

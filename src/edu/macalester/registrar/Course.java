@@ -37,16 +37,15 @@ public class Course {
         return Collections.unmodifiableSet(students);
     }
 
-    void enroll(Student student) {
-        if(getStudents().size()<enrollmentLimit) {
+    boolean enroll(Student student) {
+        if (getStudents().size() < enrollmentLimit) {
             students.add(student);
-        }
-        else if (!waitList.contains(student)){
-            waitList.add(student);
-            throw new RuntimeException();
-        }
-        else {
-            throw new RuntimeException();
+            return true;
+        } else {
+            if (!waitList.contains(student)) {
+                waitList.add(student);
+            }
+            return false;
         }
     }
 
