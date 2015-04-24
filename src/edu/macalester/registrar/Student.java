@@ -28,13 +28,13 @@ public class Student {
      */
 
     public boolean enrollIn(Course course) {
-        boolean isEnrolled = false; //boolean is student enrolled?
-        course.enroll(this); //attempt to enroll in course
-        if(course.getStudents().contains(this)){ //if successful enrollment (i.e. not on waitlist)
-            courses.add(course); //add course to course list
-            isEnrolled = true; //set is enrolled to true
-        }//else enrolled is still false
-        return isEnrolled; //returns is enrolled
+        boolean isEnrolled = false;
+        course.enroll(this);
+        if(course.getStudents().contains(this)){
+            courses.add(course);
+            isEnrolled = true;
+        }
+        return isEnrolled;
     }
 
     public void drop(Course course){

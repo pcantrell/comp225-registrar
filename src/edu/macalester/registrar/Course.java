@@ -31,13 +31,13 @@ public class Course {
         if(newEnrollmentLimit < students.size()){
            throw new IllegalArgumentException();
         }
-        this.enrollmentLimit = newEnrollmentLimit; //sets enrollmentLimit to newEnrollmentLimit
+        this.enrollmentLimit = newEnrollmentLimit;
         if(oldLimit < newEnrollmentLimit){
             for(int i = 0; i < newEnrollmentLimit-oldLimit; i++)
             {
-                if(!waitList.isEmpty()&& students.size() < enrollmentLimit){ //if the waitlist is not empty
-                    waitList.get(0).enrollIn(this); //enroll the first student on the list
-                    waitList.remove(0); //remove student from waitlist
+                if(!waitList.isEmpty()&& students.size() < enrollmentLimit){
+                    waitList.get(0).enrollIn(this);
+                    waitList.remove(0);
                 }
             }
         }
@@ -60,20 +60,15 @@ public class Course {
         else if(!students.contains(student)){
             if(!waitList.contains(student)){
                 waitList.add(student);}
-//            System.out.println("There is no room in " + catalogNumber + ": " + title + " to add " + student.getName() );
-//            System.out.println(student.getName() + " has been added to the waitlist");
         }
     }
 
-    void drop(Student student){ //drops student from course
-        students.remove(student); //remove students from student list
-        waitList.remove(student);//remove student from waitlist
-        if(!waitList.isEmpty()&& students.size() < enrollmentLimit){ //if the waitlist is not empty
-            waitList.get(0).enrollIn(this); //enroll the first student on the list
-            waitList.remove(0); //remove student from waitlist
+    void drop(Student student){
+        students.remove(student);
+        waitList.remove(student);
+        if(!waitList.isEmpty()&& students.size() < enrollmentLimit){
+            waitList.get(0).enrollIn(this);
+            waitList.remove(0);
         }
     }
-
-
-
 }
