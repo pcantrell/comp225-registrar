@@ -1,5 +1,7 @@
 package edu.macalester.registrar;
 
+import java.util.List;
+
 /**
  * A simple scenario to exercise the various registrar model objects.
  */
@@ -77,7 +79,7 @@ public class RegistrarTest {
 
         System.out.println("------ Dropping Sally from course COMP 225 which is full ------");
 
-        sally.dropCourse(c1);
+        sally.drop(c1);
 
         printSchedule(sally);
         printEnrollment(c1);
@@ -105,7 +107,7 @@ public class RegistrarTest {
 
         System.out.println("------ Dropping Fred from course GEO 225 which is full ------");
 
-        fred.dropCourse(c3);
+        fred.drop(c3);
 
         printSchedule(fred);
         printEnrollment(c3);
