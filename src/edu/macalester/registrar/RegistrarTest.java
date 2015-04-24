@@ -99,7 +99,7 @@ public class RegistrarTest {
         //Give students the ability to drop courses.
         //If an enrolled student drops, then the first wait-listed student is automatically enrolled.
 
-        fred.dropCourse(c2); //fred finds a new passion in geography and poli sci, with a global health concentration!
+        fred.drop(c2); //fred finds a new passion in geography and poli sci, with a global health concentration!
 
         printSchedule(fred); //Show that student's schedule is updated
         printSchedule(jenny); //Show that new student knows they're enrolled now in class
@@ -119,7 +119,7 @@ public class RegistrarTest {
         fred.enrollIn(c3);
 
         //Test to see if a student can drop a class they're not enrolled in
-        chris.dropCourse(c1);
+        chris.drop(c1);
 
     }
 

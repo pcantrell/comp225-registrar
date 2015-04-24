@@ -1,16 +1,14 @@
 package edu.macalester.registrar;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 public class Course {
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
-    private Integer enrollmentLimit = 0;
-    private ArrayList<Student> waitList = new ArrayList<>(); //An arraylist so you can add as many students into the wait list, and easily grab student at position 0
+    public static int NO_ENROLLMENT_LIMIT = Integer.MAX_VALUE;
+    private Integer enrollmentLimit = NO_ENROLLMENT_LIMIT;
+    private List<Student> waitList = new ArrayList<>(); //An arraylist so you can add as many students into the wait list, and easily grab student at position 0
 
     public String getCatalogNumber() {
         return catalogNumber;
@@ -28,7 +26,7 @@ public class Course {
         this.title = title;
     }
 
-    public ArrayList<Student> getWaitList() { return waitList; }
+    public List<Student> getWaitList() { return Collections.unmodifiableList(waitList); }
 
     public int getEnrollmentLimit() { return enrollmentLimit; }
 
@@ -36,23 +34,36 @@ public class Course {
         return Collections.unmodifiableSet(students);
     }
 
-    void enroll(Student student) {
-        if (getRemainingSeats() != 0){
-            students.add(student);
-            System.out.println(getTitle()+" has accepted and enrolled "+student.getName()+".");
+    boolean enroll(Student student) {
+        if (students.size() != enrollmentLimit){
+            if (!students.contains(student)){
+                students.add(student);
+                waitList.remove(student);
+            }
+            return true;
         }
         else{
-            System.out.println(student.getName() + " cannot enroll in " + getTitle() + " because it's full.");
-            System.out.println();
+            if (!waitList.contains(student)){
+                waitList.add(student);
+            }
+            return false;
         }
     }
 
     void removeStudent(Student student){
-        students.remove(student);
-        if (!(waitList.isEmpty())){
-            Student newStud = waitList.get(0);
-            newStud.enrollIn(this);
-            waitList.remove(0);
+        if (waitList.contains(student)){
+            waitList.remove(student);
+        }
+
+        else{
+            students.remove(student);
+            if (!waitList.isEmpty()){
+                Student first =waitList.get(0);
+                //students.add(first);
+                first.enrollIn(this);
+                waitList.remove(first);
+
+            }
         }
     }
 
@@ -65,12 +76,31 @@ public class Course {
         }
     }
 
-    void setEnrollmentLimit(int number){
-        if (number != 0){
+    public void setEnrollmentLimit(int number){
+
+        if (number < students.size()){ //Cannot lower enrollment limit below class size.
+            throw new IllegalArgumentException();
+        }
+
+        if (enrollmentLimit < number){ //if the number is greater than the enrollment limit... limit increased...
+            int n = number - enrollmentLimit;
+            enrollmentLimit = number;
+            for (int i=0; i < n; i++){
+                if (!waitList.isEmpty()){
+                    Student stud = waitList.get(0);
+                    stud.enrollIn(this);
+                    waitList.remove(stud);
+                }
+            }
+        }
+
+        if (number > students.size()){
             enrollmentLimit = number;
         }
-        else{
-            enrollmentLimit = null;
-        }
+
+
+
+
+
     }
 }

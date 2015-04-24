@@ -27,37 +27,33 @@ public class Student {
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
      */
-    public void enrollIn(Course course) {
-        if (course.getRemainingSeats() != 0){
-            courses.add(course);
-            course.enroll(this);
-            System.out.println(getName()+" successfully enrolled in "+course.getTitle()+".");
+    public boolean enrollIn(Course course) {
+        boolean bool = true;
+        if (!(courses.contains(course))){
+
+            if (course.enroll(this) == true){
+                courses.add(course);
+                bool = true;
+            }
+            else{
+                bool = false;
+            }
         }
-        else{
-            System.out.println(this.getName()+" cannot enroll in "+course.getTitle()+" because it's full.");
-            signWaitList(course);
-            System.out.println();
-        }
+        return bool;
     }
 
-    public void dropCourse(Course course){
-        if (courses.contains(course)){
-            System.out.println(getName()+" is dropping "+course.getTitle()+".");
-            course.removeStudent(this);
+    public void drop(Course course){
             courses.remove(course);
-        }
-        else {
-            System.out.println(getName()+" can't drop "+course.getTitle()+" because they're not enrolled.");
-        }
+            course.removeStudent(this);
     }
 
-   public void signWaitList(Course course){
-       ArrayList<Student> waitList = course.getWaitList();
-       if (!(waitList.contains(this))){
-           waitList.add(this);
-       }
-       else{
-           System.out.println(getName()+" is already on the wait list.");
-       }
-   }
+//   public void signWaitList(Student student){
+//       if (!(course.getWaitList().contains(this))){
+//           course.getWaitList().add(this);
+//           course.
+//       }
+//       else{
+//           System.out.println(getName()+" is already on the wait list.");
+//           
+//   }
 }
