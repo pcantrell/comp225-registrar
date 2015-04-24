@@ -4,7 +4,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-
+/**
+ * Charles Park
+ * COMP-225 Registrar Homework #1
+ */
 public class Student {
     private String name;
     private Set<Course> courses = new HashSet<Course>();
@@ -26,8 +29,21 @@ public class Student {
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
      */
-    public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+    public boolean enrollIn(Course course) {
+        if(course.getStudents().size() < course.getEnrollmentLimit())
+            courses.add(course);
+        if(!course.enroll(this)) {
+            System.out.println(this.getName()
+                    + " will automatically be placed on the wait list for the course "
+                    + course.getTitle()
+                    + ".");
+            return false;
+        }
+        return true;
+    }
+
+    public void drop(Course course) {
+        courses.remove(course);
+        course.drop(this);
     }
 }

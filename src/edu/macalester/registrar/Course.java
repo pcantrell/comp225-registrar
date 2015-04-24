@@ -1,13 +1,17 @@
 package edu.macalester.registrar;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
-
+/**
+ * Charles Park
+ * COMP-225 Registrar Homework #1
+ */
 public class Course {
     private String catalogNumber, title;
+    public final static int NO_ENROLLMENT_LIMIT = 2147483647;
+    private int enrollmentLimit = NO_ENROLLMENT_LIMIT;
     private Set<Student> students = new HashSet<Student>();
+    private List<Student> waitList = new LinkedList<Student>();
 
     public String getCatalogNumber() {
         return catalogNumber;
@@ -25,11 +29,76 @@ public class Course {
         this.title = title;
     }
 
+    public int getEnrollmentLimit() { return enrollmentLimit; }
+
+    public void setEnrollmentLimit(int enrollmentLimit) {
+        if(enrollmentLimit < this.students.size())
+            throw new IllegalArgumentException("Trying to decrease enrollment limit below current class size!");
+
+        int previousEnrollmentLimit = this.enrollmentLimit;
+        this.enrollmentLimit = enrollmentLimit;
+
+        if(this.getWaitList().size() > 0) {
+            int availableSlots = enrollmentLimit - previousEnrollmentLimit;
+            while(this.getWaitList().size() > 0 && availableSlots > 0){
+                Student firstInLine = this.getWaitList().get(0);
+                System.out.println(firstInLine.getName()
+                        + " will automatically be removed from the wait list and be enrolled for the course "
+                        + this.getTitle()
+                        + ".");
+                firstInLine.enrollIn(this);
+                students.add(firstInLine);
+                waitList.remove(firstInLine);
+                availableSlots--;
+            }
+        }
+    }
+
     public Set<Student> getStudents() {
         return Collections.unmodifiableSet(students);
     }
 
-    void enroll(Student student) {
-        students.add(student);
+    public List<Student> getWaitList() {
+        return Collections.unmodifiableList(waitList);
+    }
+
+    boolean enroll(Student student) {
+        if(this.getStudents().size() < this.getEnrollmentLimit()) {
+            students.add(student);
+            System.out.println("Enrollment was successful for student "
+                    + student.getName()
+                    + " for course "
+                    + this.getTitle()
+                    + ".");
+        } else {
+            if(!this.getStudents().contains(student) && !this.getWaitList().contains(student)) {
+                waitList.add(student);
+                return false;
+            } else if(this.getWaitList().contains(student))
+                return false;
+        }
+        return true;
+    }
+
+    void drop(Student student) {
+        if(this.getStudents().contains(student)) {
+            students.remove(student);
+            student.drop(this);
+            System.out.println(student.getName()
+                    + " successfully dropped the course "
+                    + this.getTitle()
+                    + ".");
+            if(this.getWaitList().size() > 0) {
+                Student firstInLine = this.getWaitList().get(0);
+                System.out.println(firstInLine.getName()
+                        + " will automatically be removed from the wait list and be enrolled for the course "
+                        + this.getTitle()
+                        + ".");
+                waitList.remove(firstInLine);
+                firstInLine.enrollIn(this);
+                students.add(firstInLine);
+            }
+        } else if(!this.getStudents().contains(student) && this.getWaitList().contains(student))
+            waitList.remove(student);
     }
 }
