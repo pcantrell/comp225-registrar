@@ -2,17 +2,19 @@ package edu.macalester.registrar;
 
 import java.util.*;
 
-
 public class Course {
+
+    public static int NO_ENROLLMENT_LIMIT = Integer.MAX_VALUE;
+
     private String catalogNumber, title;
+    private int enrollmentLimit = NO_ENROLLMENT_LIMIT;
+
     private Set<Student> students = new HashSet<Student>();
-    private int enrollmentLimit = Integer.MAX_VALUE;
-    private LinkedList<Student> waitlist = new LinkedList<Student>();
+    private List<Student> waitlist = new LinkedList<Student>();
 
     public String getCatalogNumber() {
         return catalogNumber;
     }
-
     public void setCatalogNumber(String catalogNumber) {
         this.catalogNumber = catalogNumber;
     }
@@ -20,7 +22,6 @@ public class Course {
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -28,14 +29,33 @@ public class Course {
     public Set<Student> getStudents() {
         return Collections.unmodifiableSet(students);
     }
-
     public int getEnrollmentLimit() {
         return enrollmentLimit;
     }
 
+    public List<Student> getWaitList() {return Collections.unmodifiableList(waitlist);}
+
+    /**
+     * Change the enrollment limit of the class. Cannot lower enrollment limit below the current
+     * class size. If the new enrollment limit is greater than the current class size, enroll students
+     * from the waitlist until either the limit is reached, or the waitlist is empty.
+     * @param limit
+     */
     public void setEnrollmentLimit(int limit) {
-        enrollmentLimit = limit;
+        if (limit < this.getStudents().size()) {
+            throw new IllegalArgumentException("Can't lower enrollment limit below current class size!");
+        } else {
+            enrollmentLimit = limit;
+            while (!this.getWaitList().isEmpty()) {
+                if (enrollmentLimit == this.getStudents().size()) {
+                    break;
+                } else {
+                    waitlist.remove(0).enrollIn(this);
+                }
+            }
+        }
     }
+
 
     /**
      * Enroll the given student to this course if the course is not full,
@@ -49,8 +69,10 @@ public class Course {
             System.out.println(student.getName() + " enrolled successfully");
         }
         else {
-            waitlist.add(student);
-            System.out.println(getTitle() + " was full, so " + student.getName() + " was added to the waitlist");
+            if (!waitlist.contains(student)) {
+                waitlist.add(student);
+                System.out.println(getTitle() + " was full, so " + student.getName() + " was added to the waitlist");
+            }
         }
     }
 
@@ -62,25 +84,29 @@ public class Course {
         if (enrollmentLimit > 0 && enrollmentLimit < Integer.MAX_VALUE) {
             enrollmentLimit = Integer.MAX_VALUE;
         }
-        if (waitlist.size() != 0) {
-            while (waitlist.size() > 0) {
-                Student waitlistedStudent = waitlist.poll();
-                waitlistedStudent.enrollIn(this);
-            }
+        while (!this.getWaitList().isEmpty()) {
+            Student waitlistedStudent = waitlist.remove(0);
+            waitlistedStudent.enrollIn(this);
         }
     }
 
     /**
-     * Drops the given student out of this course's roster,
+     * Drops the given student out of this course's roster/waitlist,
      * and enrolls the first wait-listed student, if the wait list is not empty.
      * @param student
      */
 
-    public void dropStudent(Student student) {
-        students.remove(student);
-        if (waitlist.size() != 0) {
-            Student waitlistedStudent = waitlist.poll();
+    void dropStudent(Student student) {
+        if (getStudents().contains(student)) {
+            students.remove(student);
+        } else if (getWaitList().contains(student)) {
+            waitlist.remove(student);
+        }
+
+        if (waitlist.size() != 0 && getStudents().size() < enrollmentLimit) {
+            Student waitlistedStudent = waitlist.remove(0);
             waitlistedStudent.enrollIn(this);
         }
     }
+
 }
