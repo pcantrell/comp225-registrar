@@ -34,7 +34,11 @@ public class Student {
         }
         if (course.getStudents().contains(this)){
             return true;
-        } else {
+        }
+        if (course.getWaitList().contains(this)){
+            return false;
+        }
+        else {
             course.addToWaitList(this);
             return false;
         }
