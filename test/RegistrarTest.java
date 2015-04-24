@@ -98,7 +98,7 @@ public class RegistrarTest {
         assertEquals(list(sally), comp225.getWaitList());
         assertFalse(comp225.getStudents().contains(sally));
     }
-/*
+
     @Test
     public void waitListPreservesEnrollmentOrder() {
         factory.enrollMultipleStudents(comp225, 16);
@@ -116,7 +116,7 @@ public class RegistrarTest {
         assertTrue(comp225.getStudents().contains(sally));
         assertFalse(comp225.getWaitList().contains(sally));
     }
-
+/*
     @Test
     public void doubleEnrollingAfterWaitListedHasNoEffect() {
         factory.enrollMultipleStudents(comp225, 16);

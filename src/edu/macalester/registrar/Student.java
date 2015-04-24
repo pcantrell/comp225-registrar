@@ -32,7 +32,12 @@ public class Student {
             course.enroll(this);
             return true;
         }
-        return false;
+        if (course.getStudents().contains(this)){
+            return true;
+        } else {
+            course.addToWaitList(this);
+            return false;
+        }
     }
 
     public void drop(Course course) {

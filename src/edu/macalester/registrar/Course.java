@@ -45,12 +45,16 @@ public class Course {
         return Collections.unmodifiableList(waitList);
     }
 
+    void addToWaitList(Student student){
+        waitList.add(student);
+    }
+
     void enroll(Student student) {
         if (students.size() < getEnrollmentLimit()) {
             students.add(student);
         } else {
             if (!students.contains(student)) {
-                waitList.add(student);
+                addToWaitList(student);
             }
         }
     }
