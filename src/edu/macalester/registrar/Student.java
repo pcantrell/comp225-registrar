@@ -31,8 +31,9 @@ public class Student {
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
      */
-    public void enrollIn(Course course) {
+    public boolean enrollIn(Course course) {
         if(course.getStudents().contains(this)){
+            return true;
         }
         else{
             if(course.getStudents().size() < course.getEnrollmentLimit()) {
@@ -49,15 +50,18 @@ public class Student {
             else{
                 //trying to add that student that tried to enroll to the wait list
                 course.addToWaitList(this);
-
+                return false;
             }
         }
+        return true;
     }
 
-    public void dropOut(Course course){
-        if(course.getStudents().contains(this)){
+    public void drop(Course course){
             courses.remove(course);
             course.drop(this);
-        }
+    }
+
+    public void removeFromWaitList(Course course) {
+        waitListedCourses.remove(course);
     }
 }

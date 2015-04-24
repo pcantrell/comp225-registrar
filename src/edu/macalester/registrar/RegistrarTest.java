@@ -1,9 +1,5 @@
 package edu.macalester.registrar;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
-
-import java.util.LinkedList;
-
 /**
  * A simple scenario to exercise the various registrar model objects.
  */
@@ -58,7 +54,7 @@ public class RegistrarTest {
 
         System.out.println("------ Drop Sally from class, Fred should be added from wait list ------");
 
-        sally.dropOut(c2);
+        sally.drop(c2);
 
         printSchedule(sally);
         printSchedule(fred);
