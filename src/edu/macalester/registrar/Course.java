@@ -6,7 +6,8 @@ import java.util.*;
 public class Course {
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
-    private Integer enrollmentLimit;
+    public final static int NO_ENROLLMENT_LIMIT = Integer.MAX_VALUE;
+    private int enrollmentLimit = NO_ENROLLMENT_LIMIT;
     private Queue<Student> waitlist = new LinkedList<Student>();
 
     public String getCatalogNumber() {
@@ -29,46 +30,47 @@ public class Course {
         return Collections.unmodifiableSet(students);
     }
 
-    public Integer getEnrollmentLimit() {
+    public int getEnrollmentLimit() {
         return enrollmentLimit;
     }
 
     public void setEnrollmentLimit(Integer limit) {
-        this.enrollmentLimit = limit;
+        if (limit >= students.size()) {
+            this.enrollmentLimit = limit;
+        } else {
+            throw new IllegalArgumentException("Enrollment limit cannot be set below number of currently enrolled students");
+        }
     }
 
-    String enroll(Student student) {
+    boolean enroll(Student student) {
         if (this.getStudents().size() < this.getEnrollmentLimit()) {
             students.add(student);
-            return "Student successfully added!";
+            return true;
         } else {
             this.waitlist(student);
-            return "Course is full; student successfully added to the waitlist";
+            return false;
         }
     }
 
     public String drop(Student student) {
-        this.students.remove(student);
-        if ( (this.waitlist.size() > 0) && (this.getStudents().size() < this.getEnrollmentLimit()) ) {
-            this.enrollFromWaitlist();
+        students.remove(student);
+        waitlist.remove(student);
+        if ( (waitlist.size() > 0) && (getStudents().size() < getEnrollmentLimit()) ) {
+            enrollFromWaitlist();
             return "Student successfully dropped the course, and was replaced by the first member of the waitlist";
         } else {
             return "Student successfully dropped the course";
         }
     }
 
-    public void waitlist(Student student) {
+    private void waitlist(Student student) {
         waitlist.add(student);
     }
 
-    public Queue getWaitlist() {return this.waitlist;}
+    public Queue<Student> getWaitList() {return waitlist;}
 
-    public String enrollFromWaitlist() {
-        if (this.waitlist.size() > 0) {
-          Student s = waitlist.remove();
-          return this.enroll(s);
-        } else {
-            return "Waitlist is empty!";
-        }
+    private boolean enrollFromWaitlist() {
+        Student s = waitlist.remove();
+        return this.enroll(s);
     }
 }

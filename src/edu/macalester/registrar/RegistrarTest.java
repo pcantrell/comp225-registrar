@@ -98,6 +98,6 @@ public class RegistrarTest {
     private static void printWaitlist(Course course) {
         System.out.println(course.getCatalogNumber() + ": " + course.getTitle());
         System.out.println("Students enrolled (" + course.getStudents().size() + ") out of " + course.getEnrollmentLimit() + " slots");
-        System.out.println("Waitlist: " + course.getWaitlist());
+        System.out.println("Waitlist: " + course.getWaitList());
     }
 }
