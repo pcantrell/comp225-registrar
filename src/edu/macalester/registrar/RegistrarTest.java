@@ -64,7 +64,7 @@ public class RegistrarTest {
 
         System.out.println("------ Dropping Sally from one course ------");
 
-        sally.dropCourse(c2);
+        sally.drop(c2);
         printEnrollment(c1);
         printEnrollment(c2);
         printWaitList(c1);
@@ -72,7 +72,7 @@ public class RegistrarTest {
 
         System.out.println("------ Dropping Fred from one course (he's so indecisive) ------");
 
-        fred.dropCourse(c2);
+        fred.drop(c2);
         printEnrollment(c1);
         printEnrollment(c2);
         printWaitList(c1);
