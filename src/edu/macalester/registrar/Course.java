@@ -5,8 +5,13 @@ import java.util.*;
 
 public class Course {
     private String catalogNumber, title;
-    private int enrollmentLimit;
+
+    public int NO_ENROLLMENT_LIMIT = 1000;
+
+    private int enrollmentLimit = NO_ENROLLMENT_LIMIT;
+
     private Set<Student> students = new HashSet<Student>();
+
     private Queue<Student> waitList = new LinkedList<Student>();
 
     public String getCatalogNumber() {
@@ -29,14 +34,26 @@ public class Course {
         return Collections.unmodifiableSet(students);
     }
 
-    void enroll(Student student) {
+    public void enroll(Student student) {
         students.add(student);
     }
 
-    public Integer getEnrollmentLimit() { return enrollmentLimit; }
+    public int getEnrollmentLimit() {
+        return enrollmentLimit;
+    }
 
-    public void setEnrollmentLimit(int enrollmentLimit) { this.enrollmentLimit = enrollmentLimit;}
-
+    public void setEnrollmentLimit(int enrollmentLimit) {
+        this.enrollmentLimit = enrollmentLimit;
+//       if(enrollmentLimit > students.size()){
+//            enrollIfRoom(enrollmentLimit - students.size());
+//        }
+    }
+    private void enrollIfRoom (int enrollmentlimitChanged){
+        int avalRoom = enrollmentlimitChanged;
+        for (int i=0; i < avalRoom ; i++ ){
+            this.enroll(this.getWaitList().poll());
+        }
+    }
     void addToWaitList(Student student) {
         waitList.add(student);
     }
@@ -45,11 +62,13 @@ public class Course {
         return waitList.poll();
     }
 
-    public Queue getWaitList() {
+    public Queue<Student> getWaitList() {
         return waitList;
     }
 
-    void drop(Student student){
+    void drop(Student student) {
         students.remove(student);
     }
 }
+
+
