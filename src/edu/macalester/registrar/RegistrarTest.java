@@ -18,12 +18,12 @@ public class RegistrarTest {
         Course c1 = new Course();
         c1.setCatalogNumber("COMP 225");
         c1.setTitle("Software Fun Fun");
-        c1.setenrollmentLimit(2);
+        c1.setEnrollmentLimit(2);
 
         Course c2 = new Course();
         c2.setCatalogNumber("MATH 6");
         c2.setTitle("All About the Number Six");
-        c2.setenrollmentLimit(1);
+        c2.setEnrollmentLimit(1);
 
         System.out.println("------ Enrolling Sally in two courses ------");
 

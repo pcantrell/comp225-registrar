@@ -5,9 +5,17 @@ import java.util.*;
 
 public class Course {
     private String catalogNumber, title;
-    private Set<Student> students = new HashSet<Student>();
+    private Set<Student> students;
     private int enrollmentLimit;
-    private ArrayList<Student> waitList = new ArrayList<Student>();
+    private ArrayList<Student> waitList;
+
+    public static final int NO_ENROLLMENT_LIMIT = Integer.MAX_VALUE;
+
+    public Course() {
+        students = new HashSet<Student>();
+        waitList = new ArrayList<Student>();
+        enrollmentLimit = NO_ENROLLMENT_LIMIT;
+    }
 
     public String getCatalogNumber() {
         return catalogNumber;
@@ -33,14 +41,26 @@ public class Course {
         if(getStudents().size()<enrollmentLimit) {
             students.add(student);
         }
-        else {
+        else if (!waitList.contains(student)){
             waitList.add(student);
-            throw(new RuntimeException());
+            throw new RuntimeException();
+        }
+        else {
+            throw new RuntimeException();
         }
     }
 
-    public void setenrollmentLimit(int enrollmentLimit) {
-        this.enrollmentLimit = enrollmentLimit;
+    public void setEnrollmentLimit(int enrollmentLimit) {
+        if (enrollmentLimit >= getStudents().size()) {
+            this.enrollmentLimit = enrollmentLimit;
+            while (students.size() < enrollmentLimit && waitList.size() > 0) {
+                waitList.get(0).enrollIn(this);
+                waitList.remove(0);
+            }
+        }
+        else {
+            throw new IllegalArgumentException();
+        }
     }
 
     public int getEnrollmentLimit() {
@@ -52,11 +72,13 @@ public class Course {
     }
 
     void unEnroll(Student student) {
-        int size = getStudents().size();
         students.remove(student);
-        if(size==enrollmentLimit) {
-            waitList.get(0).enrollIn(this);
-            waitList.remove(0);
+        waitList.remove(student);
+        if(students.size()<enrollmentLimit) {
+            if (!waitList.isEmpty()) {
+                waitList.get(0).enrollIn(this);
+                waitList.remove(0);
+            }
         }
     }
 }
