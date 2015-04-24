@@ -22,7 +22,16 @@ public class Course {
     }
 
     public void setEnrollmentLimit(int newLimit) {
+        int oldLimit = enrollmentLimit;
+        if (newLimit<students.size()) {
+            throw new IllegalArgumentException();
+        }
         this.enrollmentLimit = newLimit;
+        for (int x = 0; x < enrollmentLimit - oldLimit; x++) {
+            Student newStudent = waitList.get(0);
+            waitList.remove(0);
+            newStudent.enrollIn(this);
+        }
     }
 
     public String getTitle() {

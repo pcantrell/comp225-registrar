@@ -128,7 +128,7 @@ public class RegistrarTest {
 
         assertEquals(list(sally, fred, zongo), comp225.getWaitList());
     }
-/*
+
     @Test
     public void waitListedStudentsEnrolledIfLimitIncreased() {
         factory.enrollMultipleStudents(comp225, 16);
@@ -140,7 +140,7 @@ public class RegistrarTest {
         assertTrue(comp225.getStudents().contains(fred));
         assertEquals(list(zongo), comp225.getWaitList());
     }
-/*    @Test
+    @Test
     public void canLowerEnrollmentLimit() {
         factory.enrollMultipleStudents(comp225, 8);
         comp225.setEnrollmentLimit(8);
