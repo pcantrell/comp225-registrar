@@ -1,13 +1,12 @@
 package edu.macalester.registrar;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
-
 public class Student {
+
     private String name;
+
     private Set<Course> courses = new HashSet<Course>();
 
     public String getName() {
@@ -27,38 +26,42 @@ public class Student {
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
      */
-
-    public void enrollIn(Course course) {
-        if (course.getStudents().size() < course.getEnrollmentLimit()) {
-            courses.add(course);
-            course.enroll(this);
-            System.out.println(this.getName() + " has been added to the course '" + course.getTitle() + ".'");
-
-
-        } else {
-            course.waitListEnroll(this);
-            System.out.println("Sorry, we tried adding " + this.getName() + " to the course '" + course.getTitle() + "', but it's full! " + this.getName() + " has been added to the wait list.");
+    public boolean enrollIn(Course course) {
+        if (course.getStudents().contains(this)) { //if the student is already in the course, but tries to re-enroll when it is full, do nothing.
+            System.out.println(this.getName() + " is already in the course '" + course.getTitle() + ".'");
+            return true;
         }
-    }
+        if (course.getWaitList().contains(this)) { //if student is already on wait list
+            if (course.getStudents().size() < course.getEnrollmentLimit()) { //if there is room left
+                System.out.println("==================");
+                course.enroll(this);
+                courses.add(course);
+                //System.out.println(this.getName() + " has been added to the course '" + course.getTitle() + ".'");
+                return true;
+            } else {
+                System.out.println(this.getName() + " has already requested enrollment in the course '" + course.getTitle() + ".' They are already on the wait list");
+                return false;
+                }
+            }
+            //change the below code to return course.enroll (and have the enroll method return a boolean so as not to repeat the check
+            if (course.getStudents().size() < course.getEnrollmentLimit()) { //if there is room in the class, student gets added
+                courses.add(course);
+                course.enroll(this);
+                return true;
+            } else {
+                course.enroll(this);
+                return false;
+            }
+        }
+
 
     public void drop(Course course) {
         Set enrolled = course.getStudents();
-        if (enrolled.contains(this)) {
+        if (enrolled.contains(this)) { //if the student is in the course
+            course.drop(this); //calling the course drop method
+            courses.remove(course); //removing the course from the student's courses list
+        } else { //if student is not in the course
             course.drop(this);
-            courses.remove(course);
-            if (course.getWaitList().size() != 0) {
-                Student firstOnWaitList = course.getWaitList().get(0);
-
-                //System.out.println("course is being dropped. This is this.courses: " + this.courses);
-                System.out.println();
-                System.out.println(this.getName() + " has dropped '" + course.getTitle() + ".' " + firstOnWaitList.getName() + " was first on the wait list, so " + firstOnWaitList.getName() + " has now been enrolled. ");
-                System.out.println();
-                course.enroll(firstOnWaitList);
-                course.getWaitList().remove(firstOnWaitList);
-                firstOnWaitList.courses.add(course);
-            }
-        }
-        else {      //if (!enrolled.contains(this))
             System.out.println();
             System.out.println("I think you made a mistake. " + this.getName() + " isn't in '" + course.getTitle() + ".'");
             System.out.println("There are " + (course.getEnrollmentLimit() - course.getStudents().size()) + " spots left in " + course.getTitle() + ".");
