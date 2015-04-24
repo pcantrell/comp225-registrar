@@ -21,6 +21,10 @@ public class Course {
         this.catalogNumber = catalogNumber;
     }
 
+    public void setEnrollmentLimit(int newLimit) {
+        this.enrollmentLimit = newLimit;
+    }
+
     public String getTitle() {
         return title;
     }
