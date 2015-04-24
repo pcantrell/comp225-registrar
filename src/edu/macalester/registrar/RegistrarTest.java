@@ -62,7 +62,7 @@ public class RegistrarTest {
 
         System.out.println("------ Sally drops COMP 225 and Fred is enrolled------");
 
-        sally.dropCourse(c1);
+        sally.drop(c1);
 
         printSchedule(sally);
         printSchedule(fred);
