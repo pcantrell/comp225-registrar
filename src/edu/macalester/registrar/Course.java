@@ -4,9 +4,10 @@ import java.util.*;
 
 public class Course {
     private String catalogNumber, title;
+    public static int NO_ENROLLMENT_LIMIT = Integer.MAX_VALUE;
+    private int enrollmentLimit = NO_ENROLLMENT_LIMIT;
+    private List<Student> waitList = new ArrayList();
     private Set<Student> students = new HashSet<Student>();
-    private int enrollmentLimit = Integer.MAX_VALUE;
-    private Queue<Student> waitList = new LinkedList();
 
     public boolean isFull() { return (students.size() >= getEnrollmentLimit()); }
 
@@ -20,8 +21,6 @@ public class Course {
         this.catalogNumber = catalogNumber;
     }
 
-    public void setEnrollmentLimit(int enrollmentLimit) { this.enrollmentLimit = enrollmentLimit; }
-
     public String getTitle() {
         return title;
     }
@@ -34,8 +33,20 @@ public class Course {
         return Collections.unmodifiableSet(students);
     }
 
-    public Queue<Student> getWaitList() {
-        return waitList;
+    public List<Student> getWaitList() { return Collections.unmodifiableList(waitList); }
+
+    /**
+     *   This methods set the new enrollment limit
+     *   @param newLimit the new limit has to be equal or greater than the current student size
+     */
+    public void setEnrollmentLimit(int newLimit) {
+        if (newLimit < students.size()) {
+            throw new IllegalArgumentException(Integer.toString(newLimit));
+        }
+        else {
+            enrollmentLimit = newLimit;
+            enrollWaitList();
+        }
     }
 
     /**
@@ -56,20 +67,24 @@ public class Course {
     *   @param student  the student caller is asking to enroll in the course
     *   @param enrollmentPossible   boolean value determining if course is already full
     */
-    void enroll(Student student, boolean enrollmentPossible) {
+    boolean enroll(Student student, boolean enrollmentPossible) {
         if (enrollmentPossible) {
             if (students.contains(student)) {
                 System.out.println("I'm sorry, " + student.getName() + " cannot be enrolled twice!");
             } else if (!students.contains(student)) {
                 students.add(student);
             }
-        } else if (!enrollmentPossible) {
+            return true;
+        } else if (!enrollmentPossible) { // Course already full
             if (students.contains(student)) {
                 System.out.println("I'm sorry, " + student.getName() + " cannot be enrolled twice!");
+                return true;
             } else if (!students.contains(student)) {
                 addToWaitList(student);
+                return false;
             }
         }
+        return true;
     }
 
     /**
@@ -85,14 +100,20 @@ public class Course {
     }
 
     /**
-     *   This method takes in the student as argument, then drop her from the class. the waitlisted students are then
-     *   admitted
+     *   This method takes in the student as argument, then drop her from the class. the first waitlisted student is then
+     *   automatically admitted. If she is in the waitlist, the drop function will remove her from the wait list too.
      *   @param student  the student caller is asking to drop the class
      */
     void drop(Student student) {
         if (!students.isEmpty() && (students.contains(student))) {
             students.remove(student);
-            enrollWaitList();
+            if (!waitList.isEmpty()) {
+                Student firstInLine = waitList.remove(0);
+                firstInLine.enrollIn(this);
+            }
+        }
+        if (!waitList.isEmpty() && (waitList.contains(student))) {
+            waitList.remove(student);
         }
     }
 
@@ -101,7 +122,7 @@ public class Course {
     */
     void enrollWaitList() {
         while (!waitList.isEmpty() && (!isFull())) {
-            Student firstInLine = waitList.poll();
+            Student firstInLine = waitList.remove(0);
             firstInLine.enrollIn(this);
         }
     }
