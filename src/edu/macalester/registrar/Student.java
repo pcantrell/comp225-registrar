@@ -24,10 +24,17 @@ public class Student {
     /**
      * Add this student to the given course's roster.
      * Has no effect if the student is already registered.
-     * Equivalent to course.enroll(student).
+     * Equivalent to course.enroll( student).
      */
-    public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+    public void enrollIn(Course course){
+
+        if(course.enroll(this)){
+            courses.add(course);
+        }
+    }
+    public void dropCourse(Course course){
+        if(course.drop(this)){
+            courses.remove(course);
+        }
     }
 }
