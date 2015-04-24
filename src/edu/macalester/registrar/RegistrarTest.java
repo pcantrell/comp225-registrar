@@ -47,7 +47,26 @@ public class RegistrarTest {
         sally.enrollIn(c1);
 
         printSchedule(sally);
+        printSchedule(fred);
         printEnrollment(c1);
+
+        System.out.println("------ COMP 225 has 9 more enroll attempts and Fred is waitlisted ------");
+
+        for(int i = 0; i < 9; i++) {
+            Student student = new Student();
+            student.setName(Integer.toString(i));
+            c1.enroll(student);
+        }
+        System.out.println(fred.enrollIn(c1));
+        printEnrollment(c1);
+
+        System.out.println("------ Sally drops COMP 225 and Fred is enrolled------");
+
+        sally.drop(c1);
+
+        printSchedule(sally);
+        printSchedule(fred);
+
     }
 
     private static void printSchedule(Student student) {

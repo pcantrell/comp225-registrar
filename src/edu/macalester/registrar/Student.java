@@ -26,8 +26,20 @@ public class Student {
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
      */
-    public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+    public boolean enrollIn(Course course) {
+        boolean status = course.enroll(this);
+        if(status) {
+            courses.add(course);
+        }
+        return status;
+    }
+
+    public void drop(Course course) {
+        courses.remove(course);
+        course.drop(this);
+    }
+
+    public boolean isEnrolledIn(Course course) {
+        return courses.contains(course);
     }
 }
