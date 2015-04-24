@@ -2,6 +2,7 @@ package edu.macalester.registrar;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Queue;
 import java.util.Set;
 
 
@@ -26,8 +27,26 @@ public class Student {
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
      */
-    public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+    public boolean enrollIn(Course course) {
+        if (course.getStudents().contains(this)) {
+            return true;
+        }
+        else if (course.getStudents().size() < course.getEnrollmentLimit())  {
+            courses.add(course);
+            course.enroll(this);
+            return true;
+        }
+        else if (!(course.getStudents().contains(this)) && !(course.getWaitList().contains(this))) {
+            course.addToWaitList(this);
+            return false;
+        }
+        return false;
+    }
+
+
+    public void drop(Course course) {
+            courses.remove(course);
+            course.drop(this);
     }
 }
+
