@@ -33,7 +33,6 @@ public class Student {
     public boolean enrollIn(Course course) {
         Boolean b = course.enroll(this);
         if (b) {
-            //removeFromWaitList(course);
             if (waitListedCourses.contains(course)){
                 waitListedCourses.remove(course);
             }
