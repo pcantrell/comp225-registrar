@@ -11,7 +11,7 @@ public class Course {
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
     private ArrayList<Student> waitList = new ArrayList<Student>();
-    private int enrollmentLimit = 1;
+    private int enrollmentLimit = 100000;
 
     public String getCatalogNumber() {
         return catalogNumber;
@@ -46,17 +46,20 @@ public class Course {
     }
 
     void enroll(Student student) {
-        if (students.size() < getEnrollmentLimit())
+        if (students.size() < getEnrollmentLimit()) {
             students.add(student);
-        else
-            if (!students.contains(student))
+        } else {
+            if (!students.contains(student)) {
                 waitList.add(student);
+            }
+        }
     }
 
     void drop(Student student) {
-        if (students.contains(student))
+        if (students.contains(student)) {
             students.remove(student);
             students.add(waitList.get(0));
             waitList.remove(0);
+        }
     }
 }
