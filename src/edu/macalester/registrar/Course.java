@@ -38,7 +38,11 @@ public class Course {
     }
     
     public int getEnrollmentLimit() {
-        return enrollmentLimit;
+        if (enrollmentLimit == NO_ENROLLMENT_LIMIT) {
+            return students.size();
+        } else {
+            return enrollmentLimit;
+        }
     }
     
     public void setEnrollmentLimit(int enrollmentLimit) {
@@ -95,5 +99,5 @@ public class Course {
         }
     }
     
-    public static final int NO_ENROLLMENT_LIMIT = -1;
+    public static final int NO_ENROLLMENT_LIMIT = 0;
 }
