@@ -67,7 +67,7 @@ public class Course {
         }
     }
 
-    public void enrollInAutomate(int space) {
+    private void enrollInAutomate(int space) {
         if (!(waitList.isEmpty())) {
             if (waitList.size() > space) {
                 for (int i = 0; i < space; i++) {
