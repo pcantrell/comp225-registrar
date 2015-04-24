@@ -203,8 +203,8 @@ public class RegistrarTest {
         factory.enrollMultipleStudents(comp225, 16);
         sally.enrollIn(comp225);
         fred.enrollIn(comp225);
-        zongo.enrollIn(comp225);
-        fred.drop(comp225);
+        zongo.enrollIn(comp225); //enroll 3 students
+        fred.drop(comp225); //fred drops course
         assertEquals(list(sally, zongo), comp225.getWaitList());
     }
 
