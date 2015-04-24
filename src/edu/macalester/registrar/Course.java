@@ -11,10 +11,13 @@ import java.util.ArrayList;
  */
 
 public class Course {
+
+    public static final int NO_ENROLLMENT_LIMIT = Integer.MAX_VALUE;
+
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
     private List<Student> waitlist = new ArrayList<Student>();
-    private int enrollmentLimit;
+    private int enrollmentLimit = NO_ENROLLMENT_LIMIT;
 
     /*
         Getters and setters
@@ -40,14 +43,27 @@ public class Course {
     }
 
     public void setEnrollmentLimit(int enrollmentLimit) {
-        this.enrollmentLimit = enrollmentLimit;
+        // difference refers to the number of spots in the class
+        int difference = enrollmentLimit - students.size();
+
+        if (difference >= 0) {
+            this.enrollmentLimit = enrollmentLimit;
+            // enroll the students from waitlist until no spot is left or waitlist is empty
+            while ((!waitlist.isEmpty()) && (difference > 0)) {
+                waitlist.get(0).enrollIn(this);
+                difference--;
+            }
+        } else {
+            System.out.println("Don't set the enrollment list lower than the current student size!");
+            throw new IllegalArgumentException();
+        }
     }
 
     public Set<Student> getStudents() {
         return Collections.unmodifiableSet(students);
     }
 
-    public List<Student> getWaitlist() {
+    public List<Student> getWaitList() {
         return Collections.unmodifiableList(waitlist);
     }
 
@@ -55,17 +71,21 @@ public class Course {
      * If the course is full, add the student to the waitlist.
      * If not, add the student to the course enrollment.
      * Notify the user if the student is added to the waitlist or enrollment.
-     * @param student
-     * @return
      */
     public boolean enroll(Student student) {
+
         if (students.size() + 1 <= enrollmentLimit) {
-            students.add(student);
-            System.out.println(student.getName() + " is added to " + catalogNumber);
+            if (!students.contains(student)) {
+                students.add(student);
+                System.out.println(student.getName() + " is added to " + catalogNumber);
+            }
+            if (waitlist.contains(student)) { waitListDrop(student); }
             return true;
         } else {
-            waitlist.add(student);
-            System.out.println(student.getName() + " is added to the waitlist of " + catalogNumber);
+            if (!waitlist.contains(student)) {
+                waitlist.add(student);
+                System.out.println(student.getName() + " is added to the waitlist of " + catalogNumber);
+            }
             return false;
         }
     }
@@ -75,15 +95,20 @@ public class Course {
      * ONLY CALLED when the student voluntarily drops the class.
      * Then if the waitlist is not empty, let the first student enroll in the class,
      * and remove the student from the waitlist.
-     * @param student
      */
     public void drop(Student student) {
-        students.remove(student);
+        if (students.contains(student)) {
+            students.remove(student);
+        }
         if (!waitlist.isEmpty()) {
             Student newStudent = waitlist.get(0);
             waitlist.remove(0);
             newStudent.enrollIn(this);
         }
+    }
+
+    public void waitListDrop(Student student) {
+        waitlist.remove(student);
     }
 
 }

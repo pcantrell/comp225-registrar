@@ -70,7 +70,7 @@ public class RegistrarTest {
 
         System.out.println("------ Sally drops from one class, Fred is added to the class ------");
 
-        sally.dropCourse(c2);
+        sally.drop(c2);
 
         printSchedule(sally);
         printSchedule(fred);
@@ -100,8 +100,8 @@ public class RegistrarTest {
         for(Student student : course.getStudents())
             System.out.println("    " + student.getName());
         System.out.println();
-        System.out.println("Students waitlisted (" + course.getWaitlist().size() + ")");
-        for(Student student : course.getWaitlist())
+        System.out.println("Students waitlisted (" + course.getWaitList().size() + ")");
+        for(Student student : course.getWaitList())
             System.out.println("    " + student.getName());
         System.out.println();
     }

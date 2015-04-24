@@ -38,31 +38,45 @@ public class Student {
      * Equivalent to course.enroll(student).
      * If the course is full, the student is added to waitlist.
      */
-    public void enrollIn(Course course) {
-        if (course.enroll(this)) {
-            courses.add(course);
-            // make sure the student is both enrolled and waitlisted
-            if (waitlistCourses.contains(course)) {
-                waitlistCourses.remove(course);
+    public boolean enrollIn(Course course) {
+
+        if (courses.contains(course)) {
+            return true;
+        }
+        else {
+            if (course.enroll(this)) {
+                courses.add(course);
+                if (waitlistCourses.contains(course)) {
+                    waitlistCourses.remove(course);
+                }
+                return true;
+            } else {
+                if (!waitlistCourses.contains(course)) {
+                    waitlistCourses.add(course);
+                }
+                return false;
             }
-        } else {
-            waitlistCourses.add(course);
         }
     }
 
     /**
      * Allows a student to drop a class.
      * If the student is not enrolled in the course, print the error message.
-     * If the student is enrolled, remove the course from the course list,
+     * If the student is enrolled/waitlisted, remove the course from the course list,
      * and call the drop method from the Course class.
-     * @param course
      */
-    public void dropCourse(Course course) {
+    public void drop(Course course) {
         if (courses.contains(course)) {
             courses.remove(course);
             course.drop(this);
         } else {
             System.out.println(name + " is not enrolled in " + course.getCatalogNumber());
+            if (waitlistCourses.contains(course)) {
+                waitlistCourses.remove(course);
+                course.waitListDrop(this);
+            } else {
+                System.out.println(name + " is not waitlisted in " + course.getCatalogNumber());
+            }
         }
     }
 }
