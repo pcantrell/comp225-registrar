@@ -11,7 +11,8 @@ public class Course {
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
     private ArrayList<Student> waitList = new ArrayList<Student>();
-    private int enrollmentLimit = 100000;
+    private int enrollmentLimit = NO_ENROLLMENT_LIMIT;
+    public static int NO_ENROLLMENT_LIMIT = Integer.MAX_VALUE;
 
     public String getCatalogNumber() {
         return catalogNumber;
@@ -28,9 +29,11 @@ public class Course {
         }
         this.enrollmentLimit = newLimit;
         for (int x = 0; x < enrollmentLimit - oldLimit; x++) {
-            Student newStudent = waitList.get(0);
-            waitList.remove(0);
-            newStudent.enrollIn(this);
+            if (waitList.size()>0) {
+                Student newStudent = waitList.get(0);
+                waitList.remove(0);
+                newStudent.enrollIn(this);
+            }
         }
     }
 

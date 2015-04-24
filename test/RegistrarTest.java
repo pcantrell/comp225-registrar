@@ -70,12 +70,12 @@ public class RegistrarTest {
         comp225.setEnrollmentLimit(16);
         assertEquals(16, comp225.getEnrollmentLimit());
     }
-/*  //Gonna have to come back to this one
+
     @Test
     public void enrollmentLimitDefaultsToUnlimited() {
         assertEquals(Course.NO_ENROLLMENT_LIMIT, math6.getEnrollmentLimit());
     }
-*/
+
     @Test
     public void unlimitedEnrollmentAllowsManyStudents() {
         factory.enrollMultipleStudents(math6, 1000);
@@ -152,7 +152,7 @@ public class RegistrarTest {
         factory.enrollMultipleStudents(comp225, 8);
         comp225.setEnrollmentLimit(7);
     }
-/*
+
     @Test
     public void waitListedStudentsEnrolledIfLimitRemoved() {
         factory.enrollMultipleStudents(comp225, 16);
@@ -166,7 +166,6 @@ public class RegistrarTest {
         assertTrue(comp225.getStudents().contains(zongo));
         assertEquals(list(), comp225.getWaitList());
     }
-*/
 
     @Test(expected = UnsupportedOperationException.class)
     public void courseWaitListGetterReturnsImmutable() {
