@@ -42,24 +42,20 @@ public class Course {
     public void setEnrollmentLimit(int newLimit) {
         if(newLimit >= students.size()){
             enrollmentLimit = newLimit;
+//            while (students.size()<=enrollmentLimit){
+//                Student student = waitList.get(0);
+//                waitList.remove(0);
+//                student.enrollIn(this);
+//            }
 //            while(students.size()<=enrollmentLimit){
 //                transferFromWaitlist();
 //            }
         }else if (newLimit < this.getStudents().size()){
             throw new IllegalArgumentException("Enrollment Limit cannot be less than the number of students already enrolled.");
-        }else if (newLimit == NO_ENROLLMENT_LIMIT){
-            enrollmentLimit = newLimit;
-//            while (!waitList.isEmpty()){
-//                transferFromWaitlist();
-//            }
-
         }
     }
 
-    private void transferFromWaitlist() {
-        Student student = waitList.remove(0);
-        student.enrollIn(this);
-    }
+
 
     public Collection<Student> getWaitList() {
         if (waitList.isEmpty()){
