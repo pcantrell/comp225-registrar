@@ -8,7 +8,6 @@ import java.util.Set;
 public class Student {
     private String name;
     private Set<Course> courses = new HashSet<Course>();
-    private Set<Course> waitListCourses = new HashSet<Course>();
 
     public String getName() {
         return name;
@@ -22,36 +21,22 @@ public class Student {
         return Collections.unmodifiableSet(courses);
     }
 
-    public Set<Course> getWaitListCourses() {
-        return Collections.unmodifiableSet(this.waitListCourses);
-    }
-
     /**
      * Add this student to the given course's roster.
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
      */
-    public void enrollIn(Course course) {
-        if (!course.isFull()){
-            if (!this.courses.contains(course)){
-                courses.add(course);
-            }
-            if (this.waitListCourses.contains(course)){
-                waitListCourses.remove(course);
-            }
+    public boolean enrollIn(Course course) {
+        boolean gotEnrolled = course.enroll(this);
+        if (gotEnrolled){
+            courses.add(course);
         }
-        else if (course.isFull() && !this.courses.contains(course) && !this.waitListCourses.contains(course)) {
-            waitListCourses.add(course);
-        }
-        course.enroll(this);
+        return gotEnrolled;
     }
 
-    public void dropFrom(Course course) {
+    public void drop(Course course) {
         if (this.courses.contains(course)){
             courses.remove(course);
-        }
-        else if (this.waitListCourses.contains(course)) {
-            waitListCourses.remove(course);
         }
         course.drop(this);
     }
