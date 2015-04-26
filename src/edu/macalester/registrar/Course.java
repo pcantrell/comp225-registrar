@@ -1,16 +1,37 @@
 package edu.macalester.registrar;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 public class Course {
     private String catalogNumber, title;
+
+
+
     private Set<Student> students = new HashSet<Student>();
-    private ArrayList<Student> waitList = new ArrayList<Student>();
-    private int enrollmentLimit;
+    private List<Student> waitList = new ArrayList<Student>();
+    public static int NO_ENROLLMENT_LIMIT = Integer.MAX_VALUE;
+    private int classLimit = NO_ENROLLMENT_LIMIT;
+
+
+
+    public void setEnrollmentLimit(int classLimit) {
+        int oldSize = this.classLimit;
+        int differenceInSize = classLimit - oldSize;
+        if (this.students.size() > classLimit) {
+            System.err.print("Class already has more participants than class limit allows");
+        }
+        else {
+            this.classLimit = classLimit;
+        }
+//        if (differenceInSize > 0){
+//            for(int x=)
+//        }
+    }
+
+    public int getEnrollmentLimit(){
+        return this.classLimit;
+    }
 
     public String getCatalogNumber() {
         return catalogNumber;
@@ -32,33 +53,39 @@ public class Course {
         return Collections.unmodifiableSet(students);
     }
 
-    public ArrayList<Student> getWaitList() {return waitList; }
-
-    public int getEnrollmentLimit() { return enrollmentLimit; }
-
-    public void setEnrollmentLimit(int enrollmentLimit) { this.enrollmentLimit = enrollmentLimit; }
-
     public void enroll(Student student) {
-        if (this.students.size() >= this.enrollmentLimit) {
-            System.out.println("Enrollment limit reached. Added to Wait List");
-            waitList.add(student);
+        if (this.students.size() < this.classLimit && !this.students.contains(student)) {
+            this.students.add(student);
+            student.enrollIn(this);
         }
-
-        else {
-            students.add(student);
-            System.out.println(student.getName() + " enrolled in " + this.getTitle());
+        else if(this.students.contains(student)) {
+            System.err.print("Student already enrolled");
         }
-
+        else if (this.students.size()>= this.classLimit){
+            this.sendToWaitlist(student);
+        }
+        else{
+            sendToWaitlist(student);
+        }
     }
 
+    void sendToWaitlist(Student student) {
+        this.waitList.add(student);
+    }
 
-    public void waitListToStudents(){
-        if (this.students.size() >= this.enrollmentLimit) {
-            System.out.println("Enrollment Limit Reached.");
-        }
-        else {
-            students.add(waitList.get(0));
-        }
+    public List<Student> getWaitList() {
+        return Collections.unmodifiableList(waitList);
+    }
+
+    public void dropStudent(Student student){
+       this.students.remove(student);
+    }
+
+    @Override
+    public String toString(){
+
+        return this.title;
+
     }
 
 
