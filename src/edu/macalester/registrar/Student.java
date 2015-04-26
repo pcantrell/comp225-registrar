@@ -1,5 +1,7 @@
 package edu.macalester.registrar;
 
+import org.omg.IOP.ExceptionDetailMessage;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,8 +28,30 @@ public class Student {
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
      */
-    public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+    public boolean enrollIn(Course course) {
+        if (course.getStudents().size() < course.getEnrollmentLimit()) {
+            course.enroll(this);
+            courses.add(course);
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
+
+    public void drop(Course course){
+        if (this.courses.contains(course)){
+            this.courses.remove(course);
+            course.dropStudent(this);
+        }
+
+    }
+
+    @Override
+    public String toString(){
+
+        return this.name;
+
     }
 }
