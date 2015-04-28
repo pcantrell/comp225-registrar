@@ -88,7 +88,7 @@ public class RegistrarTest {
         assertEquals(1000, math6.getStudents().size());
     }
 
-    @Test
+     @Test
     public void enrollingUpToLimitAllowed() {
         factory.enrollMultipleStudents(comp225, 15);
         assertTrue(sally.enrollIn(comp225));
