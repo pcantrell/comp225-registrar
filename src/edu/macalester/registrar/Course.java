@@ -1,15 +1,14 @@
 package edu.macalester.registrar;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 public class Course {
     private String catalogNumber, title;
     private Set<Student> students = new HashSet<Student>();
-    private Set<Student> waitlist = new HashSet<Student>();
-    private int enrollmentLimit = 1;
+    private List<Student> waitlist = new LinkedList<Student>();
+    private int enrollmentLimit;
+    public static final int NO_ENROLLMENT_LIMIT = Integer.MAX_VALUE;
 
     public String getCatalogNumber() {
         return catalogNumber;
@@ -31,36 +30,87 @@ public class Course {
         return Collections.unmodifiableSet(students);
     }
 
-    public Set<Student> getWaitlist() {
-        return Collections.unmodifiableSet(waitlist);
+    public void setEnrollmentLimit(int newEnrollmentLimit) {
+
+        if(newEnrollmentLimit == this.NO_ENROLLMENT_LIMIT){
+            enrollmentLimit = NO_ENROLLMENT_LIMIT;
+            while(this.waitlist.size() != 0){
+                moveFromWaitlist();
+            }
+        }
+
+        else if(newEnrollmentLimit > enrollmentLimit) {
+            if (waitlist.size() > 0) {
+                int discrepancy = newEnrollmentLimit - enrollmentLimit;
+                enrollmentLimit = newEnrollmentLimit;
+                for (int i = 0; i < discrepancy; i++) {
+                    Student luckyStudent = waitlist.remove(0);
+                    luckyStudent.enrollIn(this);
+                }
+            }
+            else{
+                enrollmentLimit = newEnrollmentLimit;
+            }
+        }
+
+        else if(newEnrollmentLimit < students.size()) {
+            throw new IllegalArgumentException("Cannot lower enrollment limit below current class size.");
+        }
+
     }
 
-    void enroll(Student student) {
-        if(enrollmentLimit()) { students.add(student);}
-        else if(!students.contains(student)){ addToWaitlist(student);}
-    }
+    public int getEnrollmentLimit(){
 
-    void drop(Student student){
-        students.remove(student);
-        moveFromWaitlist();
-    }
-
-    void addToWaitlist(Student student){
-        waitlist.add(student);
-    }
-
-    public void moveFromWaitlist(){
-        if(waitlist.size() > 0){
-            students.add(waitlist.iterator().next());
-            waitlist.remove(waitlist.iterator().next());
+        if(enrollmentLimit == 0){
+            return NO_ENROLLMENT_LIMIT;
+        }
+        else{
+            return enrollmentLimit;
         }
     }
 
-    //Checks to see if the number of students has not yet reached the enrollment limit
-    //returns True if max not yet reached, false if it has
-    boolean enrollmentLimit(){
-        if(this.getStudents().size() < this.enrollmentLimit){return true;}
-        else{return false;}
+    boolean enroll(Student student) {
+        if(students.contains(student)){ /*if the student is already enrolled in the course*/ }
+
+        else {
+            if (getStudents().size() < getEnrollmentLimit()) { /*if there is still room in the course*/
+                students.add(student);
+            }
+
+            else{ /*if the course is full*/
+                if(getWaitList().contains(student)){ return false;}
+                else{addToWaitlist(student); return false;}
+            }
+        }
+        return true;
+    }
+
+    void drop(Student student){
+        if(this.students.contains(student)){
+            this.students.remove(student);
+            moveFromWaitlist();
+        }
+        else{
+            this.waitlist.remove(student);
+        }
+    }
+
+    public List<Student> getWaitList() {
+        return Collections.unmodifiableList(waitlist);
+    }
+
+    public void addToWaitlist(Student student){
+        this.waitlist.add(student);
+    }
+
+    void moveFromWaitlist(){
+        if(waitlist.size() > 0){
+            waitlist.remove(0).enrollIn(this);
+        }
+    }
+
+    public String toString(){
+        return title;
     }
 
 }

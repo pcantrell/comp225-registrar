@@ -26,13 +26,20 @@ public class Student {
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
      */
-    public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+    public boolean enrollIn(Course course) {
+        Boolean canEnroll = course.enroll(this);
+        if(canEnroll){
+            courses.add(course);
+        }
+        return canEnroll;
     }
 
-    public void dropCourse(Course course){
+    public void drop(Course course){
         courses.remove(course);
         course.drop(this);
+    }
+
+    public String toString(){
+        return name;
     }
 }

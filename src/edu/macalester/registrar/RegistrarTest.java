@@ -51,7 +51,7 @@ public class RegistrarTest {
 
         System.out.println("------ Removing Sally from class enrolls Fred ------");
 
-        sally.dropCourse(c2);
+        sally.drop(c2);
         printEnrollment(c2);
     }
 
@@ -72,7 +72,7 @@ public class RegistrarTest {
             System.out.println("    " + student.getName());
         System.out.println();
         System.out.println("WAITLIST: ");
-        for(Student student : course.getWaitlist()){
+        for(Student student : course.getWaitList()){
             System.out.println("    " + student.getName());
         }
     }
