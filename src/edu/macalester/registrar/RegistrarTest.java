@@ -48,6 +48,18 @@ public class RegistrarTest {
 
         printSchedule(sally);
         printEnrollment(c1);
+
+        System.out.println("------ Enrollment limit functions as designed ------");
+
+        c2.setEnrollmentLimit(1);
+        fred.enrollIn(c2);
+        printSchedule(fred);
+        printEnrollment(c2);
+
+        System.out.println("------ Wait List functions as designed with auto-enroll ------");
+
+        sally.drop(c2);
+        printEnrollment(c2);
     }
 
     private static void printSchedule(Student student) {
