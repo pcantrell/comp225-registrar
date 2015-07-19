@@ -25,9 +25,20 @@ public class Student {
      * Add this student to the given course's roster.
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
+     * @return true if the enrollment was successful,
+     *         false if the student was waitlisted
      */
-    public void enrollIn(Course course) {
+    public boolean enrollIn(Course course) {
         courses.add(course);
-        course.enroll(this);
+        if (!course.enroll(this)) {
+            courses.remove(course);
+            return false;
+        }
+        return true;
+    }
+    
+    public void drop(Course course) {
+        courses.remove(course);
+        course.drop(this);
     }
 }
