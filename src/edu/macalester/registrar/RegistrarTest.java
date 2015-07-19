@@ -1,5 +1,7 @@
 package edu.macalester.registrar;
 
+
+
 /**
  * A simple scenario to exercise the various registrar model objects.
  */
@@ -12,6 +14,12 @@ public class RegistrarTest {
 
         Student fred = new Student();
         fred.setName("Fred");
+
+        Student will = new Student();
+        will.setName("Will");
+
+        Student carly = new Student();
+        carly.setName("Carly");
 
         // Example courses
 
@@ -48,6 +56,94 @@ public class RegistrarTest {
 
         printSchedule(sally);
         printEnrollment(c1);
+
+        // Testing enrollment limit
+
+        c1.setEnrollmentLimit(2);
+
+        System.out.println("------ Attempting to enroll Fred, Will, and Carly in COMP 225 ------");
+
+        fred.enrollIn(c1);
+        will.enrollIn(c1);
+        carly.enrollIn(c1);
+
+        printEnrollment(c1);
+        printWaitList(c1);
+        printSchedule(fred);
+        printSchedule(will);
+        printSchedule(carly);
+
+        System.out.println("------ Re-enrolling Carly has no effect ------");
+
+        carly.enrollIn(c1);
+
+        printSchedule(carly);
+        printEnrollment(c1);
+        printWaitList(c1);
+
+        // Testing dropping and wait list
+
+        System.out.println("------ Sally drops COMP 225. Will is enrolled automatically and removed from the wait list ------");
+
+        sally.drop(c1);
+
+        printEnrollment(c1);
+        printWaitList(c1);
+        printSchedule(sally);
+        printSchedule(will);
+
+        System.out.println("------ Carly drops from the wait list for COMP 225 ------");
+
+        carly.drop(c1);
+
+        printSchedule(carly);
+        printEnrollment(c1);
+        printWaitList(c1);
+
+        System.out.println("------ Carly re-enrolls in COMP 225 ------");
+
+        carly.enrollIn(c1);
+
+        printSchedule(carly);
+        printEnrollment(c1);
+        printWaitList(c1);
+
+        System.out.println("------ Fred drops COMP 225. Carly is enrolled automatically and the wait list is emptied. ------");
+
+        fred.drop(c1);
+
+        printEnrollment(c1);
+        printWaitList(c1);
+        printSchedule(fred);
+        printSchedule(carly);
+
+        System.out.println("------ Fred re-dropping COMP 225 has no effect ------");
+
+        fred.drop(c1);
+
+        printEnrollment(c1);
+        printWaitList(c1);
+        printSchedule(fred);
+        printSchedule(carly);
+
+        System.out.println("------ Will drops from COMP 225 ------");
+
+        will.drop(c1);
+
+        printEnrollment(c1);
+        printWaitList(c1);
+        printSchedule(will);
+        printSchedule(carly);
+
+        System.out.println("------ Finally, Carly drops from COMP 225 ------");
+
+        printEnrollment(c1);
+        printWaitList(c1);
+        printSchedule(will);
+        printSchedule(carly);
+        printSchedule(fred);
+        printSchedule(sally);
+
     }
 
     private static void printSchedule(Student student) {
@@ -67,4 +163,13 @@ public class RegistrarTest {
             System.out.println("    " + student.getName());
         System.out.println();
     }
+
+    private static void printWaitList(Course course) {
+        System.out.println(course.getCatalogNumber() + ": " + course.getTitle());
+        System.out.println("Students wait-listed (" + course.getWaitList().size() + ")");
+        for(Student student : course.getWaitList())
+            System.out.println("    " + student.getName());
+        System.out.println();
+    }
+
 }
