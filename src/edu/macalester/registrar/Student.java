@@ -21,13 +21,39 @@ public class Student {
         return Collections.unmodifiableSet(courses);
     }
 
+    public void drop (Course course){
+        if (course.getStudents().contains(this)){
+            courses.remove(course);
+            course.dropStudent(this);
+            course.updateWaitList();
+        }
+        else if (course.getWaitList().contains(this)){
+            course.removeFromWaitList(this);
+        }
+    }
     /**
      * Add this student to the given course's roster.
      * Has no effect if the student is already registered.
      * Equivalent to course.enroll(student).
      */
-    public void enrollIn(Course course) {
-        courses.add(course);
-        course.enroll(this);
+    public boolean enrollIn(Course course) {
+        if (course.getStudents().contains(this)){
+            return true;
+        }
+        else if (course.getWaitList().contains(this)){
+            return false;
+        }
+        else if (course.getStudents().size() < course.getEnrollmentLimit()){
+            courses.add(course);
+            course.enroll(this);
+            return true;
+        }
+        else if (course.getStudents().size() == course.getEnrollmentLimit()){
+            System.out.println("The class is full");
+            System.out.println("Adding " + this.getName() + " to the waitlist...");
+            course.addToWaitList(this);
+            return false;
+        }
+        return false;
     }
 }
